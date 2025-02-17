@@ -1,0 +1,32 @@
+{   
+    "0.0.00": {
+        "texture": "resources/tiles_old/empty_tile.png"
+    },
+    "1.1.00": {
+        "texture": "resources/tiles_old/blue_tile_full.png"
+    },
+    "1.1.01": {
+        "texture": "resources/tiles_old/blue_tile_top.png"
+    },
+    "1.1.02": {
+        "texture": "resources/tiles_old/blue_tile_right.png"
+    },
+    "1.1.03": {
+        "texture": "resources/tiles_old/blue_tile_bottom.png"
+    },
+    "1.1.04": {
+        "texture": "resources/tiles_old/blue_tile_left.png"
+    },
+    "1.1.05": {
+        "texture": "resources/tiles_old/blue_tile_trc.png"
+    },
+    "1.1.06": {
+        "texture": "resources/tiles_old/blue_tile_brc.png"
+    },
+    "1.1.07": {
+        "texture": "resources/tiles_old/blue_tile_blc.png"
+    },
+    "1.1.08": {
+        "texture": "resources/tiles_old/blue_tile_tlc.png"
+    }
+}

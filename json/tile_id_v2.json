@@ -1,0 +1,66 @@
+{   
+    "0.0.00": {
+        "texture": "resources/tiles/empty_tile.png"
+    },
+    "0.1.00":{
+        "texture": "resources/tiles/goal.png"
+    },
+    "1.0.00": {
+        "texture": "resources/tiles/hologram_tile_full.png"
+    },
+    "1.0.01": {
+        "texture": "resources/tiles/hologram_tile_wall.png",
+        "load": "resources/tiles/sprite_sheets/hologram_wall_load.png"
+    },
+    "1.0.02": {
+        "texture": "resources/tiles/hologram_tile_outer_corner.png"
+    },
+    "1.0.03": {
+        "texture": "resources/tiles/hologram_tile_inner_corner.png"
+    },
+    "1.0.04": {
+        "texture": "resources/tiles/hologram_tile_adj_corner.png"
+    },
+    "1.0.05": {
+        "texture": "resources/tiles/hologram_tile_opp_corner.png"
+    },
+    "1.0.06": {
+        "texture": "resources/tiles/hologram_tile_double_corner.png"
+    },
+    "1.0.07": {
+        "texture": "resources/tiles/hologram_tile_hook.png"
+    },
+    "1.0.08": {
+        "texture": "resources/tiles/hologram_tile_full_hook.png"
+    },
+    "1.0.09": {
+        "texture": "resources/tiles/hologram_tile_double_wall.png"
+    },
+    "1.0.10": {
+        "texture": "resources/tiles/hologram_tile_wall_corner_left.png"
+    },
+    "1.0.11": {
+        "texture": "resources/tiles/hologram_tile_wall_corner_right.png"
+    },
+    "1.1.02": {
+        "texture": "resources/tiles/bolded_hologram_outer_corner.png"
+    },
+    "1.1.03": {
+        "texture": "resources/tiles/bolded_hologram_inner_corner.png"
+    },
+    "1.1.07": {
+        "texture": "resources/tiles/bolded_hologram_hook.png"
+    },
+    "1.1.10": {
+        "texture": "resources/tiles/bolded_hologram_wall_corner_left.png"
+    },
+    "1.1.11": {
+        "texture": "resources/tiles/bolded_hologram_wall_corner_right.png"
+    },
+    "1.2.01": {
+        "texture": "resources/tiles/thin_hologram_wall.png"
+    },
+    "1.2.09": {
+        "texture": "resources/tiles/thin_hologram_double_wall.png"
+    }
+}

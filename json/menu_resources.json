@@ -1,0 +1,18 @@
+{
+    "title": "resources/menu_screen/title.png",
+    "paused": "resources/menu_screen/paused.png",
+
+    "active_btn_border": "resources/menu_screen/active_button_border.png",
+    "btn_border": "resources/menu_screen/button_border.png",
+
+    "play_btn": "resources/menu_screen/play.png",
+    "settings_btn": "resources/menu_screen/settings.png",
+    "quit_btn": "resources/menu_screen/quit.png",
+    "resume_btn": "resources/menu_screen/resume.png",
+    "main_menu_btn": "resources/menu_screen/main_menu.png",
+
+    "mouse": {
+        "idle": "resources/menu_screen/mouse_cursor.png",
+        "click": "resources/menu_screen/mouse_press.png"
+    }
+}
