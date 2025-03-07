@@ -1,0 +1,6 @@
+{
+    "quack": {
+        "texture": "resources/entities/quack.png",
+        "type": "image"
+    }
+}

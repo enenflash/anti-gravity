@@ -1,0 +1,72 @@
+{   
+    "0.0.00": {
+        "name": "empty_tile",
+        "tangible": 0,
+        "hazardous": 0
+    },
+    "0.1.00":{
+        "name": "goal",
+        "tangible": 0,
+        "hazardous": 0
+    },
+    "0.2.00": {
+        "name": "electricity",
+        "tangible": 0,
+        "hazardous": 1
+    },
+    "1.0.00": {
+        "name": "hologram_full",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "1.0.01": {
+        "name": "hologram_full_wall",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "1.0.02": {
+        "name": "hologram_outer_corner",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "1.0.03": {
+        "name": "hologram_inner_corner",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "1.0.04": {
+        "name": "hologram_hook",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "1.0.05": {
+        "name": "hologram_full_hook",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "1.1.00": {
+        "name": "hologram_bolded_outer_corner",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "1.1.01": {
+        "name": "hologram_bolded_inner_corner",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "1.1.02": {
+        "name": "hologram_bolded_hook",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "1.2.00": {
+        "name": "hologram_thin_wall",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "2.0.00": {
+        "name": "electricity_node",
+        "tangible": 1,
+        "hazardous": 0
+    }
+}

@@ -1,0 +1,31 @@
+Gamehost
+- Opens and closes game 'instances'
+- Loads menus and stores player data
+
+settings.py
+
+> Menu
+- Renders menu from json files
+>> Menu elements (buttons) - like html
+- Allows the mouse to interact with elements like a webpage
+
+> Game
+>> Map (renders the environment from json files - each map has a different json file)
+-  Camera (the tiles are drawn according to the coordinates of the camera - which usually follows the location of the player. this class allows flexibility in case I decide later that I don't want the camera following the player all the time)
+-  Regular Tiles - (non-movable tiles. tiles have 'IDs' and tiledata such as the image/animation is stored in json files)
+-  Tile variants/puzzle tiles - movable tiles that are part of the puzzle or tiles that interact with the player
+>> Sound - handles the sound
+>> Player - handles the functionality of the player - checking the movement and collisions
+-  PlayerAnimations - handles drawing the player (image/animation)
+>> Background - draws the background (drawn before the tiles)
+>> InputHandler - handles input - from controllers/mouse/keyboard
+>> HUD - draws the HUD of the player when in game (drawn last)
+
+
+				Gamehost
+        ╒══════════════════════╤════╧═════════════════════════════╕
+       Menu                   Game                           InputHandler
+      ╒═╛        ╒════╤════════╪══════════╤══════╕         ╒══════╧╤════════╕
+ MenuElements   Map  Sound  Background  Player  HUD   Keyboard Controller Mouse
+         ╒══════╤╧═══════╕                │
+      Camera  Tile  PuzzleTile     PlayerAnimations

@@ -1,0 +1,76 @@
+{   
+    "0.0.00": {
+        "name": "empty_tile",
+        "texture": "resources/tiles/empty_tile.png",
+        "type": "image"
+    },
+    "0.1.00":{
+        "name": "goal",
+        "texture": "resources/tiles/goal.png",
+        "type": "image"
+    },
+    "0.2.00": {
+        "name": "electricity",
+        "texture": "resources/tiles/sprite_sheets/electricity.png",
+        "type": "sprite_sheet"
+    },
+    "1.0.00": {
+        "name": "hologram_full",
+        "texture": "resources/tiles/hologram_full.png",
+        "type": "image"
+    },
+    "1.0.01": {
+        "name": "hologram_wall",
+        "texture": "resources/tiles/hologram_wall.png",
+        "load": "resources/tiles/sprite_sheets/hologram_wall_load.png",
+        "type": "image"
+    },
+    "1.0.02": {
+        "name": "hologram_outer_corner",
+        "texture": "resources/tiles/hologram_outer_corner.png",
+        "type": "image"
+    },
+    "1.0.03": {
+        "name": "hologram_inner_corner",
+        "texture": "resources/tiles/hologram_inner_corner.png",
+        "type": "image"
+    },
+    "1.0.04": {
+        "name": "hologram_hook",
+        "texture": "resources/tiles/hologram_hook.png",
+        "type": "image"
+    },
+    "1.0.05": {
+        "name": "hologram_full_hook",
+        "texture": "resources/tiles/hologram_full_hook.png",
+        "type": "image"
+    },
+    "1.1.00": {
+        "name": "hologram_bolded_outer_corner",
+        "texture": "resources/tiles/hologram_bolded_outer_corner.png",
+        "type": "image"
+    },
+    "1.1.01": {
+        "name": "hologram_bolded_inner_corner",
+        "texture": "resources/tiles/hologram_bolded_inner_corner.png",
+        "load": "resources/tiles/sprite_sheets/hologram_bolded_inner_corner_load.png",
+        "type": "image"
+    },
+    "1.1.02": {
+        "name": "hologram_bolded_hook",
+        "texture": "resources/tiles/hologram_bolded_hook.png",
+        "load": "resources/tiles/sprite_sheets/hologram_bolded_hook_load.png",
+        "type": "image"
+    },
+    "1.2.00": {
+        "name": "hologram_thin_wall",
+        "texture": "resources/tiles/hologram_thin_wall.png",
+        "load": "resources/tiles/sprite_sheets/hologram_thin_wall_load.png",
+        "type": "image"
+    },
+    "2.0.00": {
+        "name": "electricity_node",
+        "texture": "resources/tiles/electricity_node.png",
+        "type": "image"
+    }
+}

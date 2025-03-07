@@ -1,0 +1,8 @@
+{
+    "QUIT": "ESCAPE",
+    "RESTART": "r",
+    "UP": "UP",
+    "LEFT": "LEFT",
+    "DOWN": "DOWN",
+    "RIGHT": "RIGHT"
+}
