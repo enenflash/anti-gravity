@@ -1,5 +1,7 @@
 import pygame as pg
 from settings import *
+from map import *
+from player import *
 
 class Instance:
     def __init__ (self, game:object, screen:pg.Surface, map_name:str) -> None:
@@ -8,10 +10,14 @@ class Instance:
         self.surface = pg.Surface((SCREEN_W, SCREEN_H), pg.SRCALPHA)
 
         self.map_name = map_name
+        self.map = Map(self, map_name)
+        self.player = Player()
+        self.map.set_up_camera()
 
     def update(self) -> None:
-        pass
+        self.map.update()
     
     def draw(self) -> None:
         self.surface.fill("BLACK")
+        self.map.draw()
         self.screen.blit(self.surface, (0, 0))
