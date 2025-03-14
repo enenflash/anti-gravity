@@ -8,6 +8,8 @@ Code from before the 14th is stored in prototype/
 
 Game progression: [Documentation (Google Docs)](https://docs.google.com/document/d/1YgxO29jv7kmoHWKECIMXgPgSoPKQm0y9mQzlj-sPr10/edit?usp=sharing)
 
+Dependencies: pygame
+
 ## **Project Overview**
 - Investigation: Research ideas, deconstruct the problem and choose a game option from the list provided.
 - Design: Produce detailed design documents (diagrams, pseudocode, class diagrams) that clearly incorporate object-orientated programming (OOP) techniques such as inheritance, encapsulation, polymorphism and abstraction
