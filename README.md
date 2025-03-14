@@ -3,7 +3,10 @@
 # Anti-Gravity
 Computer Science ATAR Unit 3 PyGame Python Project
 
-[Documentation (Google Docs)](https://docs.google.com/document/d/1YgxO29jv7kmoHWKECIMXgPgSoPKQm0y9mQzlj-sPr10/edit?usp=sharing)
+> **NOTE**: A wipe was done on the 14/03/2025.\
+Code from before the 14th is stored in prototype/
+
+Game progression: [Documentation (Google Docs)](https://docs.google.com/document/d/1YgxO29jv7kmoHWKECIMXgPgSoPKQm0y9mQzlj-sPr10/edit?usp=sharing)
 
 ## **Project Overview**
 - Investigation: Research ideas, deconstruct the problem and choose a game option from the list provided.
