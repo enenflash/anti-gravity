@@ -12,8 +12,8 @@ class Game:
         self.clock = pg.time.Clock()
         self.delta_time = 1
         self.events = pg.event.get()
-        self.game_state_manager = GameStateManager(self)
         self.input_handler = InputHandler()
+        self.game_state_manager = GameStateManager(self)
 
     def run(self) -> None:
         while self.running:
