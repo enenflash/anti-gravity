@@ -1,5 +1,5 @@
 import pygame as pg
-import json
+from file_loader import *
 
 default_keybinds = {
     "QUIT": "ESCAPE",
@@ -10,8 +10,7 @@ default_keybinds = {
     "RIGHT": "RIGHT"
 }
 
-with open(f"data/keybinds.json") as file:
-    custom_keybinds = json.load(file)
+custom_keybinds = FileLoader.open_json("keybinds.json", "data/keybinds.json")
 
 def get_pg_key(command:str) -> object:
     if command not in custom_keybinds:
@@ -44,7 +43,7 @@ class InputHandler:
         self.keys = pg.key.get_pressed()
         self.keydowns = self.__get_keydowns(self.keys)
 
-    def game_status(self) -> str:
+    def game_status(self) -> str|None:
         if "QUIT" in self.keydowns:
             return "QUIT"
         elif "RESTART" in self.keydowns:
