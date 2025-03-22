@@ -20,12 +20,9 @@ class Entity:
 
         self.move_queue = []
 
-    def check_for_tile(self, func, tiles:dict) -> bool:
-        px, py = int(self.x), int(self.y)
-        if (px, py) not in tiles:
-            return
-        
-        return func(px, py, tiles)
+    @property
+    def pos(self) -> tuple:
+        return (int(self.x), int(self.y))
 
     def validate_new_move(self, new_move:int) -> None:
         if new_move == 0:

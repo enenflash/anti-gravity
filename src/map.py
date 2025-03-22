@@ -18,9 +18,11 @@ class Map:
         """This function **must** be called after 'Player' is created"""
         self.camera = Camera(self.instance.player, self.player_start_x, self.player_start_y)
 
-    #def check_win(self):
-    #    func = lambda px, py, tiles: "0.1.00" in tiles[(px, py)].id
-    #    return self.instance.player.check_for_tile(func, self.tiles)
+    def check_win(self) -> bool:
+        if self.instance.player.pos not in self.tiles:
+            return False
+        
+        return "0.1.00" in self.tiles[self.instance.player.pos].id
     
     def update(self) -> None:
         for pos in self.tiles:
@@ -30,8 +32,11 @@ class Map:
 
         self.camera.update()
 
-        #if self.check_win():
-        #    print("won")
+        if self.check_win():
+            # add win game menu here
+            print("won game")
+            pg.quit()
+            quit()
 
     def draw(self) -> None:
         camera_offset = (self.camera.x % 1 + 0.5) * TILE_SIZE, (self.camera.y % 1 + 0.5) * TILE_SIZE
