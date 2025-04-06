@@ -1,91 +1,81 @@
 import pygame as pg
 
-# every tile has an id, rotation and a set of images or just one image (and sometimes load_images)
-# (i made this as generic as possible while still being practical)
-class GenericTile:
-    def __init__ (self, id, rotation:int, images:list, load_images:list=[]) -> None:
-        """rotation: 0, 90, 180, 270 degrees"""
-        if rotation not in (0, 90, 180, 270):
-            print(f"tile of ID {id} has incorrect rotation format")
-            rotation = 0
-        self.id = id
-        self.images = [pg.transform.rotate(image, -rotation) for image in images]
-        self.load_images = [pg.transform.rotate(image, -rotation) for image in load_images]
-        self.index = 0
-        self.loading = False if self.load_images == None else True
-        self.animation_delay, self.animation_time = 3, 0
-        self.current_image = self.images[0] if self.loading else self.load_images[0]
+class Tile:
+    def __init__ (self, tile_id:str, image:pg.Surface, properties:dict) -> None:
+        self.id = tile_id
+        self.image = image
+        self.tangible = properties["tangible"]
+        self.hazardous = properties["hazardous"]
+        self.win = properties["win"]
+        # tangible, hazardous
 
-    def load_tile(self):
-        self.current_image = self.load_images[self.index]
-
-        if self.index == len(self.load_images) - 1:
-            self.index = 0
-            self.loading = False
-            return
-
-        self.animation_time += 1
-        if self.animation_time == self.animation_delay:
-            self.index += 1
-            self.animation_time = 0
-
-    def update(self) -> None:
-        if self.loading:
-            self.load_tile()
-            return None
-        
-        self.current_image = self.images[self.index]
-        if self.index == len(self.images) - 1:
-            self.index = 0
-            return None
-        self.index += 1
-
-    def draw(self, surface, pos) -> None:
-        surface.blit(self.current_image, pos)
-
-# creates a generic tile based on a tile_info dictionary passed by the map class
-class Tile(GenericTile):
-    def __init__ (self, id:str, tile_info:dict) -> None:
-        images = [tile_info["image"]] if type(tile_info['image']) != list else tile_info['image']
-        super().__init__(id, rotation=int(id.split(":")[1])*90, images=images, load_images=tile_info["load_images"])
-        self.tangible = tile_info['tangible']
-        self.hazardous = tile_info['hazardous']
-
-# draws multiple tiles on top of each other
 class StackedTile:
-    def __init__ (self, ids:list[str], tile_infos:list[dict]) -> None:
-        self.id = ""
-        self.tiles = []
-        for i, id in enumerate(ids):
-            self.tiles.append(Tile(id, tile_infos[i]))
-        
-        self.tangible = any([tile.tangible] for tile in self.tiles)
+    def __init__ (self, tiles:list) -> None:
+        self.tiles = tiles
+        self.image = self.tiles[0].image
+        for tile in self.tiles:
+            self.image.blit(tile.image, (0, 0))
+        self.tangible = any([tile.tangible for tile in self.tiles])
         self.hazardous = any([tile.hazardous for tile in self.tiles])
+        self.win = any([tile.win for tile in self.tiles])
 
-        self.current_image = self.tiles[0].current_image
-            
-    def update(self) -> None:
-        for tile in self.tiles:
-            tile.update()
+def get_rotation(tile_id:str) -> int:
+    return int(tile_id.split(":")[1])*90
 
-        self.current_image = self.tiles[0].current_image
-        for tile in self.tiles[1:]:
-            self.current_image.blit(tile.current_image, (0, 0))
-
-    def draw(self, surface:pg.Surface, pos:tuple) -> None:
-        for tile in self.tiles:
-            tile.draw(surface, pos)
-
-def get_tile(id:str|list, tile_data:dict) -> Tile:
-    if type(id) == list:
-        return StackedTile(id, [tile_data[i.split(":")[0]] for i in id])
-    return Tile(id, tile_data[id.split(":")[0]])
-
-def get_tiles(map:list[list], tile_data:dict) -> dict:
-    tiles = {}
-    for j, row in enumerate(map):
-        for i, id in enumerate(row):
-            if id == "0.0.00":
+def get_tile(tile_id:str|list, tile_datas:dict[dict]) -> Tile:
+    if type(tile_id) == list:
+        tiles = []
+        for tile_id_n in tile_id:
+            if tile_id_n == "0.0.00":
                 continue
-            tiles[(i, j)] = get_tile(id, tile_data)
-    return tiles
+            tiles.append(get_tile(tile_id_n, tile_datas))
+        return StackedTile(tiles)
+    
+    rotation = get_rotation(tile_id)
+    tile_data = tile_datas[tile_id.split(":")[0]]
+    image = pg.transform.rotate(tile_data["image"], -rotation)
+    properties = {
+        "tangible": tile_data["tangible"],
+        "hazardous": tile_data["hazardous"] if "hazardous" in tile_data else False,
+        "win": tile_id.split(":")[0] == "0.1.00"
+    }
+    return Tile(tile_id, image, properties)
+
+class TileManager:
+    def __init__ (self, map_2d:dict, tile_data:dict) -> None:
+        # dictionary of tiles
+        self.tiles:dict = {}
+        for j, row in enumerate(map_2d):
+            for i, tile_id in enumerate(row):
+                if tile_id == "0.0.00":
+                    continue
+                self.tiles[(i, j)] = get_tile(tile_id, tile_data)
+
+    def contains(self, tile_pos:list[int, int]) -> bool:
+        return tile_pos in self.tiles
+
+    def wall_at(self, pos_x:int, pos_y:int) -> bool:
+        if (pos_x, pos_y) not in self.tiles:
+            return False
+        
+        return self.tiles[(pos_x, pos_y)].tangible
+    
+    def check_tile_status(self, pos:tuple[int, int]) -> str:
+        if pos not in self.tiles:
+            return "EMPTY"
+        
+        if self.tiles[pos].hazardous:
+            return "HAZARDOUS"
+        
+        if self.tiles[pos].win:
+            return "WIN"
+        
+        return "UNKNOWN"
+    
+    def update(self) -> None:
+        pass
+    
+    def draw_tile(self, surface:pg.Surface, tile_pos:tuple[int, int], pixel_pos:tuple[int, int]) -> None:
+        if tile_pos not in self.tiles:
+            return
+        surface.blit(self.tiles[tile_pos].image, pixel_pos)

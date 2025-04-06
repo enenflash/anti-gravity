@@ -4,32 +4,32 @@ from tile import *
 from file_loader import *
 
 class Map:
-    def __init__ (self, instance: object, map_path:str) -> None:
+    def __init__ (self, instance:object, map_path:str) -> None:
         self.instance = instance
         self.surface = instance.surface
 
         self.tile_data = TileLoader.get_tile_data()
         self.map_data = MapLoader.get_map_data(map_path)
 
-        self.tiles:list[Tile] = get_tiles(self.map_data["map"], self.tile_data)
+        self.tile_manager = TileManager(self.map_data["map"], self.tile_data)
+
         self.player_start_x, self.player_start_y = self.map_data["player_start"]
 
     def set_up_camera(self) -> None:
         """This function **must** be called after 'Player' is created"""
         self.camera = Camera(self.instance.player, self.player_start_x, self.player_start_y)
 
+    def contains(self, tile_pos:tuple[int, int]) -> bool:
+        return self.tile_manager.contains(tile_pos)
+
+    def wall_at(self, pos:tuple[int, int]) -> bool:
+        return self.tile_manager.wall_at(pos[0], pos[1])
+
     def check_win(self) -> bool:
-        if self.instance.player.pos not in self.tiles:
-            return False
-        
-        return "0.1.00" in self.tiles[self.instance.player.pos].id
+        return self.tile_manager.check_tile_status(self.instance.player.pos) == "WIN"
     
     def update(self) -> None:
-        for pos in self.tiles:
-            if type(self.tiles[pos]) == list:
-                [i.update() for i in self.tiles[pos]]
-            else: self.tiles[pos].update()
-
+        self.tile_manager.update()
         self.camera.update()
 
         if self.check_win():
@@ -53,23 +53,10 @@ class Map:
 
         for j in range(0, n_tiles_y + 1):
             for i in range(0, n_tiles_x + 1):
-                tile_pos = tile_start_x+i, tile_start_y+j
-
-                if tile_pos not in self.tiles: continue
-                
-                #if self.tiles[tile_pos] == "1.00": color = (0, 200, 200)
-                #else: color = (0, 50, 50)
-                #pg.draw.rect(self.screen, color, (i*TILE_SIZE+tile_offset[0], j*TILE_SIZE+tile_offset[1], TILE_SIZE - 1, TILE_SIZE - 1))
-                self.tiles[tile_pos].draw(self.surface, (i*TILE_SIZE+tile_offset[0], j*TILE_SIZE+tile_offset[1]))
-                # self.draw_tile(self.tiles[tile_pos], (i*TILE_SIZE+tile_offset[0], j*TILE_SIZE+tile_offset[1]))
+                self.tile_manager.draw_tile(self.surface, tile_pos=(tile_start_x+i, tile_start_y+j), pixel_pos=(i*TILE_SIZE+tile_offset[0], j*TILE_SIZE+tile_offset[1]))
 
         self.instance.player.draw(tile_offset[0], tile_offset[1], tile_start_x, tile_start_y)
 
-    def draw_tile(self, tile:Tile, pos:tuple):
-        if type(tile) == list:
-            [self.surface.blit(i.current_image, pos) for i in tile if i.id.split(":")[0] != "0.0.00"]
-            return None
-        self.surface.blit(tile.current_image, pos)
 
 class Camera:
     def __init__ (self, player:object, start_x:int, start_y:int) -> None:

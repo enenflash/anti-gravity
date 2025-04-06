@@ -10,8 +10,10 @@ default_keybinds = {
     "RIGHT": "RIGHT"
 }
 
+# set custom keybinds from json
 custom_keybinds = FileLoader.open_json("keybinds.json", "data/keybinds.json")
 
+# load custom keybinds. if no custom keybinds, use default
 def get_pg_key(command:str) -> object:
     if command not in custom_keybinds:
         return getattr(pg.locals, "K_" + default_keybinds[command])

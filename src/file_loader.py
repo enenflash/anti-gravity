@@ -2,6 +2,9 @@ import pygame as pg, json
 from settings import *
 
 class FileLoader:
+    """
+    Class for opening json files and images
+    """
     @staticmethod
     def open_json(name:str, path:str) -> dict:
         try:
@@ -10,7 +13,7 @@ class FileLoader:
             return file_dict
         except FileNotFoundError:
             pg.quit()
-            raise FileNotFoundError(f"file {name} could not be found on {path}. please reinstall the default file to the correct path")
+            raise FileNotFoundError(f"The file '{name}' could not be found at '{path}'. Please reinstall the default file to the correct path")
     @staticmethod
     def get_texture(path:str) -> pg.SurfaceType:
         image = pg.image.load(path).convert_alpha()
@@ -28,6 +31,10 @@ class FileLoader:
         return images
     
 class TileLoader(FileLoader):
+    """
+    Inherited from FileLoader
+    \n returns tile data from json
+    """
     @classmethod
     def get_tile_data(cls) -> dict:
         tile_textures = super().open_json("tile_textures.json", TILE_TEXTURES_PATH)
@@ -42,6 +49,11 @@ class TileLoader(FileLoader):
             tile_info[i]['tangible'] = tile_attributes[i]['tangible']
             tile_info[i]['hazardous'] = tile_attributes[i]['hazardous']
 
+            if 'spawner' not in tile_attributes[i]:
+                tile_info[i]['spawner'] = False
+            else:
+                tile_info[i]['spawner'] = tile_attributes[i]['spawner']
+
             if "load" in tile_info[i]:
                 tile_info[i]['load_images'] = super().get_textures(tile_info[i]["load"])
                 continue
@@ -51,6 +63,10 @@ class TileLoader(FileLoader):
         return tile_info
 
 class MapLoader(FileLoader):
+    """
+    Inherited from FileLoader
+    \nreturns map data from json
+    """
     @classmethod
     def get_map_data(cls, map_path:str) -> dict:
         map_data = super().open_json("map", map_path)
