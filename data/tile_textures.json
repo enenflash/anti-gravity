@@ -72,5 +72,10 @@
         "name": "electricity_node",
         "texture": "resources/tiles/electricity_node.png",
         "type": "image"
+    },
+    "3.0.00": {
+        "name": "block",
+        "texture": "resources/tiles/block.png",
+        "type": "image"
     }
 }

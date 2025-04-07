@@ -1,11 +1,13 @@
+from settings import *
 from tile import *
 
 class TileManager:
-    def __init__ (self, map_2d:dict, tile_data:dict) -> None:
+    def __init__ (self, player:object, map_data:dict, tile_data:dict) -> None:
+        self.player = player
         # dictionary of tiles
         self.tile_data = tile_data
         self.tiles:dict = {}        
-        for j, row in enumerate(map_2d):
+        for j, row in enumerate(map_data["map"]):
             for i, tile_id in enumerate(row):
                 if tile_id == "0.0.00":
                     continue
@@ -17,13 +19,22 @@ class TileManager:
             for pos in self.tiles if self.tiles[pos].spawner
         ]
 
-        self.movables = []
+        self.movables:list[Movable] = []
+        if "movables" in map_data:
+            self.movables = [
+                Movable(movable_dict["id"], tile_data[movable_dict["id"]]["image"], movable_dict["pos"])
+                for movable_dict in map_data["movables"]
+            ]
         self.non_static_tiles:dict[tuple[int, int], list] = {}
 
     def contains(self, tile_pos:list[int, int]) -> bool:
         return tile_pos in self.tiles
 
-    def wall(self, tile_pos:list[int, int]) -> bool:
+    def wall(self, tile_pos:list[int, int], dx:int|None=None, dy:int|None=None) -> bool:
+        if dx != None and dy != None:
+            if any([movable.check_stuck(self.wall, self.player.pos, dx, dy) for movable in self.movables]):
+                return True
+        
         if tile_pos not in self.tiles:
             return False
         
@@ -84,14 +95,37 @@ class TileManager:
             for tile in self.non_static_tiles[pos]:
                 tile.update()
 
+        for movable in self.movables:
+            movable.update(self.wall, self.player.pos)
+
+        # ensure movables round position when player stops pushing
+        if not self.player.moving:
+            for movable in self.movables:
+                movable.round_pos()
+
+    # called by map class
     def draw_tile(self, surface:pg.Surface, tile_pos:tuple[int, int], pixel_pos:tuple[int, int]) -> None:
         if tile_pos not in self.tiles:
             return
         surface.blit(self.tiles[tile_pos].image, pixel_pos)
 
+    # called by map class
     def draw_non_static(self, surface:pg.Surface, tile_pos:tuple[int, int], pixel_pos:tuple[int, int]) -> None:
+        # if no non-static tile at position don't draw anything
         if tile_pos not in self.non_static_tiles:
             return
         
         for tile in self.non_static_tiles[tile_pos]:
             surface.blit(tile.image, pixel_pos)
+
+    def draw_movable(self, surface:pg.Surface, tile_pos:tuple[int, int], pixel_pos:tuple[int, int]) -> None:
+        for movable in self.movables:
+            if tile_pos != movable.pos:
+                continue
+            pixel_pos_float = pixel_pos[0]+TILE_SIZE*(movable.tile_x%1), pixel_pos[1]+TILE_SIZE*(movable.tile_y%1)
+            surface.blit(movable.image, pixel_pos_float)
+
+    def draw_at_pos(self, surface:pg.Surface, tile_pos:tuple[int, int], pixel_pos:tuple[int, int]) -> None:
+        self.draw_tile(surface, tile_pos, pixel_pos)
+        self.draw_non_static(surface, tile_pos, pixel_pos)
+        self.draw_movable(surface, tile_pos, pixel_pos)

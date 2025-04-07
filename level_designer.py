@@ -19,9 +19,11 @@ class Map:
         self.ld = ld
         self.screen = ld.screen
         self.data = ld.data
+        self.previous_map_data = {}
 
         with open(MAP_PATH, "r+") as file:
-            map_arr = json.load(file)["map"]
+            self.previous_map_data = json.load(file)
+            map_arr = self.previous_map_data["map"]
 
         self.map = {}
         for j, row in enumerate(map_arr):
@@ -52,7 +54,7 @@ class Map:
                 map[j].pop(0)
 
         # empty tiles x_max
-        while all([row[len(map[0])-1].split(":")[0] == "0.0.00" if type(row[0]) == str else False for row in map]):
+        while all([row[len(map[0])-1].split(":")[0] == "0.0.00" if type(row[len(map[0])-1]) == str else False for row in map]):
             for j in range(len(map)):
                 map[j].pop()
 
@@ -66,7 +68,6 @@ class Map:
         return map
 
     def save_map(self):
-
         x_min = min([pos[0] for pos in self.map])
         x_max = max([pos[0] for pos in self.map])
         y_min = min([pos[1] for pos in self.map])
@@ -74,10 +75,10 @@ class Map:
         
         map = [[self.get_tile_id((i, j)) for i in range(x_min, x_max+1)] for j in range(y_min, y_max+1)]
         map = self.shave_empty_tiles(map)
-        new_dict ={ "map": map }
+        self.previous_map_data["map"] = map
 
         with open(MAP_PATH, 'w') as file:
-            json.dump(new_dict, file, indent=4)
+            json.dump(self.previous_map_data, file, indent=4)
 
     def set_tile(self, pos, id):
         self.map[pos] = Tile(id, self.data.get_image(id))
@@ -85,7 +86,7 @@ class Map:
     def add_tile(self, pos, id):
         if pos not in self.map:
             self.map[pos] = Tile(id, self.data.get_image(id))
-            return None
+            return None 
         
         if type(self.map[pos]) == list:
             self.map[pos].append(Tile(id, self.data.get_image(id)))

@@ -44,9 +44,13 @@ class Entity:
         if new_move == 0: # 0 means no movement
             return False
         
+        dx, dy = self.dir_dict[new_move]
+        if self.map.wall_at(self.pos, dx, dy):
+            return False
+        
         # check if the entity is already at the target position
         # for example if there is a wall on the left and the entity tries to move left
-        if not self.find_target_pos(self.x, self.y, new_move) != (self.x, self.y):
+        if self.find_target_pos(self.x, self.y, new_move) == (self.x, self.y):
             return False
         
         # if no moves currently in move queue
@@ -81,6 +85,10 @@ class Entity:
         move entity according to speed x and y components (directional)
         \nstop when reach target position
         """
+        # check if hit a movable (tile)
+        if self.check_hit():
+            return
+        
         new_x = self.x + self.speed_x
         new_y = self.y + self.speed_y
 
@@ -113,20 +121,29 @@ class Entity:
         # speed cap of 1 tile per frame
         mag = (self.speed_x**2 + self.speed_y**2)**(1/2)
         if mag > 1:
-            print("a")
             self.speed_x /= mag
             self.speed_y /= mag
 
+    def check_hit(self) -> bool:
+        dx, dy = self.dir_dict[self.move_queue[0]]
+        if self.map.wall_at(self.pos, dx, dy):
+            self.move_queue.pop(0)
+            self.moving = False
+            self.x = self.pos[0]
+            self.y = self.pos[1]
+            return True
+        return False
+            
     def check_move_queue(self, delta_time:int) -> None:
         """
         if currently moving, update movement
         \nelse if there are moves in move queue, initiate the move
-        """
+        """     
         if self.moving:
             self.update_movement()
             return
         
         if len(self.move_queue) == 0:
             return
-        
+
         self.initiate_move(self.move_queue[0], delta_time)

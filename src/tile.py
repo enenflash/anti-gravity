@@ -127,6 +127,53 @@ class Spawner:
 
         return tile_positions
     
+class Movable(Tile):
+    def __init__ (self, tile_id:str, image:pg.Surface, start_pos:tuple[int, int]) -> None:
+        # can be float
+        self.tile_x, self.tile_y = start_pos
+        properties = {
+            "tangible": True,
+            "hazardous": False,
+            "win": False,
+            "spawner": False
+        }
+        super().__init__(tile_id, image, properties, rotation=0)
+
+    @property
+    def pos(self) -> tuple[int, int]:
+        return int(self.tile_x), int(self.tile_y)
+    
+    def round_pos(self) -> None:
+        self.tile_x = self.pos[0]
+        self.tile_y = self.pos[1]
+    
+    # if squished between player and wall
+    def check_stuck(self, wall_at, player_pos:tuple[int, int], dx:int, dy:int) -> None:
+        if self.pos != (player_pos[0]+dx, player_pos[1]+dy):
+            return False
+        new_pos = self.pos[0] + dx, self.pos[1] + dy
+        return wall_at(new_pos)
+    
+    def update(self, wall_at, player_pos:tuple[float, float]) -> None:
+        """
+        tile manager passes wall_at() method
+        """
+        player_pos_int = int(player_pos[0]), int(player_pos[1])
+        if player_pos_int[1] == self.pos[1]:
+            # coming from left
+            if player_pos_int[0] + 1 == self.pos[0] and not wall_at((int(self.tile_x)+1, int(self.tile_y))):
+                self.tile_x = player_pos[0] + 2
+            # coming from right
+            elif player_pos_int[0] == self.pos[0] and not wall_at((int(self.tile_x)-1, int(self.tile_y))):
+                self.tile_x = player_pos[0] - 1
+        if player_pos_int[0] == self.pos[0]:
+            # coming from top
+            if player_pos_int[1] + 1 == self.pos[1] and not wall_at((int(self.tile_x), int(self.tile_y)+1)):
+                self.tile_y = player_pos[1] + 2
+            # coming from bottom
+            elif player_pos_int[1] == self.pos[1] and not wall_at((int(self.tile_x), int(self.tile_y)-1)):
+                self.tile_y = player_pos[1] - 1
+    
 def same_tile(tile1:Tile, tile2:Tile) -> bool:
     return tile1.id == tile2.id and tile1.rotation == tile2.rotation
 

@@ -12,7 +12,7 @@ class Instance:
         self.map_name = map_name
         self.map = Map(self, map_name)
         self.player = Player(self, self.map.player_start_x, self.map.player_start_y)
-        self.map.set_up_camera()
+        self.map.set_up()
 
     def update(self) -> None:
         self.player.update()

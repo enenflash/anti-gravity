@@ -12,19 +12,18 @@ class Map:
         self.tile_data = TileLoader.get_tile_data()
         self.map_data = MapLoader.get_map_data(map_path)
 
-        self.tile_manager = TileManager(self.map_data["map"], self.tile_data)
-
         self.player_start_x, self.player_start_y = self.map_data["player_start"]
 
-    def set_up_camera(self) -> None:
+    def set_up(self) -> None:
         """This function **must** be called after 'Player' is created"""
         self.camera = Camera(self.instance.player, self.player_start_x, self.player_start_y)
+        self.tile_manager = TileManager(self.instance.player, self.map_data, self.tile_data)
 
     def contains(self, tile_pos:tuple[int, int]) -> bool:
         return self.tile_manager.contains(tile_pos)
 
-    def wall_at(self, tile_pos:tuple[int, int]) -> bool:
-        return self.tile_manager.wall(tile_pos)
+    def wall_at(self, tile_pos:tuple[int, int], dx:int|None=None, dy:int|None=None) -> bool:
+        return self.tile_manager.wall(tile_pos, dx, dy)
 
     def check_win(self) -> bool:
         return self.tile_manager.win(self.instance.player.pos)
@@ -62,8 +61,7 @@ class Map:
 
         for j in range(0, n_tiles_y + 1):
             for i in range(0, n_tiles_x + 1):
-                self.tile_manager.draw_tile(self.surface, tile_pos=(tile_start_x+i, tile_start_y+j), pixel_pos=(i*TILE_SIZE+tile_offset[0], j*TILE_SIZE+tile_offset[1]))
-                self.tile_manager.draw_non_static(self.surface, tile_pos=(tile_start_x+i, tile_start_y+j), pixel_pos=(i*TILE_SIZE+tile_offset[0], j*TILE_SIZE+tile_offset[1]))
+                self.tile_manager.draw_at_pos(self.surface, tile_pos=(tile_start_x+i, tile_start_y+j), pixel_pos=(i*TILE_SIZE+tile_offset[0], j*TILE_SIZE+tile_offset[1]))
 
         self.instance.player.draw(tile_offset[0], tile_offset[1], tile_start_x, tile_start_y)
 

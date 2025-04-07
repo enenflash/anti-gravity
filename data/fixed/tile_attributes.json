@@ -67,6 +67,13 @@
     "2.0.00": {
         "name": "electricity_node",
         "tangible": 1,
+        "hazardous": 0,
+        "spawner": 1,
+        "spawn_id": "0.2.00"
+    },
+    "3.0.00": {
+        "name": "block",
+        "tangible": 1,
         "hazardous": 0
     }
 }

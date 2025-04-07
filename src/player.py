@@ -1,5 +1,6 @@
 import pygame as pg, json
 from settings import *
+from sound import *
 from entity import *
 from file_loader import *
 
@@ -15,9 +16,11 @@ class Player(Entity):
 
     def update(self) -> None:
         new_move = self.input_handler.get_player_movement()
+        if new_move != 0:
+            self.facing = new_move-1
         if super().validate_new_move(new_move):
-            self.facing = new_move-1 
             self.move_queue.append(new_move)
+            game_sound.play_sound("quack")
         
         # update movement
         super().check_move_queue(self.instance.game.delta_time)
@@ -25,7 +28,7 @@ class Player(Entity):
     # called by map class
     def draw(self, x_offset:int|float, y_offset:int|float, tile_start_x:int, tile_start_y:int) -> None:
         self.animation.draw((self.x-tile_start_x)*TILE_SIZE+x_offset, (self.y-tile_start_y)*TILE_SIZE+y_offset)
-
+        
 class PlayerAnimations:
     def __init__ (self, player:Player) -> None:
         self.player = player
