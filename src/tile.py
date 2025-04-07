@@ -1,81 +1,156 @@
 import pygame as pg
 
 class Tile:
-    def __init__ (self, tile_id:str, image:pg.Surface, properties:dict) -> None:
+    """
+    Generic tile
+    \n.tile_id : 0.0.00 (no rotation)
+    """
+    def __init__ (self, tile_id:str, image:pg.Surface, properties:dict, rotation:int=0) -> None:
         self.id = tile_id
+        self.rotation = rotation
         self.image = image
         self.tangible = properties["tangible"]
         self.hazardous = properties["hazardous"]
         self.win = properties["win"]
-        # tangible, hazardous
+        self.spawner = properties["spawner"]
 
-class StackedTile:
+    def update(self) -> None:
+        pass
+
+class AnimatedTile(Tile):
+    def __init__ (self, tile_id:str, images:list[pg.Surface], properties:dict, rotation:int=0) -> None:
+        self.images = images
+        self.image_index = 0
+        self.anim_delay = 4
+        self.anim_time = 0
+        super().__init__(tile_id, images[0], properties, rotation)
+
+    def update(self) -> None:
+        if self.anim_time == self.anim_delay:
+            self.image_index = self.image_index + 1 if self.image_index < len(self.images) - 1 else 0
+            self.anim_time = 0
+        
+        self.anim_time += 1
+        self.image = self.images[self.image_index]
+
+class StackedTile(Tile):
+    """
+    Multiple tiles stacked on top of each other
+    """
     def __init__ (self, tiles:list) -> None:
         self.tiles = tiles
-        self.image = self.tiles[0].image
+
+        image = tiles[0].image
+        for tile in tiles[1:]:
+            image.blit(tile.image, (0, 0))
+        
+        properties = {
+            "tangible": any([tile.tangible for tile in self.tiles]),
+            "hazardous": any([tile.hazardous for tile in self.tiles]),
+            "win": any([tile.win for tile in self.tiles]),
+            "spawner": any([tile.spawner for tile in self.tiles])
+        }
+
+        super().__init__ ("", image, properties, rotation=0)
+
+    def update(self) -> None:
         for tile in self.tiles:
+            tile.update()
+
+        self.image = self.tiles[0].image
+        for tile in self.tiles[1:]:
             self.image.blit(tile.image, (0, 0))
-        self.tangible = any([tile.tangible for tile in self.tiles])
-        self.hazardous = any([tile.hazardous for tile in self.tiles])
-        self.win = any([tile.win for tile in self.tiles])
 
-def get_rotation(tile_id:str) -> int:
-    return int(tile_id.split(":")[1])*90
+class Spawner:
+    def __init__ (self, tile_x:int, tile_y:int, tile_id:str, spawn_id:str, rotation:int):
+        self.tile_x = tile_x
+        self.tile_y = tile_y
+        self.tile_id = tile_id
+        self.rotation = rotation % 360 # is either 0, 90, 180 or 270
+        self.spawn_id = f"{spawn_id}:{int(self.rotation/90)}"
 
-def get_tile(tile_id:str|list, tile_datas:dict[dict]) -> Tile:
-    if type(tile_id) == list:
+    def object_interrupt(self, spawner:"Spawner", movables:list) -> bool:
+        return False
+    
+    def validate_spawner(self, spawner:"Spawner", movables:list) -> bool:
+        if self.tile_id != spawner.tile_id:
+            return False
+        
+        # if not facing each other
+        if self.rotation != (spawner.rotation - 180) % 360:
+            return False
+        
+        # if facing each other horizontally and the y values don't match
+        if self.rotation in (0, 180) and self.tile_y != spawner.tile_y:
+            return False
+        
+        # if facing each other vertically and the x values don't match
+        if self.rotation in (90, 270) and self.tile_x != spawner.tile_x:
+            return False
+        
+        if (self.rotation == 0 and self.tile_x < spawner.tile_x or
+            self.rotation == 180 and self.tile_x > spawner.tile_x or 
+            self.rotation == 90 and self.tile_y < spawner.tile_y or
+            self.rotation == 270 and self.tile_y > spawner.tile_y):
+            return not self.object_interrupt(spawner, movables)
+        
+        return False
+    
+    def get_tile_positions_hor(self, spawner:"Spawner") -> list[dict]:
+        return [
+            { "pos": (x, self.tile_y), "spawn_id": self.spawn_id }
+            for x in range(min(self.tile_x, spawner.tile_x)+1, max(self.tile_x, spawner.tile_x))
+        ]
+    
+    def get_tile_positions_vert(self, spawner:"Spawner") -> list[dict]:
+        return [
+            { "pos": (self.tile_x, y), "spawn_id": self.spawn_id }
+            for y in range(min(self.tile_y, spawner.tile_y)+1, max(self.tile_y, spawner.tile_y))
+        ]
+
+    def get_spawned_tiles(self, spawners:list, movables:list) -> list[int, int]:
+        """
+        Receives a list of other spawners and returns positions of tiles to be spawned
+        """
+        valid_spawners = [
+            spawner
+            for spawner in spawners
+            if self.validate_spawner(spawner, movables) and not (spawner.tile_x == self.tile_x and spawner.tile_y == self.tile_y)
+        ]
+
+        tile_positions = []
+        for spawner in valid_spawners:
+            if self.tile_y == spawner.tile_y:
+                tile_positions += self.get_tile_positions_hor(spawner)
+            if self.tile_x == spawner.tile_x:
+                tile_positions += self.get_tile_positions_vert(spawner)
+
+        return tile_positions
+    
+def same_tile(tile1:Tile, tile2:Tile) -> bool:
+    return tile1.id == tile2.id and tile1.rotation == tile2.rotation
+
+def get_tile(full_tile_id:str|list, tile_datas:dict[dict]) -> Tile:
+    if type(full_tile_id) == list:
         tiles = []
-        for tile_id_n in tile_id:
-            if tile_id_n == "0.0.00":
+        for full_tile_id_element in full_tile_id:
+            if full_tile_id_element == "0.0.00":
                 continue
-            tiles.append(get_tile(tile_id_n, tile_datas))
+            tiles.append(get_tile(full_tile_id_element, tile_datas))
         return StackedTile(tiles)
     
-    rotation = get_rotation(tile_id)
-    tile_data = tile_datas[tile_id.split(":")[0]]
-    image = pg.transform.rotate(tile_data["image"], -rotation)
+    rotation = int(full_tile_id.split(":")[1])*90
+    tile_id = full_tile_id.split(":")[0]
+
+    tile_data = tile_datas[tile_id]
     properties = {
         "tangible": tile_data["tangible"],
         "hazardous": tile_data["hazardous"] if "hazardous" in tile_data else False,
-        "win": tile_id.split(":")[0] == "0.1.00"
+        "win": tile_id.split(":")[0] == "0.1.00",
+        "spawner": tile_data["spawner"] if "spawner" in tile_data else False
     }
-    return Tile(tile_id, image, properties)
 
-class TileManager:
-    def __init__ (self, map_2d:dict, tile_data:dict) -> None:
-        # dictionary of tiles
-        self.tiles:dict = {}
-        for j, row in enumerate(map_2d):
-            for i, tile_id in enumerate(row):
-                if tile_id == "0.0.00":
-                    continue
-                self.tiles[(i, j)] = get_tile(tile_id, tile_data)
-
-    def contains(self, tile_pos:list[int, int]) -> bool:
-        return tile_pos in self.tiles
-
-    def wall_at(self, pos_x:int, pos_y:int) -> bool:
-        if (pos_x, pos_y) not in self.tiles:
-            return False
-        
-        return self.tiles[(pos_x, pos_y)].tangible
+    if type(tile_data["image"]) == list:
+        return AnimatedTile(tile_id, [pg.transform.rotate(image, -rotation) for image in tile_data["image"]], properties, rotation=rotation)
     
-    def check_tile_status(self, pos:tuple[int, int]) -> str:
-        if pos not in self.tiles:
-            return "EMPTY"
-        
-        if self.tiles[pos].hazardous:
-            return "HAZARDOUS"
-        
-        if self.tiles[pos].win:
-            return "WIN"
-        
-        return "UNKNOWN"
-    
-    def update(self) -> None:
-        pass
-    
-    def draw_tile(self, surface:pg.Surface, tile_pos:tuple[int, int], pixel_pos:tuple[int, int]) -> None:
-        if tile_pos not in self.tiles:
-            return
-        surface.blit(self.tiles[tile_pos].image, pixel_pos)
+    return Tile(tile_id, pg.transform.rotate(tile_data["image"], -rotation), properties, rotation=rotation)

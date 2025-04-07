@@ -32,7 +32,7 @@ class GameStateManager:
         self.game = game
         self.screen = pg.display.set_mode((SCREEN_W, SCREEN_H))
         self.instance = None
-
+        
         self.__launch_instance("test_map_2.json")
 
     def __launch_instance(self, map_name:str):

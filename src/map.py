@@ -1,6 +1,7 @@
 import math
 from settings import *
 from tile import *
+from tile_manager import *
 from file_loader import *
 
 class Map:
@@ -22,11 +23,14 @@ class Map:
     def contains(self, tile_pos:tuple[int, int]) -> bool:
         return self.tile_manager.contains(tile_pos)
 
-    def wall_at(self, pos:tuple[int, int]) -> bool:
-        return self.tile_manager.wall_at(pos[0], pos[1])
+    def wall_at(self, tile_pos:tuple[int, int]) -> bool:
+        return self.tile_manager.wall(tile_pos)
 
     def check_win(self) -> bool:
-        return self.tile_manager.check_tile_status(self.instance.player.pos) == "WIN"
+        return self.tile_manager.win(self.instance.player.pos)
+    
+    def check_die(self) -> bool:
+        return self.tile_manager.die(self.instance.player.pos)
     
     def update(self) -> None:
         self.tile_manager.update()
@@ -35,6 +39,11 @@ class Map:
         if self.check_win():
             # add win game menu here
             print("won game")
+            pg.quit()
+            quit()
+
+        if self.check_die():
+            print("died")
             pg.quit()
             quit()
 
@@ -54,6 +63,7 @@ class Map:
         for j in range(0, n_tiles_y + 1):
             for i in range(0, n_tiles_x + 1):
                 self.tile_manager.draw_tile(self.surface, tile_pos=(tile_start_x+i, tile_start_y+j), pixel_pos=(i*TILE_SIZE+tile_offset[0], j*TILE_SIZE+tile_offset[1]))
+                self.tile_manager.draw_non_static(self.surface, tile_pos=(tile_start_x+i, tile_start_y+j), pixel_pos=(i*TILE_SIZE+tile_offset[0], j*TILE_SIZE+tile_offset[1]))
 
         self.instance.player.draw(tile_offset[0], tile_offset[1], tile_start_x, tile_start_y)
 

@@ -54,6 +54,11 @@ class TileLoader(FileLoader):
             else:
                 tile_info[i]['spawner'] = tile_attributes[i]['spawner']
 
+            if 'spawn_id' not in tile_attributes[i]:
+                tile_info[i]['spawn_id'] = ""
+            else:
+                tile_info[i]['spawn_id'] = tile_attributes[i]['spawn_id']
+
             if "load" in tile_info[i]:
                 tile_info[i]['load_images'] = super().get_textures(tile_info[i]["load"])
                 continue
