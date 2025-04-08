@@ -13,7 +13,8 @@ class Tile:
         self.hazardous = properties["hazardous"]
         self.win = properties["win"]
         self.spawner = properties["spawner"]
-
+    
+    # liskov substitution principle
     def update(self) -> None:
         pass
 
@@ -61,6 +62,7 @@ class StackedTile(Tile):
         for tile in self.tiles[1:]:
             self.image.blit(tile.image, (0, 0))
 
+# Spawner is *not* a Tile, it represents a spawner tile that can spawn other tiles, but it is not responsible for drawing the actual tile
 class Spawner:
     def __init__ (self, tile_x:int, tile_y:int, tile_id:str, spawn_id:str, rotation:int):
         self.tile_x = tile_x
@@ -70,10 +72,31 @@ class Spawner:
         self.spawn_id = f"{spawn_id}:{int(self.rotation/90)}"
 
     def object_interrupt(self, spawner:"Spawner", movables:list) -> bool:
+        """
+        Check if any objects between self and spawner
+        """
+        # if line up vertically
+        if self.tile_x == spawner.tile_x:
+            for movable in movables:
+                if movable.pos[0] != self.tile_x:
+                    continue
+                if movable.pos[1] in range(min(self.tile_y, spawner.tile_y), max(self.tile_y, spawner.tile_y)):
+                    return True
+        # if line up horizontally
+        if self.tile_y == spawner.tile_y:
+            for movable in movables:
+                if movable.pos[1] != self.tile_y:
+                    continue
+                if movable.pos[0] in range(min(self.tile_x, spawner.tile_x), max(self.tile_x, spawner.tile_x)):
+                    return True
         return False
     
     def validate_spawner(self, spawner:"Spawner", movables:list) -> bool:
         if self.tile_id != spawner.tile_id:
+            return False
+        
+        # if same spawner
+        if spawner.tile_x == self.tile_x and spawner.tile_y == self.tile_y:
             return False
         
         # if not facing each other
@@ -87,7 +110,8 @@ class Spawner:
         # if facing each other vertically and the x values don't match
         if self.rotation in (90, 270) and self.tile_x != spawner.tile_x:
             return False
-        
+
+        # true case
         if (self.rotation == 0 and self.tile_x < spawner.tile_x or
             self.rotation == 180 and self.tile_x > spawner.tile_x or 
             self.rotation == 90 and self.tile_y < spawner.tile_y or
@@ -113,9 +137,8 @@ class Spawner:
         Receives a list of other spawners and returns positions of tiles to be spawned
         """
         valid_spawners = [
-            spawner
-            for spawner in spawners
-            if self.validate_spawner(spawner, movables) and not (spawner.tile_x == self.tile_x and spawner.tile_y == self.tile_y)
+            spawner for spawner in spawners
+            if self.validate_spawner(spawner, movables)
         ]
 
         tile_positions = []
@@ -127,16 +150,13 @@ class Spawner:
 
         return tile_positions
     
+# tiles that the player can move
 class Movable(Tile):
     def __init__ (self, tile_id:str, image:pg.Surface, start_pos:tuple[int, int]) -> None:
         # can be float
         self.tile_x, self.tile_y = start_pos
-        properties = {
-            "tangible": True,
-            "hazardous": False,
-            "win": False,
-            "spawner": False
-        }
+        self.last_push_dir = 0
+        properties = construct_properties(tangible=True)
         super().__init__(tile_id, image, properties, rotation=0)
 
     @property
@@ -154,25 +174,64 @@ class Movable(Tile):
         new_pos = self.pos[0] + dx, self.pos[1] + dy
         return wall_at(new_pos)
     
-    def update(self, wall_at, player_pos:tuple[float, float]) -> None:
+    def update(self, wall_at, portal_func, player_pos:tuple[float, float]) -> None:
         """
-        tile manager passes wall_at() method
+        tile manager passes wall_at() and portal_func() method
         """
+        # get pushed by player
         player_pos_int = int(player_pos[0]), int(player_pos[1])
         if player_pos_int[1] == self.pos[1]:
             # coming from left
             if player_pos_int[0] + 1 == self.pos[0] and not wall_at((int(self.tile_x)+1, int(self.tile_y))):
                 self.tile_x = player_pos[0] + 2
+                self.last_push_dir = 0
             # coming from right
             elif player_pos_int[0] == self.pos[0] and not wall_at((int(self.tile_x)-1, int(self.tile_y))):
                 self.tile_x = player_pos[0] - 1
+                self.last_push_dir = 1
         if player_pos_int[0] == self.pos[0]:
             # coming from top
             if player_pos_int[1] + 1 == self.pos[1] and not wall_at((int(self.tile_x), int(self.tile_y)+1)):
                 self.tile_y = player_pos[1] + 2
+                self.last_push_dir = 2
             # coming from bottom
             elif player_pos_int[1] == self.pos[1] and not wall_at((int(self.tile_x), int(self.tile_y)-1)):
                 self.tile_y = player_pos[1] - 1
+                self.last_push_dir = 3
+
+        # get teleported
+        portal_link = portal_func(self.pos)
+        if portal_link != None:
+            self.tile_x = portal_link[0]
+            self.tile_y = portal_link[1]
+
+            # move a tiny bit in the direction is was being pushed into the portal
+            # this is so the player can continue pushing it
+            if self.last_push_dir == 0:
+                self.tile_x += 0.1
+            elif self.last_push_dir == 1:
+                self.tile_x -= 0.1
+            elif self.last_push_dir == 2:
+                self.tile_y += 0.1
+            elif self.last_push_dir == 3:
+                self.tile_y -= 0.1
+
+# tiles that teleport the player
+class Portal(AnimatedTile):
+    def __init__ (self, tile_id:str, images:list[pg.Surface], pos:tuple[int, int], link:tuple[int, int]) -> None:
+        self.pos = pos
+        self.link = link
+        properties = construct_properties(tangible=False)
+        super().__init__(tile_id, images, properties, rotation=0)
+
+def construct_properties(tangible:bool, hazardous:bool=False, win:bool=False, spawner:bool=False, portal:bool=False) -> dict:
+    return {
+        "tangible": tangible,
+        "hazardous": hazardous,
+        "win": win,
+        "spawner": spawner,
+        "portal": portal
+    }
     
 def same_tile(tile1:Tile, tile2:Tile) -> bool:
     return tile1.id == tile2.id and tile1.rotation == tile2.rotation

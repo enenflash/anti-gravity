@@ -30,6 +30,13 @@ class Map:
     
     def check_die(self) -> bool:
         return self.tile_manager.die(self.instance.player.pos)
+
+    def check_portal(self, tile_pos:tuple[int, int]) -> None|tuple[int, int]:
+        """
+        Returns none if no portal at location
+        Returns portal link if there is a portal
+        """
+        return self.tile_manager.portal(tile_pos)
     
     def update(self) -> None:
         self.tile_manager.update()

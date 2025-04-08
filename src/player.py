@@ -13,6 +13,7 @@ class Player(Entity):
         self.animation = PlayerAnimations(self)
         
         self.facing = 0
+        self.last_teleported_pos = start_x, start_y
 
     def update(self) -> None:
         new_move = self.input_handler.get_player_movement()
@@ -21,6 +22,12 @@ class Player(Entity):
         if super().validate_new_move(new_move):
             self.move_queue.append(new_move)
             game_sound.play_sound("quack")
+
+        portal_link = self.instance.map.check_portal(self.pos)
+        if portal_link != None and self.pos != self.last_teleported_pos:
+            self.x, self.y = portal_link
+            self.moving = False
+            self.last_teleported_pos = portal_link
         
         # update movement
         super().check_move_queue(self.instance.game.delta_time)
