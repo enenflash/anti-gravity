@@ -28,12 +28,22 @@ def get_pg_key(command:str) -> object:
 class InputHandler:
     def __init__ (self) -> None:
         self.keys = pg.key.get_pressed()
+        self.mouse_pos = pg.mouse.get_pos()
+        self.mouse_pressed = pg.mouse.get_pressed()
 
         self.keybinds = {}
         for command in default_keybinds:
             self.keybinds[command] = get_pg_key(command)
 
         self.keydowns = []
+
+        pg.mouse.set_visible(False)
+
+    def set_up(self) -> None:
+        """
+        Must be called after video mode has been set
+        """
+        self.mouse_image = FileLoader.get_texture("resources/menu/mouse_yellow.png")
 
     def __get_keydowns(self, keys:dict) -> list[str]:
         return [command for command in self.keybinds if keys[self.keybinds[command]]]
@@ -44,6 +54,8 @@ class InputHandler:
         """
         self.keys = pg.key.get_pressed()
         self.keydowns = self.__get_keydowns(self.keys)
+        self.mouse_pos = pg.mouse.get_pos()
+        self.mouse_pressed = pg.mouse.get_pressed()
 
     def game_status(self) -> str|None:
         if "QUIT" in self.keydowns:
@@ -62,3 +74,6 @@ class InputHandler:
             return 4
         
         return 0
+    
+    def draw_mouse(self, surface:pg.Surface) -> None:
+        surface.blit(self.mouse_image, (self.mouse_pos))

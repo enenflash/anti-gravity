@@ -1,0 +1,19 @@
+{
+    "buttons": [
+        {
+            "id": "0.01",
+            "pos": [50, 55],
+            "function": "play"
+        },
+        {
+            "id": "0.02",
+            "pos": [50, 65],
+            "function": "about"
+        },
+        {
+            "id": "0.03",
+            "pos": [50, 75],
+            "function": "settings"
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "0.01": {
+        "name": "play_button",
+        "static": "resources/menu/buttons/play_button.png",
+        "selected": "resources/menu/buttons/play_button_selected.png",
+        "type": "image"
+    },
+    "0.02": {
+        "name": "about_button",
+        "static": "resources/menu/buttons/about_button.png",
+        "selected": "resources/menu/buttons/about_button_selected.png",
+        "type": "image"
+    },
+    "0.03": {
+        "name": "settings_button",
+        "static": "resources/menu/buttons/settings_button.png",
+        "selected": "resources/menu/buttons/settings_button_selected.png",
+        "type": "image"
+    }
+}

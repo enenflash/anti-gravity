@@ -14,19 +14,25 @@ class FileLoader:
         except FileNotFoundError:
             pg.quit()
             raise FileNotFoundError(f"The file '{name}' could not be found at '{path}'. Please reinstall the default file to the correct path")
+    
     @staticmethod
-    def get_texture(path:str) -> pg.SurfaceType:
+    def get_raw_image(path:str) -> pg.Surface:
+        return pg.image.load(path).convert_alpha()
+    
+    @staticmethod
+    def get_texture(path:str, size_x:int=TILE_SIZE, size_y:int=TILE_SIZE) -> pg.Surface:
         image = pg.image.load(path).convert_alpha()
-        return pg.transform.scale(image, (TILE_SIZE, TILE_SIZE))
+        return pg.transform.scale(image, (size_x, size_y))
+    
     @staticmethod
-    def get_textures(sprite_sheet_path:str, pixel_dim:int=16) -> list[pg.SurfaceType]:
+    def get_textures(sprite_sheet_path:str, size_x:int=TILE_SIZE, size_y:int=TILE_SIZE, pixel_dim:int=16) -> list[pg.Surface]:
         sprite_sheet_image = pg.image.load(sprite_sheet_path).convert_alpha()
         length = sprite_sheet_image.get_rect()[2]
 
         images = []
         for i in range(length//pixel_dim):
             image = sprite_sheet_image.subsurface((i*pixel_dim, 0, pixel_dim, pixel_dim))
-            images.append(pg.transform.scale(image, (TILE_SIZE, TILE_SIZE)))
+            images.append(pg.transform.scale(image, (size_x, size_y)))
 
         return images
     
@@ -76,3 +82,27 @@ class MapLoader(FileLoader):
     def get_map_data(cls, map_path:str) -> dict:
         map_data = super().open_json("map", map_path)
         return map_data
+    
+class MenuLoader(FileLoader):
+    """
+    Inherited from FileLoader
+    \nreturns menu data from json
+    """
+    @classmethod
+    def get_menu_data(cls, menu_path:str) -> dict:
+        menu_data = super().open_json("menu", menu_path)
+        return menu_data
+    
+    @classmethod
+    def get_texture(cls, path:str) -> pg.Surface:
+        image = super().get_raw_image(path)
+        scale = image.get_height()/16*MENU_SIZE
+        return pg.transform.scale(image, (image.get_width()/16*scale, image.get_height()/16*scale))
+    
+    @classmethod
+    def get_button_data(cls) -> dict:
+        button_textures = super().open_json("button_textures", "data/button_textures.json")
+        for i in button_textures:
+            button_textures[i]['static-image'] = cls.get_texture(button_textures[i]['static']) if button_textures[i]['type'] == "image" else cls.get_textures(button_textures[i]['static'])
+            button_textures[i]['selected-image'] = cls.get_texture(button_textures[i]['selected']) if button_textures[i]['type'] == "image" else cls.get_textures(button_textures[i]['selected'])
+        return button_textures

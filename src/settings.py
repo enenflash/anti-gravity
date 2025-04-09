@@ -10,6 +10,7 @@ HALF_SCREEN_W, HALF_SCREEN_H = SCREEN_W/2, SCREEN_H/2
 
 TILE_SIZE = screen_info.current_h / 21 + 0.01
 BG_SIZE = screen_info.current_h / 2
+MENU_SIZE = screen_info.current_h / 13
 
 PLAYER_SPEED = 0.8
 CAM_SPEED = 0.4
