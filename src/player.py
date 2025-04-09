@@ -26,8 +26,13 @@ class Player(Entity):
         portal_link = self.instance.map.check_portal(self.pos)
         if portal_link != None and self.pos != self.last_teleported_pos:
             self.x, self.y = portal_link
-            self.moving = False
             self.last_teleported_pos = portal_link
+            if self.moving == False:
+                self.move_queue.insert(0, self.move_queue_history)
+            self.moving = False
+
+        if self.pos != self.last_teleported_pos:
+            self.last_teleported_pos = (-1, -1)
         
         # update movement
         super().check_move_queue(self.instance.game.delta_time)
@@ -56,4 +61,3 @@ class PlayerAnimations:
 
     def draw(self, screen_x:int, screen_y:int):
         self.surface.blit(self.images[self.player.facing], (screen_x, screen_y))
-        #pg.draw.circle(self.surface, "WHITE", (screen_x + TILE_SIZE/2, screen_y + TILE_SIZE/2), TILE_SIZE/2, 2)
