@@ -32,6 +32,7 @@ class Entity:
         # the entity remembers the moves based on the keys pressed
         # executes each move after the entity has reached a target position
         self.move_queue = []
+        self.move_queue_history:int=0
 
     @property
     def pos(self) -> tuple:
@@ -44,13 +45,15 @@ class Entity:
         if new_move == 0: # 0 means no movement
             return False
         
+        # ensures there is no movable
         dx, dy = self.dir_dict[new_move]
         if self.map.wall_at(self.pos, dx, dy):
             return False
         
         # check if the entity is already at the target position
         # for example if there is a wall on the left and the entity tries to move left
-        if self.find_target_pos(self.x, self.y, new_move) == (self.x, self.y):
+        # accepts if the entity moves in a new direction
+        if self.find_target_pos(self.x, self.y, new_move) == (self.x, self.y) and new_move == self.move_queue_history:   
             return False
         
         # if no moves currently in move queue
@@ -104,7 +107,7 @@ class Entity:
         
         # if reached target destination
         if self.x == self.target_x and self.y == self.target_y:
-            self.move_queue.pop(0)
+            self.move_queue_history = self.move_queue.pop(0)
             self.moving = False
 
     def initiate_move(self, dir:int, delta_time:int) -> None:

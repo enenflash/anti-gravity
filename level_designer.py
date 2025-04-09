@@ -8,10 +8,10 @@ TILE_TEXTURES_PATH = "data/tile_textures.json"
 MAP_PATH = input("Map Path: ")
 
 class Tile:
-    def __init__(self, id, image):
-        self.id = id
-        self.walkable = id[0] == "0"
-        self.rotation = int(id.split(":")[1]) * 90
+    def __init__(self, tile_id:str, image:pg.Surface):
+        self.id = tile_id
+        self.walkable = tile_id[0] == "0"
+        self.rotation = int(tile_id.split(":")[1]) * 90
         self.image = pg.transform.rotate(image, -self.rotation)
 
 class Map:

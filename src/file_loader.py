@@ -99,6 +99,27 @@ class MenuLoader(FileLoader):
         scale = image.get_height()/16*MENU_SIZE
         return pg.transform.scale(image, (image.get_width()/16*scale, image.get_height()/16*scale))
     
+    @staticmethod
+    def get_textures(sprite_sheet_path:str, pixel_dim:int=16) -> list[pg.Surface]:
+        sprite_sheet_image = pg.image.load(sprite_sheet_path).convert_alpha()
+        length = sprite_sheet_image.get_rect()[2]
+
+        images = []
+        for i in range(length//pixel_dim):
+            scale = image.get_height()/16*MENU_SIZE
+            image = sprite_sheet_image.subsurface((i*pixel_dim, 0, pixel_dim, pixel_dim))
+            images.append(pg.transform.scale(image, (image.get_width()/16*scale, image.get_height()/16*scale)))
+
+        return images
+    
+    @classmethod
+    def get_element_data(cls) -> dict:
+        element_textures = super().open_json("element_textures", "data/element_textures.json")
+        for i in element_textures:
+            element = element_textures[i]
+            element['image'] = cls.get_texture(element['image']) if element['type'] == "image" else cls.get_textures(element['image'])
+        return element_textures
+    
     @classmethod
     def get_button_data(cls) -> dict:
         button_textures = super().open_json("button_textures", "data/button_textures.json")

@@ -74,8 +74,38 @@
         "type": "image"
     },
     "3.0.00": {
-        "name": "block",
-        "texture": "resources/tiles/block.png",
+        "name": "green_block",
+        "texture": "resources/tiles/green_block.png",
         "type": "image"
+    },
+    "3.0.01": {
+        "name": "purple_block",
+        "texture": "resources/tiles/purple_block.png",
+        "type": "image"
+    },
+    "3.0.02": {
+        "name": "yellow_block",
+        "texture": "resources/tiles/yellow_block.png",
+        "type": "image"
+    },
+    "3.0.03": {
+        "name": "blue_block",
+        "texture": "resources/tiles/blue_block.png",
+        "type": "image"
+    },
+    "3.0.04": {
+        "name": "red_block",
+        "texture": "resources/tiles/red_block.png",
+        "type": "image"
+    },
+    "4.0.00": {
+        "name": "green_portal",
+        "texture": "resources/tiles/sprite_sheets/green_portal.png",
+        "type": "sprite_sheet"
+    },
+    "4.0.01": {
+        "name": "purple_portal",
+        "texture": "resources/tiles/sprite_sheets/purple_portal.png",
+        "type": "sprite_sheet"
     }
 }

@@ -20,9 +20,8 @@ class Game:
         while self.running:
             self.input_handler.update()
             event_types = [i.type for i in self.events]
-            if pg.QUIT in event_types or self.input_handler.game_status() == "QUIT":
+            if pg.QUIT in event_types:
                 self.running = False
-
             pg.display.set_caption(f"Anti-Gravity FPS: {round(self.clock.get_fps(), 2)}")
             self.delta_time = self.clock.tick(FPS)
             self.events = pg.event.get()
@@ -31,40 +30,43 @@ class Game:
 class GameStateManager:
     def __init__ (self, game: Game) -> None:
         self.game = game
-        self.screen = pg.display.set_mode((SCREEN_W, SCREEN_H))
+        self.screen = pg.display.set_mode((screen_info.current_w, screen_info.current_h))
         self.instance = None
         self.menu = None
+        
+        self.launch_menu("menus/title_menu.json", "title")
 
-        self.game.input_handler.set_up()
+    def launch_menu(self, menu_path:str, name:str):
+        self.menu = Menu(self.game, name, self.screen, menu_path)
 
-        self.__launch_menu("menus/title_menu.json")
-        #self.__launch_instance("maps/test_maps/test_map_4.json")
-
-    def __launch_menu(self, menu_path:str):
-        self.menu = Menu(self.game, self.screen, menu_path)
-
-    def __launch_instance(self, map_path:str):
+    def launch_instance(self, map_path:str):
         self.instance = Instance(self.game, self.screen, map_path)
-    
-    def __close_menu(self):
+
+    def close_menu(self) -> None:
         self.menu = None
-    
-    def __close_instance(self):
+
+    def close_instance(self) -> None:
         self.instance = None
 
-    def end_menu(self) -> None:
-        self.__close_menu()
+    def game_quit(self) -> None:
+        self.game.running = False
 
-    def end_instance(self) -> None:
-        self.__close_instance()
-    
     def update(self) -> None:
+        self.screen.fill("BLACK")
+
+        if self.game.input_handler.game_status() == "PAUSE" and self.instance != None:
+            self.launch_menu("menus/pause_menu.json", "pause")
+
         if self.instance != None:
             self.instance.update()
-            self.instance.draw()
         if self.menu != None:
             self.menu.update()
+
+        if self.instance != None:
+            self.instance.draw()
+        if self.menu != None:
             self.menu.draw()
+
         pg.display.flip()
 
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ BG_SIZE = screen_info.current_h / 2
 MENU_SIZE = screen_info.current_h / 13
 
 PLAYER_SPEED = 0.8
-CAM_SPEED = 0.4
+CAM_SPEED = 0.2
 
 VOLUME = 100
 

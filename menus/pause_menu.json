@@ -1,0 +1,30 @@
+{
+    "elements": [
+        {
+            "id": "0.01",
+            "pos": [50, 25],
+            "scale": 2
+        }
+    ],
+    "buttons": [
+        {
+            "id": "0.05",
+            "pos": [50, 47],
+            "scale": 1.2,
+            "function": "resume"
+        },
+        {
+            "id": "0.06",
+            "pos": [50, 60],
+            "scale": 1.2,
+            "function": "restart"
+        },
+        {
+            "id": "0.07",
+            "pos": [50, 73],
+            "scale": 1.2,
+            "function": "title_menu"
+        }
+    ],
+    "static-background": [0, 0, 0, 100]
+}

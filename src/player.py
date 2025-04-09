@@ -17,9 +17,8 @@ class Player(Entity):
 
     def update(self) -> None:
         new_move = self.input_handler.get_player_movement()
-        if new_move != 0:
-            self.facing = new_move-1
         if super().validate_new_move(new_move):
+            self.facing = new_move-1
             self.move_queue.append(new_move)
             game_sound.play_sound("quack")
 

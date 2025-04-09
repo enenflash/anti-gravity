@@ -4,6 +4,11 @@ from tile import *
 from tile_manager import *
 from file_loader import *
 
+class MapText:
+    def __init__ (self, text:str, tile_pos:tuple[int, int]) -> None:
+        self.text = text
+        self.tile_pos = tile_pos
+
 class Map:
     def __init__ (self, instance:object, map_path:str) -> None:
         self.instance = instance
@@ -87,7 +92,8 @@ class Camera:
         
         p_vector = self.target_x - self.x, self.target_y - self.y
         p_vector_mag = (p_vector[0]**2 + p_vector[1]**2)**(1/2)
-        scalar = self.speed/p_vector_mag
+        # linear speed equation ax + a -> ease in ease out camera displacement from player
+        scalar = self.speed*(p_vector_mag/20)+self.speed
 
         if abs(self.player.x - self.x) < self.speed:
             self.x = self.player.x

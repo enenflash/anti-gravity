@@ -1,5 +1,5 @@
 {
-    "QUIT": "ESCAPE",
+    "PAUSE": "ESCAPE",
     "RESTART": "r",
     "UP": "UP",
     "LEFT": "LEFT",

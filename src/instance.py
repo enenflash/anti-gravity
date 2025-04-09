@@ -21,4 +21,4 @@ class Instance:
     def draw(self) -> None:
         self.surface.fill("BLACK")
         self.map.draw() # player is drawn inside map draw function
-        self.screen.blit(self.surface, (0, 0))
+        self.screen.blit(self.surface, ((screen_info.current_w-SCREEN_W)/2, 0))

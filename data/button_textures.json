@@ -6,15 +6,39 @@
         "type": "image"
     },
     "0.02": {
+        "name": "quit_button",
+        "static": "resources/menu/buttons/quit_button.png",
+        "selected": "resources/menu/buttons/quit_button_selected.png",
+        "type": "image"
+    },
+    "0.03": {
         "name": "about_button",
         "static": "resources/menu/buttons/about_button.png",
         "selected": "resources/menu/buttons/about_button_selected.png",
         "type": "image"
     },
-    "0.03": {
+    "0.04": {
         "name": "settings_button",
         "static": "resources/menu/buttons/settings_button.png",
         "selected": "resources/menu/buttons/settings_button_selected.png",
+        "type": "image"
+    },
+    "0.05": {
+        "name": "resume_button",
+        "static": "resources/menu/buttons/resume_button.png",
+        "selected": "resources/menu/buttons/resume_button_selected.png",
+        "type": "image"
+    },
+    "0.06": {
+        "name": "restart_button",
+        "static": "resources/menu/buttons/restart_button.png",
+        "selected": "resources/menu/buttons/restart_button_selected.png",
+        "type": "image"
+    },
+    "0.07": {
+        "name": "menu_button",
+        "static": "resources/menu/buttons/menu_button.png",
+        "selected": "resources/menu/buttons/menu_button_selected.png",
         "type": "image"
     }
 }

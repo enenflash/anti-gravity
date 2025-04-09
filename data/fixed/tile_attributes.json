@@ -72,8 +72,38 @@
         "spawn_id": "0.2.00"
     },
     "3.0.00": {
-        "name": "block",
+        "name": "green_block",
         "tangible": 1,
+        "hazardous": 0
+    },
+    "3.0.01": {
+        "name": "purple_block",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "3.0.02": {
+        "name": "yellow_block",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "3.0.03": {
+        "name": "blue_block",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "3.0.04": {
+        "name": "red_block",
+        "tangible": 1,
+        "hazardous": 0
+    },
+    "4.0.00": {
+        "name": "green_portal",
+        "tangible": 0,
+        "hazardous": 0
+    },
+    "4.0.01": {
+        "name": "purple_portal",
+        "tangible": 0,
         "hazardous": 0
     }
 }

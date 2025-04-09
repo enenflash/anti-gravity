@@ -2,7 +2,7 @@ import pygame as pg
 from file_loader import *
 
 default_keybinds = {
-    "QUIT": "ESCAPE",
+    "PAUSE": "ESCAPE",
     "RESTART": "r",
     "UP": "UP",
     "LEFT": "LEFT",
@@ -39,12 +39,6 @@ class InputHandler:
 
         pg.mouse.set_visible(False)
 
-    def set_up(self) -> None:
-        """
-        Must be called after video mode has been set
-        """
-        self.mouse_image = FileLoader.get_texture("resources/menu/mouse_yellow.png")
-
     def __get_keydowns(self, keys:dict) -> list[str]:
         return [command for command in self.keybinds if keys[self.keybinds[command]]]
 
@@ -54,12 +48,12 @@ class InputHandler:
         """
         self.keys = pg.key.get_pressed()
         self.keydowns = self.__get_keydowns(self.keys)
-        self.mouse_pos = pg.mouse.get_pos()
+        self.mouse_pos = pg.mouse.get_pos()[0] - (screen_info.current_w-SCREEN_W)/2, pg.mouse.get_pos()[1]
         self.mouse_pressed = pg.mouse.get_pressed()
 
     def game_status(self) -> str|None:
-        if "QUIT" in self.keydowns:
-            return "QUIT"
+        if "PAUSE" in self.keydowns:
+            return "PAUSE"
         elif "RESTART" in self.keydowns:
             return "RESTART"
 
@@ -74,6 +68,3 @@ class InputHandler:
             return 4
         
         return 0
-    
-    def draw_mouse(self, surface:pg.Surface) -> None:
-        surface.blit(self.mouse_image, (self.mouse_pos))
