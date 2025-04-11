@@ -48,10 +48,8 @@ class Map:
         self.camera.update()
 
         if self.check_win():
-            # add win game menu here
-            print("won game")
-            pg.quit()
-            quit()
+            self.instance.game.game_state_manager.set_pause_instance(True)
+            self.instance.game.game_state_manager.launch_menu("menus/win_menu.json", "win")
 
         if self.check_die():
             print("died")

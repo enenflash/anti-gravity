@@ -40,5 +40,11 @@
         "static": "resources/menu/buttons/menu_button.png",
         "selected": "resources/menu/buttons/menu_button_selected.png",
         "type": "image"
+    },
+    "0.08": {
+        "name": "replay_button",
+        "static": "resources/menu/buttons/replay_button.png",
+        "selected": "resources/menu/buttons/replay_button_selected.png",
+        "type": "image"
     }
 }

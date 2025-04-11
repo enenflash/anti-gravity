@@ -4,7 +4,12 @@
             "id": "0.01",
             "pos": [50, 20],
             "scale": 2
-        }  
+        },
+        {
+            "id": "0.02",
+            "pos": [50, 30],
+            "scale": 0.8
+        }
     ],
     "buttons": [
         {
@@ -31,5 +36,6 @@
             "scale": 1.2,
             "function": "settings"
         }
-    ]
+    ],
+    "tile-background": "resources/background.png"
 }

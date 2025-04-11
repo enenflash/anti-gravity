@@ -1,5 +1,6 @@
 from settings import *
 from file_loader import *
+from background import *
 from menu_elements.element import *
 from menu_elements.button import *
 
@@ -63,13 +64,19 @@ class Menu:
                 button_data = self.button_data[button["id"]]
                 self.buttons.append(Button(pos, button["function"], button_data["static-image"], button_data["selected-image"], button["scale"]))
 
-        self.bg_colour = self.menu_data["static-background"] if "static-background" in self.menu_data else [0, 0, 0, 0]
-    
+        self.bg_colour = self.menu_data["background-colour"] if "background-colour" in self.menu_data else [0, 0, 0, 0]
+        self.background = Background(self.screen, self.menu_data["tile-background"]) if "tile-background" in self.menu_data else None
+
     def do_button_action(self, button:Button) -> None:
         if button.function == "play":
-            self.game.game_state_manager.launch_instance("maps/test_maps/test_map_4.json")
+            current_level_path = self.game.game_state_manager.current_level_data["path"]
+            self.game.game_state_manager.launch_instance(current_level_path)
             self.game.game_state_manager.close_menu()
         if button.function == "resume":
+            self.game.game_state_manager.close_menu()
+            self.game.game_state_manager.set_pause_instance(False)
+        if button.function == "restart":
+            self.game.game_state_manager.restart_instance()
             self.game.game_state_manager.close_menu()
         if button.function == "title_menu":
             self.game.game_state_manager.close_instance()
@@ -78,6 +85,9 @@ class Menu:
             self.game.game_state_manager.game_quit()
 
     def update(self) -> None:
+        if self.background != None:
+            self.background.update()
+
         for button in self.buttons:
             button.update(self.input_handler.mouse_pos, self.input_handler.mouse_pressed)
             if button.pressed:
@@ -87,6 +97,9 @@ class Menu:
 
     def draw(self) -> None:
         self.surface.fill(self.bg_colour)
+        if self.background != None:
+            self.background.draw()
+
         for element in self.elements:
             element.draw(self.surface)
         for button in self.buttons:

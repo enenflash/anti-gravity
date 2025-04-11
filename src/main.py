@@ -2,6 +2,7 @@ import pygame as pg
 import pygame.locals
 
 from settings import *
+from level_manager import *
 from input_handler import *
 from instance import *
 from menu import *
@@ -18,13 +19,14 @@ class Game:
 
     def run(self) -> None:
         while self.running:
-            self.input_handler.update()
             event_types = [i.type for i in self.events]
             if pg.QUIT in event_types:
                 self.running = False
+
             pg.display.set_caption(f"Anti-Gravity FPS: {round(self.clock.get_fps(), 2)}")
             self.delta_time = self.clock.tick(FPS)
             self.events = pg.event.get()
+            self.input_handler.update(self.events)
             self.game_state_manager.update()
 
 class GameStateManager:
@@ -33,20 +35,29 @@ class GameStateManager:
         self.screen = pg.display.set_mode((screen_info.current_w, screen_info.current_h))
         self.instance = None
         self.menu = None
-        
+
+        self.level_manager = LevelManager()
+        self.current_level_data = self.level_manager.get_current_level()
+    
         self.launch_menu("menus/title_menu.json", "title")
 
-    def launch_menu(self, menu_path:str, name:str):
+    def launch_menu(self, menu_path:str, name:str) -> None:
         self.menu = Menu(self.game, name, self.screen, menu_path)
-
-    def launch_instance(self, map_path:str):
+    
+    def launch_instance(self, map_path:str) -> None:
         self.instance = Instance(self.game, self.screen, map_path)
+
+    def restart_instance(self) -> None:
+        self.instance = Instance(self.game, self.screen, self.instance.map_path)
 
     def close_menu(self) -> None:
         self.menu = None
 
     def close_instance(self) -> None:
         self.instance = None
+
+    def set_pause_instance(self, paused:bool) -> None:
+        self.instance.paused = paused
 
     def game_quit(self) -> None:
         self.game.running = False
@@ -55,8 +66,9 @@ class GameStateManager:
         self.screen.fill("BLACK")
 
         if self.game.input_handler.game_status() == "PAUSE" and self.instance != None:
+            self.set_pause_instance(True)
             self.launch_menu("menus/pause_menu.json", "pause")
-
+        
         if self.instance != None:
             self.instance.update()
         if self.menu != None:

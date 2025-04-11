@@ -3,5 +3,15 @@
         "name": "title",
         "image": "resources/menu/text/title.png",
         "type": "image"
+    },
+    "0.02": {
+        "name": "by",
+        "image": "resources/menu/text/by_isabelle_tang.png",
+        "type": "image"
+    },
+    "0.03": {
+        "name": "win",
+        "image": "resources/menu/text/level_passed.png",
+        "type": "image"
     }
 }

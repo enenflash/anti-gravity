@@ -29,7 +29,7 @@ class InputHandler:
     def __init__ (self) -> None:
         self.keys = pg.key.get_pressed()
         self.mouse_pos = pg.mouse.get_pos()
-        self.mouse_pressed = pg.mouse.get_pressed()
+        self.mouse_pressed = [False, False, False]
 
         self.keybinds = {}
         for command in default_keybinds:
@@ -42,14 +42,19 @@ class InputHandler:
     def __get_keydowns(self, keys:dict) -> list[str]:
         return [command for command in self.keybinds if keys[self.keybinds[command]]]
 
-    def update(self) -> None:
+    def update(self, events:list) -> None:
         """
         Call InputHandler.update() every game loop
         """
         self.keys = pg.key.get_pressed()
         self.keydowns = self.__get_keydowns(self.keys)
         self.mouse_pos = pg.mouse.get_pos()[0] - (screen_info.current_w-SCREEN_W)/2, pg.mouse.get_pos()[1]
-        self.mouse_pressed = pg.mouse.get_pressed()
+        
+        self.mouse_pressed = [False, False, False]
+        for event in events:
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if not event.button < 3: continue
+                self.mouse_pressed[event.button-1] = True
 
     def game_status(self) -> str|None:
         if "PAUSE" in self.keydowns:
