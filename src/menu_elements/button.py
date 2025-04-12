@@ -1,19 +1,31 @@
 import pygame as pg
+from menu_elements.element import *
 
-class Button:
+class Button(Element):
     def __init__ (self, pixel_pos:tuple[int, int], button_function:str, static_image:pg.Surface, selected_image:pg.Surface, scale:int|float=1) -> None:
-        self.pixel_pos = pixel_pos
         self.function = button_function
         self.static_image = pg.transform.scale(static_image, (static_image.get_width()*scale, static_image.get_height()*scale))
         self.selected_image = pg.transform.scale(selected_image, (selected_image.get_width()*scale, selected_image.get_height()*scale))
         self.selected = False
         self.pressed = False
 
+        super().__init__(pixel_pos, static_image, scale)
+
+        self.set_button_domains()
+
+    def set_button_domains(self) -> None:
         self.static_domain = self.pixel_pos[0]-self.static_image.get_width()/2, self.pixel_pos[0]+self.static_image.get_width()/2
         self.static_range = self.pixel_pos[1]-self.static_image.get_height()/2, self.pixel_pos[1]+self.static_image.get_height()/2
-
         self.selected_domain = self.pixel_pos[0]-self.selected_image.get_width()/2, self.pixel_pos[0]+self.selected_image.get_width()/2
         self.selected_range = self.pixel_pos[1]-self.selected_image.get_height()/2, self.pixel_pos[1]+self.selected_image.get_height()/2
+
+    def set_pixel_pos(self, pixel_x:int|float|None=None, pixel_y:int|float|None=None) -> None:
+        if pixel_x != None:
+            self.pixel_pos[0] = pixel_x
+        if pixel_y != None:
+            self.pixel_pos[1] = pixel_y
+
+        self.set_button_domains()
 
     def check_mouse_over(self, mouse_pos:tuple[int, int]) -> bool:
         if self.selected:
@@ -34,11 +46,10 @@ class Button:
         self.pressed = self.selected and mouse_pressed[0]
 
     def draw(self, surface:pg.Surface) -> None:
-        if self.selected:
-            pixel_pos_x = self.pixel_pos[0]-self.selected_image.get_width()/2
-            pixel_pos_y = self.pixel_pos[1]-self.selected_image.get_height()/2
-            surface.blit(self.selected_image, (pixel_pos_x, pixel_pos_y))
-            return
-        pixel_pos_x = self.pixel_pos[0]-self.static_image.get_width()/2
-        pixel_pos_y = self.pixel_pos[1]-self.static_image.get_height()/2
-        surface.blit(self.static_image, (pixel_pos_x, pixel_pos_y))
+        self.image = self.selected_image if self.selected else self.static_image
+        super().draw(surface)
+
+class LevelButton(Button):
+    def __init__ (self, pixel_pos:tuple[int, int], static_image:pg.Surface, selected_image:pg.Surface, level_index:int, scale:int|float=1) -> None:
+        super().__init__ (pixel_pos, "open_map", static_image, selected_image, scale=scale)
+        self.level_index = level_index

@@ -38,8 +38,12 @@ class GameStateManager:
 
         self.level_manager = LevelManager()
         self.current_level_data = self.level_manager.get_current_level()
-    
+
         self.launch_menu("menus/title_menu.json", "title")
+
+    def update_level(self) -> None:
+        new_level_index = self.level_manager.get_current_level_index() + 1
+        self.level_manager.update_level(new_level_index)
 
     def launch_menu(self, menu_path:str, name:str) -> None:
         self.menu = Menu(self.game, name, self.screen, menu_path)

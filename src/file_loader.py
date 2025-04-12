@@ -14,6 +14,10 @@ class FileLoader:
         except FileNotFoundError:
             pg.quit()
             raise FileNotFoundError(f"The file '{name}' could not be found at '{path}'. Please reinstall the default file to the correct path")
+        
+    def write_json(path:str, data:dict) -> dict:
+        with open(path, 'w') as file:
+            json.dump(data, file, indent=4)
     
     @staticmethod
     def get_raw_image(path:str) -> pg.Surface:

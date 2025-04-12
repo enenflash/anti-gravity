@@ -50,6 +50,7 @@ class Map:
         if self.check_win():
             self.instance.game.game_state_manager.set_pause_instance(True)
             self.instance.game.game_state_manager.launch_menu("menus/win_menu.json", "win")
+            self.instance.game.game_state_manager.update_level()
 
         if self.check_die():
             print("died")

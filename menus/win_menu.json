@@ -17,7 +17,7 @@
             "id": "0.07",
             "pos": [50, 63],
             "scale": 1.2,
-            "function": "title_menu"
+            "function": "levels"
         }
     ],
     "background-colour": [0, 0, 0, 100]

@@ -3,6 +3,7 @@ from file_loader import *
 from background import *
 from menu_elements.element import *
 from menu_elements.button import *
+from menu_elements.level_scroller import *
 
 class Mouse:
     def __init__ (self, input_handler:object) -> None:
@@ -67,10 +68,17 @@ class Menu:
         self.bg_colour = self.menu_data["background-colour"] if "background-colour" in self.menu_data else [0, 0, 0, 0]
         self.background = Background(self.screen, self.menu_data["tile-background"]) if "tile-background" in self.menu_data else None
 
+        self.level_scroller = None
+        if "level-scroller" in self.menu_data:
+            self.level_scroller = LevelScroller(self, get_pixel_pos(self.menu_data["level-scroller"]["pos"]), get_pixel_pos(self.menu_data["level-scroller"]["size"]))
+
     def do_button_action(self, button:Button) -> None:
-        if button.function == "play":
-            current_level_path = self.game.game_state_manager.current_level_data["path"]
-            self.game.game_state_manager.launch_instance(current_level_path)
+        if button.function == "levels":
+            self.game.game_state_manager.launch_menu("menus/level_menu.json", "levels")
+            self.game.game_state_manager.close_instance()
+        if button.function == "open_map":
+            map_path = self.game.game_state_manager.level_manager.get_all_levels()[button.level_index]["path"]
+            self.game.game_state_manager.launch_instance(map_path)
             self.game.game_state_manager.close_menu()
         if button.function == "resume":
             self.game.game_state_manager.close_menu()
@@ -83,6 +91,10 @@ class Menu:
             self.game.game_state_manager.launch_menu("menus/title_menu.json", "title")
         if button.function == "quit":
             self.game.game_state_manager.game_quit()
+        if button.function == "move_right" and self.level_scroller != None:
+            self.level_scroller.move_right()
+        if button.function == "move_left" and self.level_scroller != None:
+            self.level_scroller.move_left()
 
     def update(self) -> None:
         if self.background != None:
@@ -94,6 +106,8 @@ class Menu:
                 self.do_button_action(button)
 
         self.mouse.update(any([button.selected for button in self.buttons]))
+        if self.level_scroller != None:
+            self.level_scroller.update(self.input_handler.mouse_pos, self.input_handler.mouse_pressed)
 
     def draw(self) -> None:
         self.surface.fill(self.bg_colour)
@@ -104,6 +118,9 @@ class Menu:
             element.draw(self.surface)
         for button in self.buttons:
             button.draw(self.surface)
+        
+        if self.level_scroller != None:
+            self.level_scroller.draw(self.surface)
         
         self.screen.blit(self.surface, ((screen_info.current_w-SCREEN_W)/2, 0))
         self.mouse.draw(self.screen, x_offset=(screen_info.current_w-SCREEN_W)/2)

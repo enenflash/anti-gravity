@@ -1,0 +1,33 @@
+{
+    "elements": [
+        {
+            "id": "0.04",
+            "pos": [50, 20],
+            "scale": 2
+        }
+    ],
+    "buttons": [
+        {
+            "id": "0.07",
+            "pos": [50, 80],
+            "scale": 1,
+            "function": "title_menu"
+        },
+        {
+            "id": "0.09",
+            "pos": [90, 50],
+            "scale": 1,
+            "function": "move_right"
+        },
+        {
+            "id": "0.10",
+            "pos": [10, 50],
+            "scale": 1,
+            "function": "move_left"
+        }
+    ],
+    "level-scroller": {
+        "pos": [50, 50],
+        "size": [70, 30]
+    }
+}

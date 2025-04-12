@@ -16,7 +16,7 @@
             "id": "0.01",
             "pos": [50, 47],
             "scale": 1.2,
-            "function": "play"
+            "function": "levels"
         },
         {
             "id": "0.02",
