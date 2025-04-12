@@ -82,7 +82,7 @@
             "1.1.00:3"
         ]
     ],
-    "player_start": [5, 1],
+    "player-start": [5, 1],
     "movables": [
         {
             "id": "3.0.00",

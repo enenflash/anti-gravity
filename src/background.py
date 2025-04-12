@@ -6,6 +6,7 @@ class Background:
     def __init__ (self, screen:pg.Surface, bg_path:str) -> None:
         self.screen = screen
         self.surface = pg.Surface((screen_info.current_w, screen_info.current_h), pg.SRCALPHA)
+        self.bg_path = bg_path
         self.image = FileLoader.get_texture(bg_path, BG_SIZE, BG_SIZE)
         self.offset = [0, 0]
 

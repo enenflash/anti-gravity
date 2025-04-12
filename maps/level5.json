@@ -190,7 +190,7 @@
             "1.1.00:3"
         ]
     ],
-    "player_start": [7, 4],
+    "player-start": [7, 4],
     "movables": [
         {
             "id": "3.0.00",

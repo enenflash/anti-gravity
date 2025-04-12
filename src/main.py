@@ -42,17 +42,17 @@ class GameStateManager:
         self.launch_menu("menus/title_menu.json", "title")
 
     def update_level(self) -> None:
-        new_level_index = self.level_manager.get_current_level_index() + 1
-        self.level_manager.update_level(new_level_index)
+        if self.instance != None:
+            self.level_manager.update_level(self.instance.level_index)
 
-    def launch_menu(self, menu_path:str, name:str) -> None:
-        self.menu = Menu(self.game, name, self.screen, menu_path)
+    def launch_menu(self, menu_path:str, name:str, bg_offset:list[int|float, int|float]=[0, 0]) -> None:
+        self.menu = Menu(self.game, name, self.screen, menu_path, bg_offset)
     
-    def launch_instance(self, map_path:str) -> None:
-        self.instance = Instance(self.game, self.screen, map_path)
+    def launch_instance(self, map_path:str, level_index:int) -> None:
+        self.instance = Instance(self.game, self.screen, map_path, level_index)
 
     def restart_instance(self) -> None:
-        self.instance = Instance(self.game, self.screen, self.instance.map_path)
+        self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index)
 
     def close_menu(self) -> None:
         self.menu = None
@@ -69,7 +69,7 @@ class GameStateManager:
     def update(self) -> None:
         self.screen.fill("BLACK")
 
-        if self.game.input_handler.game_status() == "PAUSE" and self.instance != None:
+        if self.game.input_handler.game_status() == "PAUSE" and self.instance != None and self.menu == None:
             self.set_pause_instance(True)
             self.launch_menu("menus/pause_menu.json", "pause")
         

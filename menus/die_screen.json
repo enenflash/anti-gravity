@@ -1,27 +1,26 @@
 {
     "elements": [
         {
-            "id": "0.01",
-            "pos": [50, 25],
+            "id": "0.06",
+            "pos": [50, 35],
+            "scale": 1
+        },
+        {
+            "id": "0.07",
+            "pos": [50, 20],
             "scale": 2
         }
     ],
     "buttons": [
         {
-            "id": "0.05",
-            "pos": [50, 47],
-            "scale": 1.2,
-            "function": "resume"
-        },
-        {
-            "id": "0.06",
-            "pos": [50, 60],
+            "id": "0.08",
+            "pos": [50, 55],
             "scale": 1.2,
             "function": "restart"
         },
         {
-            "id": "0.11",
-            "pos": [50, 73],
+            "id": "0.07",
+            "pos": [50, 68],
             "scale": 1.2,
             "function": "levels"
         }

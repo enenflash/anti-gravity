@@ -40,6 +40,9 @@ class Button(Element):
         if mouse_pos[1] > self.static_range[1] or mouse_pos[1] < self.static_range[0]:
             return False
         return True
+    
+    def select(self, select:bool) -> None:
+        self.selected = select
 
     def update(self, mouse_pos:tuple[int, int], mouse_pressed:tuple[bool, bool, bool]) -> None:
         self.selected = self.check_mouse_over(mouse_pos)

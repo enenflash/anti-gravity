@@ -29,5 +29,6 @@
     "level-scroller": {
         "pos": [50, 50],
         "size": [70, 30]
-    }
+    },
+    "tile-background": "resources/background.png"
 }

@@ -21,7 +21,7 @@ class Player(Entity):
             self.facing = new_move-1
             self.move_queue.append(new_move)
             game_sound.play_sound("quack")
-
+        
         portal_link = self.instance.map.check_portal(self.pos)
         if portal_link != None and self.pos != self.last_teleported_pos:
             self.x, self.y = portal_link

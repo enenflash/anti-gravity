@@ -58,5 +58,23 @@
         "static": "resources/menu/buttons/left_arrow_button.png",
         "selected": "resources/menu/buttons/left_arrow_button_selected.png",
         "type": "image"
+    },
+    "0.11": {
+        "name": "levels_button",
+        "static": "resources/menu/buttons/levels_button.png",
+        "selected": "resources/menu/buttons/levels_button_selected.png",
+        "type": "image"
+    },
+    "0.12": {
+        "name": "sorry_button",
+        "static": "resources/menu/buttons/im_sorry_button.png",
+        "selected": "resources/menu/buttons/im_sorry_button_selected.png",
+        "type": "image"
+    },
+    "0.13": {
+        "name": "next_button",
+        "static": "resources/menu/buttons/next_button.png",
+        "selected": "resources/menu/buttons/next_button_selected.png",
+        "type": "image"
     }
 }

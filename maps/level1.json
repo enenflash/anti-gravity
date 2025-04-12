@@ -318,7 +318,7 @@
             "1.1.00:3"
         ]
     ],
-    "player_start": [5, 1],
+    "player-start": [5, 1],
     "text": [
         {
             "text": "find the yellow circle",

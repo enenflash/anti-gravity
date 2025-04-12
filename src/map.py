@@ -17,7 +17,7 @@ class Map:
         self.tile_data = TileLoader.get_tile_data()
         self.map_data = MapLoader.get_map_data(map_path)
 
-        self.player_start_x, self.player_start_y = self.map_data["player_start"]
+        self.player_start_x, self.player_start_y = self.map_data["player-start"]
 
     def set_up(self) -> None:
         """This function **must** be called after 'Player' is created"""
@@ -46,16 +46,6 @@ class Map:
     def update(self) -> None:
         self.tile_manager.update()
         self.camera.update()
-
-        if self.check_win():
-            self.instance.game.game_state_manager.set_pause_instance(True)
-            self.instance.game.game_state_manager.launch_menu("menus/win_menu.json", "win")
-            self.instance.game.game_state_manager.update_level()
-
-        if self.check_die():
-            print("died")
-            pg.quit()
-            quit()
 
     def draw(self) -> None:
         camera_offset = (self.camera.x % 1 + 0.5) * TILE_SIZE, (self.camera.y % 1 + 0.5) * TILE_SIZE

@@ -8,15 +8,21 @@
     ],
     "buttons": [
         {
+            "id": "0.13",
+            "pos": [50, 45],
+            "scale": 1,
+            "function": "next_game"
+        },
+        {
             "id": "0.08",
-            "pos": [50, 50],
-            "scale": 1.2,
+            "pos": [50, 55],
+            "scale": 1,
             "function": "restart"
         },
         {
             "id": "0.07",
-            "pos": [50, 63],
-            "scale": 1.2,
+            "pos": [50, 65],
+            "scale": 1,
             "function": "levels"
         }
     ],

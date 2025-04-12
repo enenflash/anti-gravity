@@ -18,5 +18,20 @@
         "name": "levels",
         "image": "resources/menu/text/levels.png",
         "type": "image"
+    },
+    "0.05": {
+        "name": "you_killed_quack",
+        "image": "resources/menu/text/you_killed_quack.png",
+        "type": "image"
+    },
+    "0.06": {
+        "name": "immortal",
+        "image": "resources/menu/text/immortal.png",
+        "type": "image"
+    },
+    "0.07": {
+        "name": "level_failed",
+        "image": "resources/menu/text/level_failed.png",
+        "type": "image"
     }
 }

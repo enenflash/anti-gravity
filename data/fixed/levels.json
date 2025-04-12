@@ -1,8 +1,20 @@
 {
     "levels": [
         {
+            "name": "Level 0",
+            "path": "maps/level0.json"
+        },
+        {
             "name": "Level 1",
             "path": "maps/level1.json"
+        },
+        {
+            "name": "Level 2",
+            "path": "maps/level2.json"
+        },
+        {
+            "name": "Level 3",
+            "path": "maps/level3.json"
         },
         {
             "name": "Level 4",

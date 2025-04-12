@@ -1,0 +1,18 @@
+{
+    "elements": [
+        {
+            "id": "0.05",
+            "pos": [50, 30],
+            "scale": 2
+        }
+    ],
+    "buttons": [
+        {
+            "id": "0.12",
+            "pos": [50, 60],
+            "scale": 1.2,
+            "function": "die_screen"
+        }
+    ],
+    "background-colour": [0, 0, 0, 100]
+}

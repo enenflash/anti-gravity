@@ -37,7 +37,7 @@ class Mouse:
         surface.blit(self.image, (self.pos[0]+x_offset, self.pos[1]+y_offset))
 
 class Menu:
-    def __init__ (self, game:object, name:str, screen:pg.Surface, menu_path:str) -> None:
+    def __init__ (self, game:object, name:str, screen:pg.Surface, menu_path:str, bg_offset:list[int|float, int|float]=[0, 0]) -> None:
         self.game = game
         self.name = name
         self.input_handler = game.input_handler
@@ -69,19 +69,34 @@ class Menu:
         
         self.bg_colour = self.menu_data["background-colour"] if "background-colour" in self.menu_data else [0, 0, 0, 0]
         self.background = Background(self.screen, self.menu_data["tile-background"]) if "tile-background" in self.menu_data else None
+        if self.background != None:
+            self.background.offset = bg_offset
+
+        self.blend_image = pg.Surface(((self.screen.get_width()-self.surface.get_width())/2, self.surface.get_height()), pg.SRCALPHA)
+        self.blend_image.fill([0, 0, 0, 100])
 
         self.level_scroller = None
         if "level-scroller" in self.menu_data:
             self.level_scroller = LevelScroller(self, get_pixel_pos(self.menu_data["level-scroller"]["pos"]), get_pixel_pos(self.menu_data["level-scroller"]["size"]))
 
     def do_button_action(self, button:Button) -> None:
+        if button.function == "next_game":
+            next_level = self.game.game_state_manager.instance.level_index + 1
+            if next_level >= len(self.game.game_state_manager.level_manager.get_all_levels()):
+                button.function = "levels"
+            else:
+                map_path = self.game.game_state_manager.level_manager.get_all_levels()[next_level]["path"]
+                self.game.game_state_manager.launch_instance(map_path, next_level)
+                self.game.game_state_manager.close_menu()
         if button.function == "levels":
-            self.game.game_state_manager.launch_menu("menus/level_menu.json", "levels")
+            self.game.game_state_manager.launch_menu("menus/level_menu.json", "level_menu.json", self.background.offset if self.background != None else [0, 0])
             self.game.game_state_manager.close_instance()
         if button.function == "open_map":
             map_path = self.game.game_state_manager.level_manager.get_all_levels()[button.level_index]["path"]
-            self.game.game_state_manager.launch_instance(map_path)
+            self.game.game_state_manager.launch_instance(map_path, button.level_index)
             self.game.game_state_manager.close_menu()
+        if button.function == "die_screen":
+            self.game.game_state_manager.launch_menu("menus/die_screen.json", "die_screen.json", self.background.offset if self.background != None else [0, 0])
         if button.function == "resume":
             self.game.game_state_manager.close_menu()
             self.game.game_state_manager.set_pause_instance(False)
@@ -90,7 +105,7 @@ class Menu:
             self.game.game_state_manager.close_menu()
         if button.function == "title_menu":
             self.game.game_state_manager.close_instance()
-            self.game.game_state_manager.launch_menu("menus/title_menu.json", "title")
+            self.game.game_state_manager.launch_menu("menus/title_menu.json", "title", self.background.offset if self.background != None else [0, 0])
         if button.function == "quit":
             self.game.game_state_manager.game_quit()
         if button.function == "move_right" and self.level_scroller != None:
@@ -125,4 +140,6 @@ class Menu:
             self.level_scroller.draw(self.surface)
         
         self.screen.blit(self.surface, ((screen_info.current_w-SCREEN_W)/2, 0))
+        self.screen.blit(self.blend_image, (0, 0))
+        self.screen.blit(self.blend_image, (self.screen.get_width()-self.blend_image.get_width(), 0))
         self.mouse.draw(self.screen, x_offset=(screen_info.current_w-SCREEN_W)/2)
