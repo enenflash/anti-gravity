@@ -122,7 +122,8 @@ class Menu:
             if button.pressed:
                 self.do_button_action(button)
 
-        self.mouse.update(any([button.selected for button in self.buttons]))
+        selected = any([button.selected for button in self.buttons]) or (self.level_scroller.get_selected() if self.level_scroller != None else False)
+        self.mouse.update(selected)
         if self.level_scroller != None:
             self.level_scroller.update(self.input_handler.mouse_pos, self.input_handler.mouse_pressed)
 

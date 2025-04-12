@@ -50,6 +50,9 @@ class LevelScroller(Element):
         self.offset -= MENU_SIZE+0.09*SCREEN_W
         self.offset = max(self.offset, -MENU_SIZE/2)
 
+    def get_selected(self) -> bool:
+        return any([button.selected for button in self.buttons])
+
     def button_within_bounds(self, button:LevelButton) -> bool:
         if button.pixel_pos[0]+MENU_SIZE/2 < 0 or button.pixel_pos[0]-MENU_SIZE/2 >= self.size[0]:
             return False

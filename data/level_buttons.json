@@ -36,7 +36,7 @@
         "type": "image"
     },
     "06": {
-        "name": "00",
+        "name": "06",
         "static": "resources/menu/level-buttons/06.png",
         "selected": "resources/menu/level-buttons/06_selected.png",
         "type": "image"
@@ -63,6 +63,66 @@
         "name": "10",
         "static": "resources/menu/level-buttons/10.png",
         "selected": "resources/menu/level-buttons/10_selected.png",
+        "type": "image"
+    },
+    "11": {
+        "name": "11",
+        "static": "resources/menu/level-buttons/11.png",
+        "selected": "resources/menu/level-buttons/11_selected.png",
+        "type": "image"
+    },
+    "12": {
+        "name": "12",
+        "static": "resources/menu/level-buttons/12.png",
+        "selected": "resources/menu/level-buttons/12_selected.png",
+        "type": "image"
+    },
+    "13": {
+        "name": "13",
+        "static": "resources/menu/level-buttons/13.png",
+        "selected": "resources/menu/level-buttons/13_selected.png",
+        "type": "image"
+    },
+    "14": {
+        "name": "14",
+        "static": "resources/menu/level-buttons/14.png",
+        "selected": "resources/menu/level-buttons/14_selected.png",
+        "type": "image"
+    },
+    "15": {
+        "name": "15",
+        "static": "resources/menu/level-buttons/15.png",
+        "selected": "resources/menu/level-buttons/15_selected.png",
+        "type": "image"
+    },
+    "16": {
+        "name": "16",
+        "static": "resources/menu/level-buttons/16.png",
+        "selected": "resources/menu/level-buttons/16_selected.png",
+        "type": "image"
+    },
+    "17": {
+        "name": "17",
+        "static": "resources/menu/level-buttons/17.png",
+        "selected": "resources/menu/level-buttons/17_selected.png",
+        "type": "image"
+    },
+    "18": {
+        "name": "18",
+        "static": "resources/menu/level-buttons/18.png",
+        "selected": "resources/menu/level-buttons/18_selected.png",
+        "type": "image"
+    },
+    "19": {
+        "name": "19",
+        "static": "resources/menu/level-buttons/19.png",
+        "selected": "resources/menu/level-buttons/19_selected.png",
+        "type": "image"
+    },
+    "20": {
+        "name": "20",
+        "static": "resources/menu/level-buttons/20.png",
+        "selected": "resources/menu/level-buttons/20_selected.png",
         "type": "image"
     }
 }

@@ -12,7 +12,7 @@ class Player(Entity):
         self.input_handler = instance.game.input_handler
         self.animation = PlayerAnimations(self)
         
-        self.facing = 0
+        self.facing = 2
         self.last_teleported_pos = start_x, start_y
 
     def update(self) -> None:
