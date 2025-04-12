@@ -46,5 +46,17 @@
         "static": "resources/menu/buttons/replay_button.png",
         "selected": "resources/menu/buttons/replay_button_selected.png",
         "type": "image"
+    },
+    "0.09": {
+        "name": "right_arrow_button",
+        "static": "resources/menu/buttons/right_arrow_button.png",
+        "selected": "resources/menu/buttons/right_arrow_button_selected.png",
+        "type": "image"
+    },
+    "0.10": {
+        "name": "left_arrow_button",
+        "static": "resources/menu/buttons/left_arrow_button.png",
+        "selected": "resources/menu/buttons/left_arrow_button_selected.png",
+        "type": "image"
     }
 }

@@ -56,15 +56,17 @@ class Menu:
             self.elements = [
                 Element(get_pixel_pos(element["pos"]), self.element_data[element["id"]]["image"], element["scale"])
                 for element in self.menu_data["elements"]
+                if element["id"] in self.element_data
             ]
 
         self.buttons = []
         if "buttons" in self.menu_data:
             for button in self.menu_data["buttons"]:
+                if button["id"] not in self.button_data: continue
                 pos = button["pos"][0]/100*SCREEN_W, button["pos"][1]/100*SCREEN_H
                 button_data = self.button_data[button["id"]]
                 self.buttons.append(Button(pos, button["function"], button_data["static-image"], button_data["selected-image"], button["scale"]))
-
+        
         self.bg_colour = self.menu_data["background-colour"] if "background-colour" in self.menu_data else [0, 0, 0, 0]
         self.background = Background(self.screen, self.menu_data["tile-background"]) if "tile-background" in self.menu_data else None
 

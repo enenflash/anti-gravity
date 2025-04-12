@@ -13,5 +13,10 @@
         "name": "win",
         "image": "resources/menu/text/level_passed.png",
         "type": "image"
+    },
+    "0.04": {
+        "name": "levels",
+        "image": "resources/menu/text/levels.png",
+        "type": "image"
     }
 }
