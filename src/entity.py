@@ -28,6 +28,8 @@ class Entity:
             4: (1, 0)
         }
 
+        self.dx, self.dy = 0, 0
+
         # moves to execute (such as LEFT, DOWN, UP, RIGHT)
         # the entity remembers the moves based on the keys pressed
         # executes each move after the entity has reached a target position
@@ -47,7 +49,7 @@ class Entity:
         
         # ensures there is no movable
         dx, dy = self.dir_dict[new_move]
-        if self.map.wall_at(self.pos, dx, dy):
+        if self.map.tile_manager.unmovable_movable(self.pos, dx, dy):
             return False
         
         # check if the entity is already at the target position
@@ -74,6 +76,7 @@ class Entity:
         """
         dx, dy = self.dir_dict[direction]
         target_x, target_y = x, y
+
         while self.map.contains((target_x+dx, target_y+dy)):
             if self.map.wall_at((target_x+dx, target_y+dy)):
                 break # if entity hits a wall
@@ -110,16 +113,17 @@ class Entity:
             self.move_queue_history = self.move_queue.pop(0)
             self.moving = False
 
-    def initiate_move(self, dir:int, delta_time:int) -> None:
+    def initiate_move(self, direction:int, delta_time:int) -> None:
         """
         set new target x and target y
         \nfind speed x and y components
         \nlimit speed to max speed
         """
         self.moving = True
-        self.target_x, self.target_y = self.find_target_pos(int(self.x), int(self.y), dir)
-        self.speed_x = self.SPEED*delta_time * self.dir_dict[dir][0]
-        self.speed_y = self.SPEED*delta_time * self.dir_dict[dir][1]
+        self.target_x, self.target_y = self.find_target_pos(int(self.x), int(self.y), direction)
+        self.dx, self.dy = self.dir_dict[direction]
+        self.speed_x = round(self.SPEED*delta_time * self.dx, 2)
+        self.speed_y = round(self.SPEED*delta_time * self.dy, 2)
 
         # speed cap of 1 tile per frame
         mag = (self.speed_x**2 + self.speed_y**2)**(1/2)
@@ -129,7 +133,7 @@ class Entity:
 
     def check_hit(self) -> bool:
         dx, dy = self.dir_dict[self.move_queue[0]]
-        if self.map.wall_at(self.pos, dx, dy):
+        if self.map.tile_manager.unmovable_movable(self.pos, dx, dy):
             self.move_queue.pop(0)
             self.moving = False
             self.x = self.pos[0]
@@ -141,12 +145,19 @@ class Entity:
         """
         if currently moving, update movement
         \nelse if there are moves in move queue, initiate the move
-        """     
+        """
+
         if self.moving:
             self.update_movement()
+            self.x = round(self.x, 2)
+            self.y = round(self.y, 2)
             return
         
+        self.x = round(self.x, 2)
+        self.y = round(self.y, 2)
+        
         if len(self.move_queue) == 0:
+            self.dx, self.dy = 0, 0
             return
 
         self.initiate_move(self.move_queue[0], delta_time)

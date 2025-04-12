@@ -27,8 +27,8 @@ class Map:
     def contains(self, tile_pos:tuple[int, int]) -> bool:
         return self.tile_manager.contains(tile_pos)
 
-    def wall_at(self, tile_pos:tuple[int, int], dx:int|None=None, dy:int|None=None) -> bool:
-        return self.tile_manager.wall(tile_pos, dx, dy)
+    def wall_at(self, tile_pos:tuple[int, int]) -> bool:
+        return self.tile_manager.wall(tile_pos)
 
     def check_win(self) -> bool:
         return self.tile_manager.win(self.instance.player.pos)
@@ -84,12 +84,5 @@ class Camera:
         # linear speed equation ax + a -> ease in ease out camera displacement from player
         scalar = self.speed*(p_vector_mag/20)+self.speed
 
-        if abs(self.player.x - self.x) < self.speed:
-            self.x = self.player.x
-        else:
-            self.x += p_vector[0]*scalar
-        
-        if abs(self.player.y - self.y) < self.speed:
-            self.y = self.player.y
-        else:
-            self.y += p_vector[1]*scalar
+        self.x += p_vector[0]*scalar
+        self.y += p_vector[1]*scalar

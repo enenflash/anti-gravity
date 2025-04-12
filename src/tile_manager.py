@@ -23,8 +23,8 @@ class TileManager:
         self.movables:list[Movable] = []
         if "movables" in map_data:
             self.movables = [
-                Movable(movable_dict["id"], tile_data[movable_dict["id"]]["image"], movable_dict["pos"])
-                for movable_dict in map_data["movables"]
+                Movable(movable_dict["id"], tile_data[movable_dict["id"]]["image"], movable_dict["pos"], i)
+                for i, movable_dict in enumerate(map_data["movables"])
             ]
 
         # portals
@@ -40,12 +40,17 @@ class TileManager:
 
     def contains(self, tile_pos:list[int, int]) -> bool:
         return tile_pos in self.tiles
-
-    def wall(self, tile_pos:list[int, int], dx:int|None=None, dy:int|None=None) -> bool:
-        if dx != None and dy != None:
-            if any([movable.check_stuck(self.wall, self.player.pos, dx, dy) for movable in self.movables]):
+    
+    # clearly 10/10 variable names
+    def unmovable_movable(self, tile_pos:list[int, int], dx:int, dy:int, movable_index:int|None=None) -> bool:
+        for i, movable in enumerate(self.movables):
+            if i == movable_index:
+                continue
+            if movable.check_stuck(self.wall, self.unmovable_movable, tile_pos, dx, dy):
                 return True
-        
+        return False
+
+    def wall(self, tile_pos:list[int, int]) -> bool:        
         if tile_pos not in self.tiles:
             return False
         
@@ -128,7 +133,7 @@ class TileManager:
                 tile.update()
 
         for movable in self.movables:
-            movable.update(self.wall, self.portal, self.player.pos)
+            movable.update(self.movables, self.wall, self.unmovable_movable, self.portal, (self.player.x, self.player.y), (self.player.dx, self.player.dy), (self.player.speed_x, self.player.speed_y))
 
         for pos in self.portals:
             self.portals[pos].update()
