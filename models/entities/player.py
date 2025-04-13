@@ -5,13 +5,15 @@ from src.sound import *
 from src.file_loader import *
 
 class Player(Entity):
+    """Represents the player"""
     def __init__ (self, instance:object, start_x:int, start_y:int) -> None:
         self.x, self.y = start_x, start_y
         super().__init__ (instance.map, self.x, self.y, speed=0.05)
         self.instance = instance
-        self.input_handler = instance.game.input_handler
+        self.input_handler = instance.game.input_handler # shortcut
         self.animation = PlayerAnimations(self)
         
+        # 0 is up, 1 is right, 2 is left, 3 is down (iirc)
         self.facing = 2
         self.last_teleported_pos = start_x, start_y
 
@@ -22,6 +24,7 @@ class Player(Entity):
             self.move_queue.append(new_move)
             game_sound.play_sound("quack")
         
+        # check if player is in a portal (if so, then teleport player)
         portal_link = self.instance.map.check_portal(self.pos)
         if portal_link != None and self.pos != self.last_teleported_pos:
             game_sound.play_sound("portal")
@@ -31,10 +34,11 @@ class Player(Entity):
                 self.move_queue.insert(0, self.move_queue_history)
             self.moving = False
 
+        # last teleported pos ensures the player doesn't endlessly teleport between 2 portals
         if self.pos != self.last_teleported_pos:
             self.last_teleported_pos = (-1, -1)
         
-        # update movement
+        # update movement using entity superclass
         super().check_move_queue(self.instance.game.delta_time)
 
     # called by map class
@@ -42,6 +46,7 @@ class Player(Entity):
         self.animation.draw((self.x-tile_start_x)*TILE_SIZE+x_offset, (self.y-tile_start_y)*TILE_SIZE+y_offset)
         
 class PlayerAnimations:
+    """Handles drawing the player. Will be able to handle player animations in the future."""
     def __init__ (self, player:Player) -> None:
         self.player = player
         self.surface = player.instance.surface

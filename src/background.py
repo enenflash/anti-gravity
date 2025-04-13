@@ -3,13 +3,17 @@ from src.settings import *
 from src.file_loader import *
 
 class Background:
+    """
+    Draws background made of tiles (similar to map class)
+    """
     def __init__ (self, screen:pg.Surface, bg_path:str) -> None:
         self.screen = screen
         self.surface = pg.Surface((screen_info.current_w, screen_info.current_h), pg.SRCALPHA)
         self.bg_path = bg_path
         self.image = FileLoader.get_texture(bg_path, BG_SIZE, BG_SIZE)
         self.offset = [0, 0]
-
+    
+    # makes background move in the title and level menus
     def update(self) -> None:
         self.offset[0] += 0.3
         self.offset[1] += 0.3
@@ -17,6 +21,8 @@ class Background:
         self.offset[0] %= BG_SIZE
         self.offset[1] %= BG_SIZE
 
+    # draw tiles stitched together at an offset (which allows it to move)
+    # this code is very similar to the map class except all the tiles are the same image
     def draw(self) -> None:
         """
         Draw background with an offset
@@ -29,22 +35,13 @@ class Background:
         for j in range(0, n_tiles_y + 1):
             for i in range(0, n_tiles_x + 1):
                 self.surface.blit(self.image, (i*BG_SIZE+tile_offset[0]-BG_SIZE, j*BG_SIZE+tile_offset[1]-BG_SIZE))
-        
-        """
-        Draw background with an offset
-        """
-        n_tiles_x = 2*math.ceil(screen_info.current_w/2/BG_SIZE)
-        n_tiles_y = 2*math.ceil(HALF_SCREEN_H/BG_SIZE)
 
-        tile_offset = self.offset
-
-        for j in range(0, n_tiles_y + 1):
-            for i in range(0, n_tiles_x + 1):
-                self.surface.blit(self.image, (i*BG_SIZE+tile_offset[0]-BG_SIZE, j*BG_SIZE+tile_offset[1]-BG_SIZE))
-        
         self.screen.blit(self.surface, (0, 0))
 
 class DynamicBackground(Background):
+    """
+    Background that responds to player movement
+    """
     def draw(self, player_x:int|float, player_y:int|float) -> None:
         """
         Draw the background and move it according to play movements

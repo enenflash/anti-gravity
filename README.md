@@ -48,6 +48,9 @@ Open the folder in VSCode and run main.py
 # Modifying the game
 You can edit and create levels, textures and even menus.
 
+## Keybinds
+Set keybinds in data/keybinds.json according to PyGame keys.
+
 ## Levels
 Run level_designer.py to design your own levels.
 

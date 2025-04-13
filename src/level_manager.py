@@ -1,11 +1,18 @@
 from src.file_loader import *
 
 class LevelManager:
+    """
+    Manages player level data from json files
+    \nUpdates player high scores and the current level index
+    """
     def __init__ (self) -> None:
         self.levels = FileLoader.open_json("levels.json", "data/fixed/levels.json")["levels"]
         self.player_data = FileLoader.open_json("player_data.json", "data/player-data/player_data.json")
     
     def file_reload(self) -> None:
+        """
+        Reload file to update external changes
+        """
         self.player_data = FileLoader.open_json("player_data.json", "data/player-data/player_data.json")
 
     def get_current_level_index(self) -> int:
@@ -38,6 +45,9 @@ class LevelManager:
         FileLoader.write_json(PLAYER_DATA_PATH, self.player_data)
     
     def update_high_score(self, index:int, high_score:int|float) -> None:
+        """
+        Update player high score for a particular level
+        """
         if index >= len(self.player_data["high-scores"]):
             for _ in range(len(self.player_data["high-scores"]), index+1):
                 self.player_data["high-scores"].append(-1)

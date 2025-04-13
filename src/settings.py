@@ -17,6 +17,7 @@ CAM_SPEED = 0.2
 
 VOLUME = 100
 
+# FILE PATHS
 KEYBINDS_PATH = "data/keybinds.json"
 SOUND_DATA_PATH = "data/sound.json"
 PLAYER_DATA_PATH = "data/player-data/player_data.json"

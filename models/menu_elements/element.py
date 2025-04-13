@@ -1,6 +1,7 @@
 import pygame as pg
 
 class Element:
+    """Base menu element non-abstract class (which is not good programming practise but oh well)"""
     def __init__ (self, pixel_pos:tuple[int, int], image:pg.Surface, scale:int|float=1) -> None:
         self.pixel_pos = [pixel_pos[0], pixel_pos[1]]
         new_size = image.get_width()*scale, image.get_height()*scale

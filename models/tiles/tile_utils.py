@@ -3,6 +3,7 @@ from models.tiles.stacked_tile import *
 from models.tiles.animated_tile import *
 
 def construct_properties(tangible:bool, hazardous:bool=False, win:bool=False, spawner:bool=False, portal:bool=False) -> dict:
+    """Construct necessary tile properties"""
     return {
         "tangible": tangible,
         "hazardous": hazardous,
@@ -12,9 +13,11 @@ def construct_properties(tangible:bool, hazardous:bool=False, win:bool=False, sp
     }
     
 def same_tile(tile1:Tile, tile2:Tile) -> bool:
+    """Check if two tiles are the same."""
     return tile1.id == tile2.id and tile1.rotation == tile2.rotation
 
 def get_tile(full_tile_id:str|list, tile_datas:dict[dict]) -> Tile:
+    """Get tile (either default, stacked or animated (or both stacked and animated))"""
     if type(full_tile_id) == list:
         tiles = []
         for full_tile_id_element in full_tile_id:

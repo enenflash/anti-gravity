@@ -4,7 +4,9 @@ import pygame as pg
 pg.font.init()
 
 class Text(Element):
+    """Simple text element which draws based on text rather than image"""
     def __init__ (self, pixel_pos:tuple[int, int], text:str, size:int|float, colour:str|list, text_vars:dict, menu_vars:dict) -> None:
+        # all fonts in consolas because it is simply the best font :)
         consolas = pg.font.SysFont("Consolas", int(size))
         self.text_str = text
         for var in text_vars:

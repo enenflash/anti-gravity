@@ -1,6 +1,7 @@
 import pygame as pg
 from src.file_loader import *
 
+# in case the set keybinds aren't valid
 default_keybinds = {
     "PAUSE": "ESCAPE",
     "RESTART": "r",
@@ -25,7 +26,12 @@ def get_pg_key(command:str) -> object:
         print(f"Loaded default key: {default_keybinds[command]}")
         return getattr(pg.locals, "K_" + default_keybinds[command])
 
+# having input in a class makes it easier to add different control configurations in the future without changing too much of the code
 class InputHandler:
+    """
+    Class for handling input
+    \nCall update() every game loop
+    """
     def __init__ (self) -> None:
         self.keys = pg.key.get_pressed()
         self.mouse_pos = pg.mouse.get_pos()

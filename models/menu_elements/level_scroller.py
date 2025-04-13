@@ -5,6 +5,7 @@ from models.menu_elements.element import *
 from models.menu_elements.button import *
 
 class LevelScroller(Element):
+    """Specifically for choosing a level in the level menu"""
     def __init__ (self, menu:object, pixel_pos:tuple[int, int], size:tuple[int, int]) -> None:
         self.menu = menu
         self.size = size
@@ -21,6 +22,7 @@ class LevelScroller(Element):
 
         self.offset = 0
 
+        # ensure player cannot scroll too far
         total_length = MENU_SIZE*(current_level+1)+self.spacing*current_level
         if total_length <= self.size[0]:
             self.min_offset = MENU_SIZE/2
@@ -33,6 +35,7 @@ class LevelScroller(Element):
 
         convert_to_str = lambda x: str(x) if len(str(x)) == 2 else "0" + str(x)
 
+        # button elements within the level scroller
         self.buttons = [
             LevelButton(
                 (0, self.size[1]/2),
@@ -47,10 +50,12 @@ class LevelScroller(Element):
         self.blend_image = pg.Surface((MENU_SIZE*2.5, self.size[1]), pg.SRCALPHA)
 
     def move_right(self) -> None:
+        """Scroll right (move offset left)"""
         self.offset -= MENU_SIZE+0.09*SCREEN_W
         self.offset = max(self.offset, self.min_offset)
 
     def move_left(self) -> None:
+        """Scroll left (move offset right)"""
         self.offset += MENU_SIZE+0.09*SCREEN_W
         self.offset = min(self.max_offset, self.offset)
 
@@ -58,12 +63,14 @@ class LevelScroller(Element):
         return any([button.selected for button in self.buttons])
 
     def button_within_bounds(self, button:LevelButton) -> bool:
+        """Check if a button is within the screen"""
         if button.pixel_pos[0]+MENU_SIZE/2 < 0 or button.pixel_pos[0]-MENU_SIZE/2 >= self.size[0]:
             return False
         
         return True
     
     def mouse_within_bounds(self, mouse_pos:tuple[int|float, int|float]):
+        """Check if the mouse is over the screen"""
         if mouse_pos[0] < 0 or mouse_pos[0] >= self.size[0]:
             return False
         
@@ -89,7 +96,6 @@ class LevelScroller(Element):
                 self.menu.do_button_action(button)
 
     def draw(self, surface:pg.Surface) -> None:
-        # num_buttons = math.ceil((self.size[0] + self.offset) / (MENU_SIZE + self.spacing))
         self.image.fill([0, 0, 0, 0])
         for i, button in enumerate(self.buttons):
             if i != len(self.buttons) - 1:
@@ -98,10 +104,12 @@ class LevelScroller(Element):
                 continue
             button.draw(self.image)
         
+        # for nice fade effect
         self.blend_image.fill([0, 0, 0, 150])
         self.image.blit(self.blend_image, (0, 0))
         self.blend_image.fill([0, 0, 0, 100])
         self.image.blit(self.blend_image, (self.blend_image.get_width(), 0))
         self.blend_image.fill([0, 0, 0, 50])
         self.image.blit(self.blend_image, (self.blend_image.get_width()*2, 0))
+
         super().draw(surface)

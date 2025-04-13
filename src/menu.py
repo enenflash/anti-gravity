@@ -5,6 +5,10 @@ from src.sound import *
 from models.menu_elements import *
 
 class Menu:
+    """
+    Updates and draws a menu represented in a json file
+    \nCall update() every game loop and draw() to draw the menu
+    """
     def __init__ (self, game:object, screen:pg.Surface, menu_path:str, bg_offset:list[int|float, int|float]=[0, 0], menu_vars:dict={}) -> None:
         self.game = game
         self.input_handler = game.input_handler
@@ -16,9 +20,12 @@ class Menu:
         self.button_data = MenuLoader.get_button_data()
         self.element_data = MenuLoader.get_element_data()
 
+        # Mouse class which handles mouse input
         self.mouse = Mouse(self.input_handler)
 
         get_pixel_pos = lambda pos: (pos[0]/100*SCREEN_W, pos[1]/100*SCREEN_H)
+        
+        # pixel art images (often text)
         self.elements = []
         if "elements" in self.menu_data:
             self.elements = [
@@ -27,11 +34,13 @@ class Menu:
                 if element["id"] in self.element_data
             ]
 
+        # text drawn by pygame (not images)
         self.texts = []
         if "text" in self.menu_data:
             for text in self.menu_data["text"]:
                 self.texts.append(Text(get_pixel_pos(text["pos"]), text["text"], text["size"]/100*SCREEN_H, text["colour"], text["vars"], menu_vars))
 
+        # buttons that can be clicked by the mouse
         self.buttons = []
         if "buttons" in self.menu_data:
             for button in self.menu_data["buttons"]:
@@ -48,11 +57,13 @@ class Menu:
         self.blend_image = pg.Surface(((self.screen.get_width()-self.surface.get_width())/2, self.surface.get_height()), pg.SRCALPHA)
         self.blend_image.fill([0, 0, 0, 100])
 
+        # specifically for selecting levels in the level menu
         self.level_scroller = None
         if "level-scroller" in self.menu_data:
             self.level_scroller = LevelScroller(self, get_pixel_pos(self.menu_data["level-scroller"]["pos"]), get_pixel_pos(self.menu_data["level-scroller"]["size"]))
 
     def do_button_action(self, button:Button) -> None:
+        """Called if a button is pressed. Checks the button function and responds accordingly."""
         if button.function == "next_game":
             next_level = self.game.game_state_manager.instance.level_index + 1
             if next_level >= len(self.game.game_state_manager.level_manager.get_all_levels()):

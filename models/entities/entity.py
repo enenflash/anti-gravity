@@ -6,6 +6,7 @@ class Entity:
     """
     Base class for moving entities
     \nAdd moves to move_queue and call check_move_queue() to use
+    \nCan be used for path-following tiles in the future
     """
     def __init__ (self, map:object, x:int, y:int, speed:int|float) -> None:
         self.map = map # map class
@@ -39,6 +40,7 @@ class Entity:
 
     @property
     def pos(self) -> tuple:
+        """Int position of entity"""
         return (int(self.x), int(self.y))
 
     def validate_new_move(self, new_move:int) -> None:
@@ -133,6 +135,7 @@ class Entity:
             self.speed_y /= mag
 
     def check_hit(self) -> bool:
+        """Check if hit a movable that cannot move (prevents entity from going inside a movable)"""
         dx, dy = self.dir_dict[self.move_queue[0]]
         if self.map.tile_manager.unmovable_movable(self.pos, dx, dy):
             self.move_queue.pop(0)

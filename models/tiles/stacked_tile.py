@@ -1,9 +1,7 @@
 from models.tiles.tile import *
 
 class StackedTile(Tile):
-    """
-    Multiple tiles stacked on top of each other
-    """
+    """Multiple tiles stacked on top of each other."""
     def __init__ (self, tiles:list) -> None:
         self.tiles = tiles
 

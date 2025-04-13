@@ -5,7 +5,12 @@ from models.entities import *
 from src.background import *
 from src.sound import *
 
+# not the best class name but it would be a pain to change the name across 2000 lines of code :)
 class Instance:
+    """
+    Represents a game currently being played.
+    \nCall update() every loop and draw() to draw the game
+    """
     def __init__ (self, game:object, screen:pg.Surface, map_path:str, level_index:int) -> None:
         self.game = game
         self.screen = screen

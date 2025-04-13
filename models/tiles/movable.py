@@ -1,10 +1,10 @@
 from models.tiles.tile import *
 from models.tiles.tile_utils import *
 
-# tiles that the player can move
 class Movable(Tile):
+    """Tile that the player can move. Also the bane of my existence"""
     def __init__ (self, tile_id:str, image:pg.Surface, start_pos:tuple[int, int], movable_index:int) -> None:
-        # can be float
+        # note: tile positions can be float (unlike all other tiles)
         self.tile_x, self.tile_y = start_pos
         self.last_push_dir = 0
         self.dx, self.dy = 0, 0
@@ -18,11 +18,12 @@ class Movable(Tile):
         return int(self.tile_x), int(self.tile_y)
     
     def round_pos(self) -> None:
+        """Rounds to tile pos (rounds down)"""
         self.tile_x = self.pos[0]
         self.tile_y = self.pos[1]
     
-    # if squished between player and wall or another movable
     def check_stuck(self, wall_at, unmovable_movable, entity_pos:tuple[int, int], dx:int, dy:int) -> None:
+        """Check if squished between player and wall or another movable"""
         if self.pos != (entity_pos[0]+dx, entity_pos[1]+dy):
             return False
         new_pos = self.pos[0] + dx, self.pos[1] + dy
@@ -56,24 +57,29 @@ class Movable(Tile):
 
     def get_pushed(self, wall_at, unmovable_movable, entity_pos:tuple[int|float, int|float], entity_dir:tuple[int, int], entity_speed:tuple[int, int]) -> None:
         entity_pos_int = int(entity_pos[0]), int(entity_pos[1])
+        # if squished then stop getting pushed
         if wall_at((self.pos[0]+entity_dir[0], self.pos[1]+entity_dir[1])) or self.check_stuck(wall_at, unmovable_movable, entity_pos_int, entity_dir[0], entity_dir[1]):
             return
         # horizontally inline
         if entity_pos_int[1] == self.pos[1]:
             self.get_pushed_hor(entity_pos, entity_dir, entity_speed)
+        # vertically inline
         if entity_pos_int[0] == self.pos[0]:
             self.get_pushed_ver(entity_pos, entity_dir, entity_speed)
     
     def update(self, movables:list, wall_at, unmovable_movable, portal_func, player_pos:tuple[float, float], player_dir:tuple[int, int], player_speed:tuple[int|float, int|float]) -> None:
         """
-        tile manager passes wall_at() and portal_func() method
+        Tile manager passes wall_at() and portal_func() method
         """
+        # round tile pos to 2 decimal places to prevent rounding errors (which caused 3 hours of debugging)
         self.tile_x = round(self.tile_x, 2)
         self.tile_y = round(self.tile_y, 2)
         # get pushed by player
         self.get_pushed(wall_at, unmovable_movable, player_pos, player_dir, player_speed)
         self.tile_x = round(self.tile_x, 2)
         self.tile_y = round(self.tile_y, 2)
+
+        # check if any other movables are pushing it
         for movable in movables:
             # can't get pushed by itself
             if movable.pos[0] == self.pos[0] and movable.pos[1] == self.pos[1]:
@@ -89,6 +95,7 @@ class Movable(Tile):
 
             # move a tiny bit in the direction is was being pushed into the portal
             # this is so the player can continue pushing it
+            # (technically redundent since i changed the push method but i dont want to touch it in case it breaks)
             if self.last_push_dir == 0:
                 self.tile_x += 0.1
             elif self.last_push_dir == 1:

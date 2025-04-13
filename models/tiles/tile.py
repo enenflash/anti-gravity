@@ -14,6 +14,6 @@ class Tile:
         self.win = properties["win"]
         self.spawner = properties["spawner"]
     
-    # liskov substitution principle
+    # liskov substitution principle :P
     def update(self) -> None:
         pass
