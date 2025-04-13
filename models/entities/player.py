@@ -24,6 +24,7 @@ class Player(Entity):
         
         portal_link = self.instance.map.check_portal(self.pos)
         if portal_link != None and self.pos != self.last_teleported_pos:
+            game_sound.play_sound("portal")
             self.x, self.y = portal_link
             self.last_teleported_pos = portal_link
             if self.moving == False:

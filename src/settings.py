@@ -17,6 +17,8 @@ CAM_SPEED = 0.2
 
 VOLUME = 100
 
+KEYBINDS_PATH = "data/keybinds.json"
+SOUND_DATA_PATH = "data/sound.json"
 PLAYER_DATA_PATH = "data/player-data/player_data.json"
 LEVEL_DATA_PATH = "data/fixed/levels.json"
 TILE_ATTR_PATH = "data/fixed/tile_attributes.json"

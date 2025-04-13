@@ -1,6 +1,7 @@
 from src.settings import *
 from src.file_loader import *
 from src.background import *
+from src.sound import *
 from models.menu_elements import *
 
 class Menu:
@@ -72,6 +73,9 @@ class Menu:
         if button.function == "title_menu":
             self.game.game_state_manager.close_instance()
             self.game.game_state_manager.launch_menu("title", self.background.offset if self.background != None else [0, 0])
+            if game_sound.last_played != "space-dreams":
+                game_sound.fadeout_music()
+            game_sound.play_music("space-dreams")
         if button.function == "quit":
             self.game.game_state_manager.game_quit()
         if button.function == "move_right" and self.level_scroller != None:

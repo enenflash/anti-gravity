@@ -33,5 +33,10 @@
         "name": "level_failed",
         "image": "resources/menu/text/level_failed.png",
         "type": "image"
+    },
+    "0.08": {
+        "name": "paused",
+        "image": "resources/menu/text/paused.png",
+        "type": "image"
     }
 }

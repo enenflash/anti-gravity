@@ -6,6 +6,7 @@ from src.level_manager import *
 from src.input_handler import *
 from src.instance import *
 from src.menu import *
+from src.sound import *
 
 class Game:
     """Main game class - opens a screen and handles pygame things"""
@@ -41,6 +42,7 @@ class GameStateManager:
         self.current_level_data = self.level_manager.get_current_level()
         self.menu_data = FileLoader.open_json("menus.json", "data/fixed/menus.json")
         
+        game_sound.play_music("space-dreams")
         self.launch_menu("title")
     
     def update_level(self) -> None:
@@ -53,8 +55,9 @@ class GameStateManager:
         self.menu = Menu(self.game, self.screen, self.menu_data[name], bg_offset)
     
     def launch_instance(self, map_path:str, level_index:int) -> None:
+        game_sound.fadeout_music()
         self.instance = Instance(self.game, self.screen, map_path, level_index)
-
+    
     def restart_instance(self) -> None:
         self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index)
     

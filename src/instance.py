@@ -3,6 +3,7 @@ from src.settings import *
 from src.map import *
 from models.entities import *
 from src.background import *
+from src.sound import *
 
 class Instance:
     def __init__ (self, game:object, screen:pg.Surface, map_path:str, level_index:int) -> None:
@@ -19,6 +20,8 @@ class Instance:
         self.background = DynamicBackground(self.screen, "resources/background.png")
 
         self.blend_image = pg.Surface((TILE_SIZE*3+(self.screen.get_width()-SCREEN_W)/2, SCREEN_H), pg.SRCALPHA)
+        
+        game_sound.play_indefinite("ambience")
 
     def update(self) -> None:
         if self.paused:
@@ -28,6 +31,7 @@ class Instance:
         self.map.update()
 
         if self.map.check_win():
+            game_sound.play_sound("victory")
             self.game.game_state_manager.set_pause_instance(True)
             self.game.game_state_manager.launch_menu("win")
             self.game.game_state_manager.update_level()

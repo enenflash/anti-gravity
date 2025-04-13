@@ -11,7 +11,7 @@ default_keybinds = {
 }
 
 # set custom keybinds from json
-custom_keybinds = FileLoader.open_json("keybinds.json", "data/keybinds.json")
+custom_keybinds = FileLoader.open_json("keybinds.json", KEYBINDS_PATH)
 
 # load custom keybinds. if no custom keybinds, use default
 def get_pg_key(command:str) -> object:
