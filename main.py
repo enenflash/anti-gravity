@@ -49,15 +49,15 @@ class GameStateManager:
         if self.instance != None:
             self.level_manager.update_level(self.instance.level_index)
     
-    def launch_menu(self, name:str, bg_offset:list[int|float, int|float]=[0, 0]) -> None:
+    def launch_menu(self, name:str, bg_offset:list[int|float, int|float]=[0, 0], menu_vars:dict={}) -> None:
         if name not in self.menu_data:
             raise KeyError(f"{name} is not a valid menu name. check data/fixed/menus.json for valid menu names")
-        self.menu = Menu(self.game, self.screen, self.menu_data[name], bg_offset)
+        self.menu = Menu(self.game, self.screen, self.menu_data[name], bg_offset, menu_vars=menu_vars)
     
     def launch_instance(self, map_path:str, level_index:int) -> None:
         game_sound.fadeout_music()
         self.instance = Instance(self.game, self.screen, map_path, level_index)
-    
+
     def restart_instance(self) -> None:
         self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index)
     

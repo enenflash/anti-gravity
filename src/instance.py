@@ -1,4 +1,4 @@
-import pygame as pg
+import pygame as pg, time
 from src.settings import *
 from src.map import *
 from models.entities import *
@@ -20,8 +20,10 @@ class Instance:
         self.background = DynamicBackground(self.screen, "resources/background.png")
 
         self.blend_image = pg.Surface((TILE_SIZE*3+(self.screen.get_width()-SCREEN_W)/2, SCREEN_H), pg.SRCALPHA)
-        
+
         game_sound.play_indefinite("ambience")
+
+        self.start_time = time.time()
 
     def update(self) -> None:
         if self.paused:
@@ -33,12 +35,12 @@ class Instance:
         if self.map.check_win():
             game_sound.play_sound("victory")
             self.game.game_state_manager.set_pause_instance(True)
-            self.game.game_state_manager.launch_menu("win")
+            self.game.game_state_manager.launch_menu("win", menu_vars={"time":round(time.time()-self.start_time, 2), "level_index": self.level_index})
             self.game.game_state_manager.update_level()
 
         if self.map.check_die():
             self.game.game_state_manager.set_pause_instance(True)
-            self.game.game_state_manager.launch_menu("sorry")
+            self.game.game_state_manager.launch_menu("sorry", menu_vars={"time":round(time.time()-self.start_time, 2), "level_index": self.level_index})
             self.game.game_state_manager.update_level()
     
     def draw(self) -> None:

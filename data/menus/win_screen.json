@@ -1,27 +1,39 @@
 {
+    "text": [
+        {
+            "pos": [50, 30],
+            "text": "Completed Level VAR_LEVEL_INDEX in VAR_TIME seconds",
+            "size": 4,
+            "colour": "#ffffff",
+            "vars": {
+                "VAR_LEVEL_INDEX": "level_index",
+                "VAR_TIME": "time"
+            }
+        }
+    ],
     "elements": [
         {
             "id": "0.03",
-            "pos": [50, 25],
+            "pos": [50, 20],
             "scale": 2
         }
     ],
     "buttons": [
         {
             "id": "0.13",
-            "pos": [50, 45],
+            "pos": [50, 48],
             "scale": 1,
             "function": "next_game"
         },
         {
             "id": "0.08",
-            "pos": [50, 55],
+            "pos": [50, 58],
             "scale": 1,
             "function": "restart"
         },
         {
             "id": "0.07",
-            "pos": [50, 65],
+            "pos": [50, 68],
             "scale": 1,
             "function": "levels"
         }

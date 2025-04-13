@@ -5,12 +5,13 @@ from src.sound import *
 from models.menu_elements import *
 
 class Menu:
-    def __init__ (self, game:object, screen:pg.Surface, menu_path:str, bg_offset:list[int|float, int|float]=[0, 0]) -> None:
+    def __init__ (self, game:object, screen:pg.Surface, menu_path:str, bg_offset:list[int|float, int|float]=[0, 0], menu_vars:dict={}) -> None:
         self.game = game
         self.input_handler = game.input_handler
         self.screen = screen
         self.surface = pg.Surface((SCREEN_W, SCREEN_H), pg.SRCALPHA)
-
+        
+        self.menu_vars = menu_vars
         self.menu_data = MenuLoader.get_menu_data(menu_path)
         self.button_data = MenuLoader.get_button_data()
         self.element_data = MenuLoader.get_element_data()
@@ -25,6 +26,11 @@ class Menu:
                 for element in self.menu_data["elements"]
                 if element["id"] in self.element_data
             ]
+
+        self.texts = []
+        if "text" in self.menu_data:
+            for text in self.menu_data["text"]:
+                self.texts.append(Text(get_pixel_pos(text["pos"]), text["text"], text["size"]/100*SCREEN_H, text["colour"], text["vars"], menu_vars))
 
         self.buttons = []
         if "buttons" in self.menu_data:
@@ -102,6 +108,8 @@ class Menu:
         if self.background != None:
             self.background.draw()
 
+        for text in self.texts:
+            text.draw(self.surface)
         for element in self.elements:
             element.draw(self.surface)
         for button in self.buttons:
