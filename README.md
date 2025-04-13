@@ -9,6 +9,8 @@ This project was made with the goal of improving my programming skills and has t
 
 Game progression: [Documentation (Google Docs)](https://docs.google.com/document/d/1YgxO29jv7kmoHWKECIMXgPgSoPKQm0y9mQzlj-sPr10/edit?usp=sharing)
 
+***Latest Deliverable PDF on SEQTA***
+
 > **NOTE**: To see all commit history view the main-history branch.
 
 ## Installing Dependencies

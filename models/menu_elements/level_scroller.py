@@ -26,7 +26,7 @@ class LevelScroller(Element):
         total_length = MENU_SIZE*(current_level+1)+self.spacing*current_level
         if total_length <= self.size[0]:
             self.min_offset = MENU_SIZE/2
-            self.max_offset = self.size[0]-MENU_SIZE/2
+            self.max_offset = self.size[0] - MENU_SIZE/2
             self.offset = self.size[0]/2
         else:
             self.min_offset = self.size[0] - total_length + MENU_SIZE/2
