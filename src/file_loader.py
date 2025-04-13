@@ -22,16 +22,25 @@ class FileLoader:
     
     @staticmethod
     def get_raw_image(path:str) -> pg.Surface:
-        return pg.image.load(path).convert_alpha()
+        try:
+            return pg.image.load(path).convert_alpha()
+        except FileNotFoundError: 
+            raise FileNotFoundError(f"The image at '{path}' could not be found. Please reinstall default files.")
     
     @staticmethod
     def get_texture(path:str, size_x:int=TILE_SIZE, size_y:int=TILE_SIZE) -> pg.Surface:
-        image = pg.image.load(path).convert_alpha()
+        try:
+            image = pg.image.load(path).convert_alpha()
+        except FileNotFoundError:
+            raise FileNotFoundError(f"The image at '{path}' could not be found. Please reinstall default files.")
         return pg.transform.scale(image, (size_x, size_y))
     
     @staticmethod
     def get_textures(sprite_sheet_path:str, size_x:int=TILE_SIZE, size_y:int=TILE_SIZE, pixel_dim:int=16) -> list[pg.Surface]:
-        sprite_sheet_image = pg.image.load(sprite_sheet_path).convert_alpha()
+        try:
+            sprite_sheet_image = pg.image.load(sprite_sheet_path).convert_alpha()
+        except FileNotFoundError:
+            raise FileNotFoundError(f"The sprite sheet at '{sprite_sheet_path}' could not be found. Please reinstall default files.")
         length = sprite_sheet_image.get_rect()[2]
 
         images = []
@@ -106,7 +115,10 @@ class MenuLoader(FileLoader):
     
     @staticmethod
     def get_textures(sprite_sheet_path:str, pixel_dim:int=16) -> list[pg.Surface]:
-        sprite_sheet_image = pg.image.load(sprite_sheet_path).convert_alpha()
+        try:
+            sprite_sheet_image = pg.image.load(sprite_sheet_path).convert_alpha()
+        except FileNotFoundError:
+            raise FileNotFoundError(f"The sprite sheet at '{sprite_sheet_path}' could not be found. Please reinstall default files.")
         length = sprite_sheet_image.get_rect()[2]
 
         images = []
@@ -119,7 +131,7 @@ class MenuLoader(FileLoader):
     
     @classmethod
     def get_element_data(cls) -> dict:
-        element_textures = super().open_json("element_textures", "data/textures/element_textures.json")
+        element_textures = super().open_json("element_textures", ELEMENT_TEXTURES_PATH)
         for i in element_textures:
             element = element_textures[i]
             element['image'] = cls.get_texture(element['image']) if element['type'] == "image" else cls.get_textures(element['image'])
@@ -127,7 +139,7 @@ class MenuLoader(FileLoader):
     
     @classmethod
     def get_button_data(cls) -> dict:
-        button_textures = super().open_json("button_textures", "data/textures/button_textures.json")
+        button_textures = super().open_json("button_textures", BUTTON_TEXTURES_PATH)
         for i in button_textures:
             button_textures[i]['static-image'] = cls.get_texture(button_textures[i]['static']) if button_textures[i]['type'] == "image" else cls.get_textures(button_textures[i]['static'])
             button_textures[i]['selected-image'] = cls.get_texture(button_textures[i]['selected']) if button_textures[i]['type'] == "image" else cls.get_textures(button_textures[i]['selected'])

@@ -17,13 +17,16 @@ CAM_SPEED = 0.2
 
 VOLUME = 100
 
-# FILE PATHS
+# DATA FILE PATHS
 KEYBINDS_PATH = "data/keybinds.json"
 SOUND_DATA_PATH = "data/sound.json"
 PLAYER_DATA_PATH = "data/player-data/player_data.json"
 LEVEL_DATA_PATH = "data/fixed/levels.json"
 TILE_ATTR_PATH = "data/fixed/tile_attributes.json"
 
+# TEXTURE FILE PATHS
+ELEMENT_TEXTURES_PATH = "data/textures/element_textures.json"
+BUTTON_TEXTURES_PATH = "data/textures/button_textures.json"
 LEVEL_BUTTONS_PATH = "data/textures/level_buttons.json"
 TILE_TEXTURES_PATH = "data/textures/tile_textures.json"
 ENTITY_TEXTURES_PATH = "data/textures/entity_textures.json"
