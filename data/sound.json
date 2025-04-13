@@ -3,5 +3,6 @@
     "victory": "resources/sound/victory.mp3",
     "portal": "resources/sound/portal.mp3",
     "space-dreams": "resources/sound/space_dreams.mp3",
-    "ambience": "resources/sound/space_ambience.mp3"
+    "ambience": "resources/sound/space_ambience.mp3",
+    "game-over": "resources/sound/game_over.mp3"
 }

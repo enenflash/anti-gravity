@@ -34,11 +34,14 @@ class Instance:
 
         if self.map.check_win():
             game_sound.play_sound("victory")
+            time_taken = round(time.time()-self.start_time, 2)
             self.game.game_state_manager.set_pause_instance(True)
-            self.game.game_state_manager.launch_menu("win", menu_vars={"time":round(time.time()-self.start_time, 2), "level_index": self.level_index})
-            self.game.game_state_manager.update_level()
+            self.game.game_state_manager.launch_menu("win", menu_vars={"time":time_taken, "level_index": self.level_index})
+            self.game.game_state_manager.update_level(self.level_index)
+            self.game.game_state_manager.update_high_score(self.level_index, time_taken)
 
         if self.map.check_die():
+            game_sound.play_sound("game-over")
             self.game.game_state_manager.set_pause_instance(True)
             self.game.game_state_manager.launch_menu("sorry", menu_vars={"time":round(time.time()-self.start_time, 2), "level_index": self.level_index})
             self.game.game_state_manager.update_level()

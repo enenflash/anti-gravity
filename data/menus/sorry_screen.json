@@ -1,8 +1,19 @@
 {
+    "text": [
+        {
+            "pos": [50, 35],
+            "text": "It took you VAR_TIME seconds to kill quack.",
+            "size": 4,
+            "colour": "#ffffff",
+            "vars": {
+                "VAR_TIME": "time"
+            }
+        }
+    ],
     "elements": [
         {
             "id": "0.05",
-            "pos": [50, 30],
+            "pos": [50, 25],
             "scale": 2
         }
     ],
