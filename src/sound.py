@@ -1,5 +1,5 @@
 import pygame as pg
-from settings import *
+from src.settings import *
 
 class Sound:
     def __init__ (self):

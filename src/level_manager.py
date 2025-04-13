@@ -1,10 +1,10 @@
-from file_loader import *
+from src.file_loader import *
 
 class LevelManager:
     def __init__ (self) -> None:
         self.levels = FileLoader.open_json("levels.json", "data/fixed/levels.json")["levels"]
         self.player_data = FileLoader.open_json("player_data.json", "data/player-data/player_data.json")
-
+    
     def file_reload(self) -> None:
         self.player_data = FileLoader.open_json("player_data.json", "data/player-data/player_data.json")
 

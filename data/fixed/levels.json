@@ -2,31 +2,47 @@
     "levels": [
         {
             "name": "Level 0",
-            "path": "maps/level0.json"
+            "path": "data/maps/level0.json"
         },
         {
             "name": "Level 1",
-            "path": "maps/level1.json"
+            "path": "data/maps/level1.json"
         },
         {
             "name": "Level 2",
-            "path": "maps/level2.json"
+            "path": "data/maps/level2.json"
         },
         {
             "name": "Level 3",
-            "path": "maps/level3.json"
+            "path": "data/maps/level3.json"
         },
         {
             "name": "Level 4",
-            "path": "maps/level4.json"
+            "path": "data/maps/level4.json"
         },
         {
             "name": "Level 5",
-            "path": "maps/level5.json"
+            "path": "data/maps/level5.json"
+        },
+        {
+            "name": "Level 6",
+            "path": "data/maps/level6.json"
         },
         {
             "name": "Level 7",
-            "path": "maps/level7.json"
+            "path": "data/maps/level7.json"
+        },
+        {
+            "name": "Level 8",
+            "path": "data/maps/level8.json"
+        },
+        {
+            "name": "Level 9",
+            "path": "data/maps/level9.json"
+        },
+        {
+            "name": "Level 10",
+            "path": "data/maps/level10.json"
         }
     ]
 }

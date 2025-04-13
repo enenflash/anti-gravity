@@ -1,6 +1,6 @@
 import pygame as pg, math
-from settings import *
-from file_loader import *
+from src.settings import *
+from src.file_loader import *
 
 class Background:
     def __init__ (self, screen:pg.Surface, bg_path:str) -> None:

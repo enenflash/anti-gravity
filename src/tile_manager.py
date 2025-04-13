@@ -1,5 +1,5 @@
-from settings import *
-from tile import *
+from src.settings import *
+from models.tiles import *
 
 class TileManager:
     def __init__ (self, player:object, map_data:dict, tile_data:dict) -> None:

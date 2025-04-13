@@ -1,0 +1,8 @@
+{
+    "title": "data/menus/title_menu.json",
+    "levels": "data/menus/level_menu.json",
+    "pause": "data/menus/pause_menu.json",
+    "win": "data/menus/win_screen.json",
+    "sorry": "data/menus/sorry_screen.json",
+    "died": "data/menus/died_screen.json"
+}

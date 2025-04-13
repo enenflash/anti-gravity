@@ -1,5 +1,5 @@
 import pygame as pg, json
-from settings import *
+from src.settings import *
 
 class FileLoader:
     """
@@ -118,7 +118,7 @@ class MenuLoader(FileLoader):
     
     @classmethod
     def get_element_data(cls) -> dict:
-        element_textures = super().open_json("element_textures", "data/element_textures.json")
+        element_textures = super().open_json("element_textures", "data/textures/element_textures.json")
         for i in element_textures:
             element = element_textures[i]
             element['image'] = cls.get_texture(element['image']) if element['type'] == "image" else cls.get_textures(element['image'])
@@ -126,7 +126,7 @@ class MenuLoader(FileLoader):
     
     @classmethod
     def get_button_data(cls) -> dict:
-        button_textures = super().open_json("button_textures", "data/button_textures.json")
+        button_textures = super().open_json("button_textures", "data/textures/button_textures.json")
         for i in button_textures:
             button_textures[i]['static-image'] = cls.get_texture(button_textures[i]['static']) if button_textures[i]['type'] == "image" else cls.get_textures(button_textures[i]['static'])
             button_textures[i]['selected-image'] = cls.get_texture(button_textures[i]['selected']) if button_textures[i]['type'] == "image" else cls.get_textures(button_textures[i]['selected'])

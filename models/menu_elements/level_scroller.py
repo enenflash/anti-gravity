@@ -1,7 +1,7 @@
 import math, pygame as pg
-from file_loader import *
-from menu_elements.element import *
-from menu_elements.button import *
+from src.file_loader import *
+from models.menu_elements.element import *
+from models.menu_elements.button import *
 
 class LevelScroller(Element):
     def __init__ (self, menu:object, pixel_pos:tuple[int, int], size:tuple[int, int]) -> None:
@@ -10,11 +10,11 @@ class LevelScroller(Element):
         self.image = pg.Surface(size, pg.SRCALPHA)
         self.spacing = 0.05*SCREEN_W
 
-        player_data = FileLoader.open_json("player_data.json", "data/player-data/player_data.json")
+        player_data = FileLoader.open_json("player_data.json", PLAYER_DATA_PATH)
         current_level = player_data["level-index"]
 
-        level_buttons = FileLoader.open_json("level_buttons.json", "data/level_buttons.json")
-        num_buttons = len(FileLoader.open_json("levels.json", "data/fixed/levels.json")["levels"])
+        level_buttons = FileLoader.open_json("level_buttons.json", LEVEL_BUTTONS_PATH)
+        num_buttons = len(FileLoader.open_json("levels.json", LEVEL_DATA_PATH)["levels"])
 
         current_level = min(num_buttons-1, current_level)
 

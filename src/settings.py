@@ -17,5 +17,10 @@ CAM_SPEED = 0.2
 
 VOLUME = 100
 
-TILE_TEXTURES_PATH = "data/tile_textures.json"
+PLAYER_DATA_PATH = "data/player-data/player_data.json"
+LEVEL_DATA_PATH = "data/fixed/levels.json"
 TILE_ATTR_PATH = "data/fixed/tile_attributes.json"
+
+LEVEL_BUTTONS_PATH = "data/textures/level_buttons.json"
+TILE_TEXTURES_PATH = "data/textures/tile_textures.json"
+ENTITY_TEXTURES_PATH = "data/textures/entity_textures.json"

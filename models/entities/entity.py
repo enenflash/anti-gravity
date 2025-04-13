@@ -1,4 +1,4 @@
-from settings import *
+from src.settings import *
 
 # base class for all moving entities
 class Entity:

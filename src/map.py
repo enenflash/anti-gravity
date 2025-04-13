@@ -1,8 +1,8 @@
 import math
-from settings import *
-from tile import *
-from tile_manager import *
-from file_loader import *
+from src.settings import *
+from models.tiles.tile import *
+from src.tile_manager import *
+from src.file_loader import *
 
 class MapText:
     def __init__ (self, text:str, tile_pos:tuple[int, int]) -> None:
@@ -23,7 +23,7 @@ class Map:
         """This function **must** be called after 'Player' is created"""
         self.camera = Camera(self.instance.player, self.player_start_x, self.player_start_y)
         self.tile_manager = TileManager(self.instance.player, self.map_data, self.tile_data)
-
+    
     def contains(self, tile_pos:tuple[int, int]) -> bool:
         return self.tile_manager.contains(tile_pos)
 

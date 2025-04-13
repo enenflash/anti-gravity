@@ -1,8 +1,8 @@
 import pygame as pg
-from settings import *
-from map import *
-from player import *
-from background import *
+from src.settings import *
+from src.map import *
+from models.entities import *
+from src.background import *
 
 class Instance:
     def __init__ (self, game:object, screen:pg.Surface, map_path:str, level_index:int) -> None:
@@ -29,12 +29,12 @@ class Instance:
 
         if self.map.check_win():
             self.game.game_state_manager.set_pause_instance(True)
-            self.game.game_state_manager.launch_menu("menus/win_screen.json", "win")
+            self.game.game_state_manager.launch_menu("win")
             self.game.game_state_manager.update_level()
 
         if self.map.check_die():
             self.game.game_state_manager.set_pause_instance(True)
-            self.game.game_state_manager.launch_menu("menus/sorry_screen.json", "die")
+            self.game.game_state_manager.launch_menu("sorry")
             self.game.game_state_manager.update_level()
     
     def draw(self) -> None:

@@ -1,11 +1,11 @@
 import pygame as pg
 import pygame.locals
 
-from settings import *
-from level_manager import *
-from input_handler import *
-from instance import *
-from menu import *
+from src.settings import *
+from src.level_manager import *
+from src.input_handler import *
+from src.instance import *
+from src.menu import *
 
 class Game:
     """Main game class - opens a screen and handles pygame things"""
@@ -15,6 +15,7 @@ class Game:
         self.delta_time = 1
         self.events = pg.event.get()
         self.input_handler = InputHandler()
+        
         self.game_state_manager = GameStateManager(self)
 
     def run(self) -> None:
@@ -38,22 +39,25 @@ class GameStateManager:
 
         self.level_manager = LevelManager()
         self.current_level_data = self.level_manager.get_current_level()
-
-        self.launch_menu("menus/title_menu.json", "title")
-
+        self.menu_data = FileLoader.open_json("menus.json", "data/fixed/menus.json")
+        
+        self.launch_menu("title")
+    
     def update_level(self) -> None:
         if self.instance != None:
             self.level_manager.update_level(self.instance.level_index)
-
-    def launch_menu(self, menu_path:str, name:str, bg_offset:list[int|float, int|float]=[0, 0]) -> None:
-        self.menu = Menu(self.game, name, self.screen, menu_path, bg_offset)
+    
+    def launch_menu(self, name:str, bg_offset:list[int|float, int|float]=[0, 0]) -> None:
+        if name not in self.menu_data:
+            raise KeyError(f"{name} is not a valid menu name. check data/fixed/menus.json for valid menu names")
+        self.menu = Menu(self.game, self.screen, self.menu_data[name], bg_offset)
     
     def launch_instance(self, map_path:str, level_index:int) -> None:
         self.instance = Instance(self.game, self.screen, map_path, level_index)
 
     def restart_instance(self) -> None:
         self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index)
-
+    
     def close_menu(self) -> None:
         self.menu = None
 
@@ -71,7 +75,7 @@ class GameStateManager:
 
         if self.game.input_handler.game_status() == "PAUSE" and self.instance != None and self.menu == None:
             self.set_pause_instance(True)
-            self.launch_menu("menus/pause_menu.json", "pause")
+            self.launch_menu("pause")
         
         if self.instance != None:
             self.instance.update()

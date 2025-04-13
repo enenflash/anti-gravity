@@ -1,5 +1,5 @@
 import pygame as pg
-from file_loader import *
+from src.file_loader import *
 
 default_keybinds = {
     "PAUSE": "ESCAPE",

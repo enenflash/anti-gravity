@@ -4,7 +4,7 @@ TILE_SIZE = 30
 WIDTH = 900
 HEIGHT = 600
 
-TILE_TEXTURES_PATH = "data/tile_textures.json"
+TILE_TEXTURES_PATH = "data/textures/tile_textures.json"
 MAP_PATH = input("Map Path: ")
 
 class Tile:

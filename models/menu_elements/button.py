@@ -1,5 +1,5 @@
 import pygame as pg
-from menu_elements.element import *
+from models.menu_elements.element import *
 
 class Button(Element):
     def __init__ (self, pixel_pos:tuple[int, int], button_function:str, static_image:pg.Surface, selected_image:pg.Surface, scale:int|float=1) -> None:
