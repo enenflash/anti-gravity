@@ -21,12 +21,15 @@ class LevelScroller(Element):
 
         self.offset = 0
 
-        if MENU_SIZE*(current_level+1)+self.spacing*current_level <= self.size[0]:
-            self.max_offset = 0
+        total_length = MENU_SIZE*(current_level+1)+self.spacing*current_level
+        if total_length <= self.size[0]:
+            self.min_offset = MENU_SIZE/2
+            self.max_offset = self.size[0]-MENU_SIZE/2
+            self.offset = self.size[0]/2
         else:
-            self.max_offset = MENU_SIZE*(current_level+1)+self.spacing*current_level - self.size[0]
-
-        self.offset = self.max_offset
+            self.min_offset = self.size[0] - total_length + MENU_SIZE/2
+            self.max_offset = MENU_SIZE/2
+            self.offset = self.min_offset
 
         convert_to_str = lambda x: str(x) if len(str(x)) == 2 else "0" + str(x)
 
@@ -44,12 +47,12 @@ class LevelScroller(Element):
         self.blend_image = pg.Surface((MENU_SIZE*2.5, self.size[1]), pg.SRCALPHA)
 
     def move_right(self) -> None:
-        self.offset += MENU_SIZE+0.09*SCREEN_W
-        self.offset = min(self.max_offset, self.offset)
+        self.offset -= MENU_SIZE+0.09*SCREEN_W
+        self.offset = max(self.offset, self.min_offset)
 
     def move_left(self) -> None:
-        self.offset -= MENU_SIZE+0.09*SCREEN_W
-        self.offset = max(self.offset, -MENU_SIZE/2)
+        self.offset += MENU_SIZE+0.09*SCREEN_W
+        self.offset = min(self.max_offset, self.offset)
 
     def get_selected(self) -> bool:
         return any([button.selected for button in self.buttons])
@@ -72,7 +75,7 @@ class LevelScroller(Element):
         
         if True: #self.max_offset != 0:
             for i, button in enumerate(self.buttons):
-                button.set_pixel_pos(pixel_x=MENU_SIZE*i+self.spacing*i-self.offset)
+                button.set_pixel_pos(pixel_x=MENU_SIZE*i+self.spacing*i+self.offset)
 
         if not self.mouse_within_bounds(mouse_pos_corrected):
             for button in self.buttons:
