@@ -44,7 +44,7 @@ class Instance:
             game_sound.play_sound("game-over")
             self.game.game_state_manager.set_pause_instance(True)
             self.game.game_state_manager.launch_menu("sorry", menu_vars={"time":round(time.time()-self.start_time, 2), "level_index": self.level_index})
-            self.game.game_state_manager.update_level()
+            self.game.game_state_manager.update_level(self.level_index)
     
     def draw(self) -> None:
         self.surface.fill([0, 0, 0, 0])
