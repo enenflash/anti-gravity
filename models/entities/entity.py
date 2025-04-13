@@ -1,4 +1,5 @@
 from src.settings import *
+from src.sound import *
 
 # base class for all moving entities
 class Entity:
@@ -138,6 +139,7 @@ class Entity:
             self.moving = False
             self.x = self.pos[0]
             self.y = self.pos[1]
+            game_sound.play_sound("zhwoop")
             return True
         return False
             

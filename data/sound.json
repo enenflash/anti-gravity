@@ -4,5 +4,9 @@
     "portal": "resources/sound/portal.mp3",
     "space-dreams": "resources/sound/space_dreams.mp3",
     "ambience": "resources/sound/space_ambience.mp3",
-    "game-over": "resources/sound/game_over.mp3"
+    "game-over": "resources/sound/game_over.mp3",
+    "zhwoop": "resources/sound/zhwoop.mp3",
+    "button": "resources/sound/button.mp3",
+    "lazer": "resources/sound/lazer.mp3",
+    "moonlight-sonata": "resources/sound/8-bit_moonlight_sonata.mp3"
 }

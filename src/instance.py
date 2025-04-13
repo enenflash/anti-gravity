@@ -19,7 +19,10 @@ class Instance:
         self.map.set_up()
         self.background = DynamicBackground(self.screen, "resources/background.png")
 
-        self.blend_image = pg.Surface((TILE_SIZE*3+(self.screen.get_width()-SCREEN_W)/2, SCREEN_H), pg.SRCALPHA)
+        self.blend_image_ver = pg.Surface((TILE_SIZE*3+(self.screen.get_width()-SCREEN_W)/2, SCREEN_H), pg.SRCALPHA)
+        self.blend_image_hor = pg.Surface((self.screen.get_width(), TILE_SIZE*2), pg.SRCALPHA)
+        self.blend_image_ver.fill([0, 0, 0, 100])
+        self.blend_image_hor.fill([0, 0, 0, 150])
 
         game_sound.play_indefinite("ambience")
 
@@ -41,7 +44,10 @@ class Instance:
             self.game.game_state_manager.update_high_score(self.level_index, time_taken)
 
         if self.map.check_die():
+            game_sound.play_sound("lazer")
             game_sound.play_sound("game-over")
+            game_sound.fadeout_music()
+            game_sound.play_indefinite("moonlight-sonata")
             self.game.game_state_manager.set_pause_instance(True)
             self.game.game_state_manager.launch_menu("sorry", menu_vars={"time":round(time.time()-self.start_time, 2), "level_index": self.level_index})
             self.game.game_state_manager.update_level(self.level_index)
@@ -51,6 +57,7 @@ class Instance:
         self.background.draw(self.map.camera.x, self.map.camera.y)
         self.map.draw() # player is drawn inside map draw function
         self.screen.blit(self.surface, ((self.screen.get_width()-SCREEN_W)/2, 0))
-        self.blend_image.fill([0, 0, 0, 100])
-        self.screen.blit(self.blend_image, (0, 0))
-        self.screen.blit(self.blend_image, (self.screen.get_width()-self.blend_image.get_width(), 0))
+        self.screen.blit(self.blend_image_ver, (0, 0))
+        self.screen.blit(self.blend_image_ver, (self.screen.get_width()-self.blend_image_ver.get_width(), 0))
+        self.screen.blit(self.blend_image_hor, (0, 0))
+        self.screen.blit(self.blend_image_hor, (0, self.screen.get_height()-self.blend_image_hor.get_height()))

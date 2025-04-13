@@ -1,5 +1,6 @@
 import math, pygame as pg
 from src.file_loader import *
+from src.sound import *
 from models.menu_elements.element import *
 from models.menu_elements.button import *
 
@@ -81,6 +82,7 @@ class LevelScroller(Element):
         for button in self.buttons:
             button.update(mouse_pos_corrected, mouse_pressed)
             if button.pressed:
+                game_sound.play_sound("button")
                 self.menu.do_button_action(button)
 
     def draw(self, surface:pg.Surface) -> None:

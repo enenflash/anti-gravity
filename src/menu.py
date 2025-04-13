@@ -62,6 +62,9 @@ class Menu:
                 self.game.game_state_manager.launch_instance(map_path, next_level)
                 self.game.game_state_manager.close_menu()
         if button.function == "levels":
+            if game_sound.last_played not in("space-dreams", "ambience"):
+                game_sound.fadeout_music()
+                game_sound.play_indefinite("ambience")
             self.game.game_state_manager.launch_menu("levels", self.background.offset if self.background != None else [0, 0])
             self.game.game_state_manager.close_instance()
         if button.function == "open_map":
@@ -74,6 +77,9 @@ class Menu:
             self.game.game_state_manager.close_menu()
             self.game.game_state_manager.set_pause_instance(False)
         if button.function == "restart":
+            if game_sound.last_played != "ambience":
+                game_sound.fadeout_music()
+                game_sound.play_indefinite("ambience")
             self.game.game_state_manager.restart_instance()
             self.game.game_state_manager.close_menu()
         if button.function == "title_menu":
@@ -96,6 +102,7 @@ class Menu:
         for button in self.buttons:
             button.update(self.input_handler.mouse_pos, self.input_handler.mouse_pressed)
             if button.pressed:
+                game_sound.play_sound("button")
                 self.do_button_action(button)
 
         selected = any([button.selected for button in self.buttons]) or (self.level_scroller.get_selected() if self.level_scroller != None else False)

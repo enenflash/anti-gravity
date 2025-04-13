@@ -14,7 +14,7 @@ class Sound:
         self.playing_sound = False
 
     def play_sound(self, name:str) -> None:
-        if VOLUME == 0:
+        if VOLUME == 0 or (name not in self.sounds):
             return
         self.sounds[name].set_volume(VOLUME)
         if name not in self.sounds:
@@ -23,7 +23,7 @@ class Sound:
         self.sounds[name].play()
 
     def play_music(self, name:str) -> None:
-        if VOLUME == 0 or name not in self.sounds or self.playing_sound:
+        if VOLUME == 0 or (name not in self.sounds) or self.playing_sound:
             return
         self.sounds[name].set_volume(VOLUME)
         self.sounds[name].play(fade_ms=1000)
@@ -31,7 +31,7 @@ class Sound:
         self.playing_sound = True
 
     def play_indefinite(self, name:str) -> None:
-        if VOLUME == 0 or name not in self.sounds or self.playing_sound:
+        if VOLUME == 0 or (name not in self.sounds) or self.playing_sound:
             return
         self.sounds[name].set_volume(VOLUME)
         self.sounds[name].play(loops=-1, fade_ms=1000)
