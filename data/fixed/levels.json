@@ -43,6 +43,34 @@
         {
             "name": "Level 10",
             "path": "data/maps/level10.json"
+        },
+        {
+            "name": "Level 11",
+            "path": "data/maps/level11.json"
+        },
+        {
+            "name": "Level 12",
+            "path": "data/maps/level12.json"
+        },
+        {
+            "name": "Level 13",
+            "path": "data/maps/level13.json"
+        },
+        {
+            "name": "Level 14",
+            "path": "data/maps/level14.json"
+        },
+        {
+            "name": "Level 15",
+            "path": "data/maps/level15.json"
+        },
+        {
+            "name": "Level 16",
+            "path": "data/maps/level16.json"
+        },
+        {
+            "name": "Level 18",
+            "path": "data/maps/level18.json"
         }
     ]
 }

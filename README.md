@@ -1,7 +1,7 @@
 <span style="font-family:'consolas';">
 
 # Anti-Gravity
-Anti-Gravity is an open-source puzzle game built with the PyGame python library for a Computer Science ATAR PyGame Project. 
+Anti-Gravity is an open-source puzzle game (inspired from *Tomb of the Mask*) built with the PyGame python library for a Computer Science ATAR PyGame Project. 
 
 It comprises 2000 lines of code spread across 30 different python files and over 100 self-made pixelart textures.
 
