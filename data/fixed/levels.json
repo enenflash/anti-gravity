@@ -71,6 +71,10 @@
         {
             "name": "Level 17",
             "path": "data/maps/level17.json"
+        },
+        {
+            "name": "Level 18",
+            "path": "data/maps/level18.json"
         }
     ]
 }

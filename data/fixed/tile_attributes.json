@@ -105,5 +105,20 @@
         "name": "purple_portal",
         "tangible": 0,
         "hazardous": 0
+    },
+    "4.0.02": {
+        "name": "yellow_portal",
+        "tangible": 0,
+        "hazardous": 0
+    },
+    "4.0.03": {
+        "name": "red_portal",
+        "tangible": 0,
+        "hazardous": 0
+    },
+    "4.0.04": {
+        "name": "blue_portal",
+        "tangible": 0,
+        "hazardous": 0
     }
 }

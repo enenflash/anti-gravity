@@ -1,0 +1,5 @@
+#FF1654 red
+#87F5FB blue
+#FFDE59 yellow
+#5FE663 green
+#8A84E2 purple

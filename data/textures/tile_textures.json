@@ -107,5 +107,20 @@
         "name": "purple_portal",
         "texture": "resources/tiles/sprite_sheets/purple_portal.png",
         "type": "sprite_sheet"
+    },
+    "4.0.02": {
+        "name": "yellow_portal",
+        "texture": "resources/tiles/sprite_sheets/yellow_portal.png",
+        "type": "sprite_sheet"
+    },
+    "4.0.03": {
+        "name": "red_portal",
+        "texture": "resources/tiles/sprite_sheets/red_portal.png",
+        "type": "sprite_sheet"
+    },
+    "4.0.04": {
+        "name": "blue_portal",
+        "texture": "resources/tiles/sprite_sheets/blue_portal.png",
+        "type": "sprite_sheet"
     }
 }
