@@ -65,7 +65,7 @@ class Map:
         n_tiles_y = half_n_tiles_y + math.ceil((HALF_SCREEN_H + camera_offset[1])/TILE_SIZE)
 
         # where to start drawing the tiles (pixels)
-        tile_offset = [-(TILE_SIZE - (HALF_SCREEN_W - camera_offset[0])%TILE_SIZE), -(TILE_SIZE - (HALF_SCREEN_H - camera_offset[1])%TILE_SIZE)]
+        tile_offset = [round(-(TILE_SIZE - (HALF_SCREEN_W - camera_offset[0])%TILE_SIZE)), round(-(TILE_SIZE - (HALF_SCREEN_H - camera_offset[1])%TILE_SIZE))]
 
         # which tile to start drawing (tile position - not pixels)
         tile_start_x, tile_start_y = int(self.camera.x) - half_n_tiles_x, int(self.camera.y) - half_n_tiles_y
