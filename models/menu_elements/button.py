@@ -1,5 +1,5 @@
 import pygame as pg
-from models.menu_elements.element import *
+from .element import *
 
 class Button(Element):
     """Represents a clickable button."""

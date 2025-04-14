@@ -1,5 +1,5 @@
-from models.tiles.animated_tile import *
-from models.tiles.tile_utils import *
+from .animated_tile import *
+from .tile_utils import *
 
 class Portal(AnimatedTile):
     """Tile that teleports the player (and other entities/tiles)"""

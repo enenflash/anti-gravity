@@ -1,5 +1,5 @@
-from models.tiles.tile import *
-from models.tiles.tile_utils import *
+from .tile import *
+from .tile_utils import *
 
 class Movable(Tile):
     """Tile that the player can move. Also the bane of my existence"""

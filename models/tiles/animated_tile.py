@@ -1,4 +1,4 @@
-from models.tiles.tile import * 
+from .tile import * 
 
 class AnimatedTile(Tile):
     """Tile with animation"""

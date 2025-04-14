@@ -1,4 +1,4 @@
-from models.menu_elements.element import *
+from .element import *
 
 import pygame as pg
 pg.font.init()

@@ -1,5 +1,5 @@
 import pygame as pg, json
-from models.entities.entity import *
+from .entity import *
 from src.settings import *
 from src.sound import *
 from src.file_loader import *

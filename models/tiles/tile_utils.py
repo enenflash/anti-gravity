@@ -1,6 +1,6 @@
-from models.tiles.tile import *
-from models.tiles.stacked_tile import *
-from models.tiles.animated_tile import *
+from .tile import *
+from .stacked_tile import *
+from .animated_tile import *
 
 def construct_properties(tangible:bool, hazardous:bool=False, win:bool=False, spawner:bool=False, portal:bool=False) -> dict:
     """Construct necessary tile properties"""

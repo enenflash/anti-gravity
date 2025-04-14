@@ -1,8 +1,8 @@
 import math, pygame as pg
 from src.file_loader import *
 from src.sound import *
-from models.menu_elements.element import *
-from models.menu_elements.button import *
+from .element import *
+from .button import *
 
 class LevelScroller(Element):
     """Specifically for choosing a level in the level menu"""
