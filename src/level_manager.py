@@ -51,6 +51,6 @@ class LevelManager:
         if index >= len(self.player_data["high-scores"]):
             for _ in range(len(self.player_data["high-scores"]), index+1):
                 self.player_data["high-scores"].append(-1)
-        if high_score > self.player_data["high-scores"][index]:
+        if high_score < self.player_data["high-scores"][index]:
             self.player_data["high-scores"][index] = high_score
         FileLoader.write_json(PLAYER_DATA_PATH, self.player_data)
