@@ -8,5 +8,8 @@
     "zhwoop": "resources/sound/zhwoop.mp3",
     "button": "resources/sound/button.mp3",
     "lazer": "resources/sound/lazer.mp3",
-    "moonlight-sonata": "resources/sound/8-bit_moonlight_sonata.mp3"
+    "moonlight-sonata": "resources/sound/8-bit_moonlight_sonata.mp3",
+    "deactivate-spawner": "resources/sound/deactivate_spawner.mp3",
+    "collect-star": "resources/sound/collect_star.mp3",
+    "electricity-crackle": "resources/sound/electricity_crackle.mp3"
 }

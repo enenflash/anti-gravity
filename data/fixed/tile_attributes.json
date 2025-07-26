@@ -14,6 +14,12 @@
         "tangible": 0,
         "hazardous": 1
     },
+    "0.3.00": {
+        "name": "star",
+        "tangible": 0,
+        "hazardous": 0,
+        "responsive": 1
+    },
     "1.0.00": {
         "name": "hologram_full",
         "tangible": 1,
