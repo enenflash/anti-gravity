@@ -17,7 +17,7 @@ class FileLoader:
     
     @staticmethod
     def write_json(path:str, data:dict) -> dict:
-        with open(path, 'w') as file:
+        with open(path, "w") as file:
             json.dump(data, file, indent=4)
     
     @staticmethod
@@ -64,26 +64,31 @@ class TileLoader(FileLoader):
 
         for i in tile_info:
 
-            tile_info[i]['image'] = super().get_texture(tile_info[i]['texture']) if tile_info[i]['type'] == "image" else super().get_textures(tile_info[i]['texture'])
+            tile_info[i]["image"] = super().get_texture(tile_info[i]["texture"]) if tile_info[i]["type"] == "image" else super().get_textures(tile_info[i]["texture"])
 
-            tile_info[i]['tangible'] = tile_attributes[i]['tangible']
-            tile_info[i]['hazardous'] = tile_attributes[i]['hazardous']
+            tile_info[i]["tangible"] = tile_attributes[i]["tangible"]
+            tile_info[i]["hazardous"] = tile_attributes[i]["hazardous"]
 
-            if 'spawner' not in tile_attributes[i]:
-                tile_info[i]['spawner'] = False
+            if "spawner" not in tile_attributes[i]:
+                tile_info[i]["spawner"] = False
             else:
-                tile_info[i]['spawner'] = tile_attributes[i]['spawner']
+                tile_info[i]["spawner"] = tile_attributes[i]["spawner"]
 
-            if 'spawn_id' not in tile_attributes[i]:
-                tile_info[i]['spawn_id'] = ""
+            if "responsive" not in tile_attributes[i]:
+                tile_info[i]["responsive"] = False
             else:
-                tile_info[i]['spawn_id'] = tile_attributes[i]['spawn_id']
+                tile_info[i]["responsive"] = tile_attributes[i]["responsive"]
+
+            if "spawn_id" not in tile_attributes[i]:
+                tile_info[i]["spawn_id"] = ""
+            else:
+                tile_info[i]["spawn_id"] = tile_attributes[i]["spawn_id"]
 
             if "load" in tile_info[i]:
-                tile_info[i]['load_images'] = super().get_textures(tile_info[i]["load"])
+                tile_info[i]["load_images"] = super().get_textures(tile_info[i]["load"])
                 continue
             
-            tile_info[i]['load_images'] = [tile_info[i]['image']]
+            tile_info[i]["load_images"] = [tile_info[i]["image"]]
 
         return tile_info
 
@@ -134,13 +139,13 @@ class MenuLoader(FileLoader):
         element_textures = super().open_json("element_textures", ELEMENT_TEXTURES_PATH)
         for i in element_textures:
             element = element_textures[i]
-            element['image'] = cls.get_texture(element['image']) if element['type'] == "image" else cls.get_textures(element['image'])
+            element["image"] = cls.get_texture(element["image"]) if element["type"] == "image" else cls.get_textures(element["image"])
         return element_textures
     
     @classmethod
     def get_button_data(cls) -> dict:
         button_textures = super().open_json("button_textures", BUTTON_TEXTURES_PATH)
         for i in button_textures:
-            button_textures[i]['static-image'] = cls.get_texture(button_textures[i]['static']) if button_textures[i]['type'] == "image" else cls.get_textures(button_textures[i]['static'])
-            button_textures[i]['selected-image'] = cls.get_texture(button_textures[i]['selected']) if button_textures[i]['type'] == "image" else cls.get_textures(button_textures[i]['selected'])
+            button_textures[i]["static-image"] = cls.get_texture(button_textures[i]["static"]) if button_textures[i]["type"] == "image" else cls.get_textures(button_textures[i]["static"])
+            button_textures[i]["selected-image"] = cls.get_texture(button_textures[i]["selected"]) if button_textures[i]["type"] == "image" else cls.get_textures(button_textures[i]["selected"])
         return button_textures

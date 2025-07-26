@@ -8,13 +8,14 @@ class StackedTile(Tile):
         image = tiles[0].image
         for tile in tiles[1:]:
             image.blit(tile.image, (0, 0))
-        
-        properties = {
-            "tangible": any([tile.tangible for tile in self.tiles]),
-            "hazardous": any([tile.hazardous for tile in self.tiles]),
-            "win": any([tile.win for tile in self.tiles]),
-            "spawner": any([tile.spawner for tile in self.tiles])
-        }
+
+        properties = Tile.construct_properties(
+            tangible=any([tile.tangible for tile in self.tiles]),
+            hazardous=any([tile.hazardous for tile in self.tiles]),
+            win=any([tile.win for tile in self.tiles]),
+            spawner=any([tile.spawner for tile in self.tiles]),
+            responsive=False
+        )
 
         super().__init__ ("", image, properties, rotation=0)
 

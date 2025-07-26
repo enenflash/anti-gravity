@@ -1,4 +1,5 @@
 from src.settings import *
+from src.sound import *
 from models.tiles import *
 
 class TileManager:
@@ -18,7 +19,7 @@ class TileManager:
         self.tiles:dict = {}        
         for j, row in enumerate(map_data["map"]):
             for i, tile_id in enumerate(row):
-                if tile_id == "0.0.00":
+                if tile_id == EMPTY:
                     continue
                 self.tiles[(i, j)] = get_tile(tile_id, tile_data)
 
@@ -39,10 +40,12 @@ class TileManager:
         # portals
         self.portals:dict[tuple[int, int], Portal] = {}
         if "portals" in map_data:
+            properties = Tile.construct_properties(tangible=False)
             for portal_dict in map_data["portals"]:
+                stored_tile = create_tile(portal_dict["id"], tile_data[portal_dict["id"]]["image"], properties, rotation=0)
                 tile_pos = (portal_dict["pos"][0], portal_dict["pos"][1]) # turn list to tuple
                 link = (portal_dict["link"][0], portal_dict["link"][1])
-                self.portals[tile_pos] = Portal(portal_dict["id"], tile_data[portal_dict["id"]]["image"], tile_pos, link)
+                self.portals[tile_pos] = Portal(stored_tile, tile_pos, link)
 
         # non static tiles (electricity)
         self.non_static_tiles:dict[tuple[int, int], list] = {}
@@ -97,15 +100,21 @@ class TileManager:
         return self.portals[tile_pos].link
     
     def sort_new_non_static_tiles(self, new_non_static_tiles:dict[tuple[int, int], list]):
-        """Sync old non static tiles list with the new non static tiles lsit"""
+        tiles_removed = False
+        """Sync old non static tiles list with the new non static tiles list"""
         # check if any tiles from old list don't appear in new list (if so then delete)
         for pos in self.non_static_tiles:
             if pos not in new_non_static_tiles:
+                tiles_removed = True
                 self.non_static_tiles[pos] = []
             for i, old_tile in enumerate(self.non_static_tiles[pos].copy()):
                 if not any([same_tile(old_tile, tile) for tile in new_non_static_tiles[pos]]):
+                    tiles_removed = True
                     self.non_static_tiles[pos].pop(i)
 
+        if tiles_removed:
+            game_sound.play_sound("deactivate-spawner")
+        
         # clear empty lists from non static tiles
         for pos in self.non_static_tiles.copy():
             if self.non_static_tiles[pos] == []:
@@ -130,6 +139,11 @@ class TileManager:
         for spawner in self.spawners:
             self.spawned_tiles += spawner.get_spawned_tiles(self.spawners, self.movables)
 
+        if len(self.spawned_tiles) > 0:
+            game_sound.play_indefinite_sound("electricity-crackle")
+        else:
+            game_sound.fadeout_sound("electricity-crackle")
+
         # get new non static tiles
         for tile_dict in self.spawned_tiles:
             if tile_dict["pos"] not in new_non_static_tiles:
@@ -143,6 +157,10 @@ class TileManager:
 
         # update all tiles
         for pos in self.tiles:
+            if pos == self.player.pos and self.tiles[pos].responsive:
+                if self.tiles[pos].id == STAR:
+                    game_sound.play_sound("collect-star")
+                    self.tiles[pos] = get_tile(EMPTY+":0", self.tile_data)
             self.tiles[pos].update()
 
         for pos in self.non_static_tiles:

@@ -2,7 +2,7 @@ from .tile import *
 
 class AnimatedTile(Tile):
     """Tile with animation"""
-    def __init__ (self, tile_id:str, images:list[pg.Surface], properties:dict, rotation:int=0) -> None:
+    def __init__ (self, tile_id:str, images:list[pg.Surface], properties:TileProperties, rotation:int=0) -> None:
         self.images = images
         self.image_index = 0
         self.anim_delay = 4

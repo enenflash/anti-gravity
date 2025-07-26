@@ -41,6 +41,7 @@ class Instance:
         self.map.update()
 
         if self.map.check_win():
+            game_sound.fadeout_sound("electricity-crackle")
             game_sound.play_sound("victory")
             time_taken = round(time.time()-self.start_time, 2)
             self.game.game_state_manager.set_pause_instance(True)
@@ -52,6 +53,7 @@ class Instance:
             game_sound.play_sound("lazer")
             game_sound.play_sound("game-over")
             game_sound.fadeout_music()
+            game_sound.fadeout_sound("electricity-crackle")
             game_sound.play_indefinite("moonlight-sonata")
             self.game.game_state_manager.set_pause_instance(True)
             self.game.game_state_manager.launch_menu("sorry", menu_vars={"time":round(time.time()-self.start_time, 2), "level_index": self.level_index})

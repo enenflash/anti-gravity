@@ -10,7 +10,7 @@ class Movable(Tile):
         self.dx, self.dy = 0, 0
         self.speed_x, self.speed_y = 0, 0
         self.movable_index = movable_index
-        properties = construct_properties(tangible=True)
+        properties = Tile.construct_properties(tangible=True)
         super().__init__(tile_id, image, properties, rotation=0)
 
     @property

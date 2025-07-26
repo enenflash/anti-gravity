@@ -10,18 +10,34 @@ class Sound:
         pg.mixer.init()
         sound_paths = FileLoader.open_json("sounds.json", SOUND_DATA_PATH)
         self.sounds = {}
+        self.playing = {}
         for sound_name in sound_paths:
             self.sounds[sound_name] = pg.mixer.Sound(sound_paths[sound_name])
+            self.playing[sound_name] = False
 
         self.last_played:str = None
         self.playing_sound = False
 
     def play_sound(self, name:str) -> None:
-        """Play a sound once """
+        """Play a sound once"""
         if VOLUME == 0 or (name not in self.sounds):
             return
         self.sounds[name].set_volume(VOLUME)
         self.sounds[name].play()
+
+    def play_indefinite_sound(self, name:str) -> None:
+        """Play sound indefinitely"""
+        if VOLUME == 0 or (name not in self.sounds) or self.playing[name]:
+            return
+        self.sounds[name].set_volume(VOLUME)
+        self.sounds[name].play(loops=-1, fade_ms=1000)
+        self.playing[name] = True
+
+    def fadeout_sound(self, name:str) -> None:
+        if not self.playing[name]:
+            return
+        self.sounds[name].fadeout(1000)
+        self.playing[name] = False
 
     def play_music(self, name:str) -> None:
         """Play music (only one music track can be played at a time)"""
