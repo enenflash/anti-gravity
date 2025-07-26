@@ -186,8 +186,10 @@ class Map:
         n_tiles_x = int(MAP_DISP_SIZE[0]/TILE_SIZE) + 2
         n_tiles_y = int(MAP_DISP_SIZE[1]/TILE_SIZE) + 2
 
-        tile_start_x = int(self.tile_pos[0] - n_tiles_x/2) + 1
-        tile_start_y = int(self.tile_pos[1] - n_tiles_y/2) + 1
+        unrounded_tile_start_x = self.tile_pos[0]-n_tiles_x/2
+        unrounded_tile_start_y = self.tile_pos[1]-n_tiles_y/2
+        tile_start_x = int(unrounded_tile_start_x) + 1 if unrounded_tile_start_x < 0 else int(unrounded_tile_start_x) + 2
+        tile_start_y = int(unrounded_tile_start_y) + 1 if unrounded_tile_start_y < 0 else int(unrounded_tile_start_y) + 2
 
         for j in range(n_tiles_y):
             for i in range(n_tiles_x):
