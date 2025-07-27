@@ -50,6 +50,9 @@ class GameStateManager:
 
     def update_high_score(self, level_index:int, time_taken:int|float) -> None:
         self.level_manager.update_high_score(level_index, time_taken)
+
+    def update_stars_collected(self, level_index:int, stars_collected:int) -> None:
+        self.level_manager.update_stars_collected(level_index, stars_collected)
     
     def launch_menu(self, name:str, bg_offset:list[int|float, int|float]=[0, 0], menu_vars:dict={}) -> None:
         if name not in self.menu_data:

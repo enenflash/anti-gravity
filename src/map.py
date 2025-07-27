@@ -47,6 +47,9 @@ class Map:
         """Returns none if no portal at location\nReturns portal link if there is a portal"""
         return self.tile_manager.portal(tile_pos)
     
+    def get_stars_collected(self) -> int:
+        return self.tile_manager.stars_collected
+    
     def update(self) -> None:
         self.tile_manager.update()
         self.camera.update()

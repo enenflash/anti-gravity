@@ -7,13 +7,13 @@ class LevelManager:
     """
     def __init__ (self) -> None:
         self.levels = FileLoader.open_json("levels.json", "data/fixed/levels.json")["levels"]
-        self.player_data = FileLoader.open_json("player_data.json", "data/player-data/player_data.json")
+        self.player_data = FileLoader.open_json("player_data.json", PLAYER_DATA_PATH)
     
     def file_reload(self) -> None:
         """
         Reload file to update external changes
         """
-        self.player_data = FileLoader.open_json("player_data.json", "data/player-data/player_data.json")
+        self.player_data = FileLoader.open_json("player_data.json", PLAYER_DATA_PATH)
 
     def get_current_level_index(self) -> int:
         return self.player_data["level-index"]
@@ -51,6 +51,17 @@ class LevelManager:
         if index >= len(self.player_data["high-scores"]):
             for _ in range(len(self.player_data["high-scores"]), index+1):
                 self.player_data["high-scores"].append(-1)
-        if high_score < self.player_data["high-scores"][index]:
+        if high_score < self.player_data["high-scores"][index] or self.player_data["high-scores"][index] == -1:
             self.player_data["high-scores"][index] = high_score
+        FileLoader.write_json(PLAYER_DATA_PATH, self.player_data)
+
+    def update_stars_collected(self, index:int, stars_collected:int) -> None:
+        """
+        Update stars collected for a particular level
+        """
+        if index >= len(self.player_data["stars-collected"]):
+            for _ in range(len(self.player_data["stars-collected"]), index+1):
+                self.player_data["stars-collected"].append(-1)
+        if stars_collected > self.player_data["stars-collected"][index]:
+            self.player_data["stars-collected"][index] = stars_collected
         FileLoader.write_json(PLAYER_DATA_PATH, self.player_data)

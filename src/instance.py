@@ -48,6 +48,7 @@ class Instance:
             self.game.game_state_manager.launch_menu("win", menu_vars={"time":time_taken, "level_index": self.level_index})
             self.game.game_state_manager.update_level(self.level_index)
             self.game.game_state_manager.update_high_score(self.level_index, time_taken)
+            self.game.game_state_manager.update_stars_collected(self.level_index, self.map.get_stars_collected())
 
         if self.map.check_die():
             game_sound.play_sound("lazer")

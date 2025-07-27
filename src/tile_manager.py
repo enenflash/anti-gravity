@@ -11,6 +11,7 @@ class TileManager:
     """
     def __init__ (self, player:object, map_data:dict, tile_data:dict) -> None:
         self.player = player
+        self.stars_collected = 0
 
         # dictionary of tiles
         self.tile_data = tile_data
@@ -161,6 +162,7 @@ class TileManager:
                 if self.tiles[pos].id == STAR:
                     game_sound.play_sound("collect-star")
                     self.tiles[pos] = get_tile(EMPTY+":0", self.tile_data)
+                    self.stars_collected += 1
             self.tiles[pos].update()
 
         for pos in self.non_static_tiles:
