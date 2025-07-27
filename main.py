@@ -64,7 +64,7 @@ class GameStateManager:
         self.instance = Instance(self.game, self.screen, map_path, level_index, self.level_manager.get_level_data(level_index))
 
     def restart_instance(self) -> None:
-        self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index)
+        self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index, self.instance.level_data)
     
     def close_menu(self) -> None:
         self.menu = None
