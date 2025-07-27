@@ -11,12 +11,13 @@ class Instance:
     Represents a game currently being played.
     \nCall update() every loop and draw() to draw the game
     """
-    def __init__ (self, game:object, screen:pg.Surface, map_path:str, level_index:int) -> None:
+    def __init__ (self, game:object, screen:pg.Surface, map_path:str, level_index:int, level_data:dict) -> None:
         self.game = game
         self.screen = screen
         self.surface = pg.Surface((SCREEN_W, SCREEN_H), pg.SRCALPHA)
         self.paused = False
         self.level_index = level_index
+        self.level_data = level_data
 
         self.map_path = map_path
         self.map = Map(self, map_path)
@@ -44,11 +45,13 @@ class Instance:
             game_sound.fadeout_sound("electricity-crackle")
             game_sound.play_sound("victory")
             time_taken = round(time.time()-self.start_time, 2)
+            stars_collected = self.map.get_stars_collected()
+            max_stars = self.level_data["stars"]
             self.game.game_state_manager.set_pause_instance(True)
-            self.game.game_state_manager.launch_menu("win", menu_vars={"time":time_taken, "level_index": self.level_index})
+            self.game.game_state_manager.launch_menu("win", menu_vars={"time":time_taken, "level_index":self.level_index, "stars_collected":stars_collected, "max_stars":max_stars})
             self.game.game_state_manager.update_level(self.level_index)
             self.game.game_state_manager.update_high_score(self.level_index, time_taken)
-            self.game.game_state_manager.update_stars_collected(self.level_index, self.map.get_stars_collected())
+            self.game.game_state_manager.update_stars_collected(self.level_index, stars_collected)
 
         if self.map.check_die():
             game_sound.play_sound("lazer")

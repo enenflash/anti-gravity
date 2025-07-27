@@ -15,6 +15,9 @@ class LevelManager:
         """
         self.player_data = FileLoader.open_json("player_data.json", PLAYER_DATA_PATH)
 
+    def get_level_data(self, level_index:int) -> dict:
+        return self.levels[level_index]
+
     def get_current_level_index(self) -> int:
         return self.player_data["level-index"]
 

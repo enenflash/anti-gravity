@@ -12,6 +12,7 @@ class TileManager:
     def __init__ (self, player:object, map_data:dict, tile_data:dict) -> None:
         self.player = player
         self.stars_collected = 0
+        self.star_positions = []
 
         # dictionary of tiles
         self.tile_data = tile_data
@@ -23,6 +24,8 @@ class TileManager:
                 if tile_id == EMPTY:
                     continue
                 self.tiles[(i, j)] = get_tile(tile_id, tile_data)
+                if self.tiles[(i, j)].id == STAR:
+                    self.star_positions.append((i, j))
 
         self.spawners = [
             Spawner(pos[0], pos[1], self.tiles[pos].id, 
@@ -171,6 +174,8 @@ class TileManager:
 
         for movable in self.movables:
             movable.update(self.movables, self.wall, self.unmovable_movable, self.portal, (self.player.x, self.player.y), (self.player.dx, self.player.dy), (self.player.speed_x, self.player.speed_y))
+            if movable.pos in self.star_positions:
+                self.tiles[movable.pos] = get_tile(EMPTY+":0", self.tile_data)
 
         for pos in self.portals:
             self.portals[pos].update()

@@ -9,6 +9,16 @@
                 "VAR_LEVEL_INDEX": "level_index",
                 "VAR_TIME": "time"
             }
+        },
+        {
+            "pos": [50, 35],
+            "text": "Collected VAR_STARS_COLLECTED out of VAR_MAX_STARS stars",
+            "size": 4,
+            "colour": "#ffffff",
+            "vars": {
+                "VAR_STARS_COLLECTED": "stars_collected",
+                "VAR_MAX_STARS": "max_stars"
+            }
         }
     ],
     "elements": [

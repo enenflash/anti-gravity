@@ -61,7 +61,7 @@ class GameStateManager:
     
     def launch_instance(self, map_path:str, level_index:int) -> None:
         game_sound.fadeout_music()
-        self.instance = Instance(self.game, self.screen, map_path, level_index)
+        self.instance = Instance(self.game, self.screen, map_path, level_index, self.level_manager.get_level_data(level_index))
 
     def restart_instance(self) -> None:
         self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index)
