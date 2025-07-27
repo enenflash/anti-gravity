@@ -1,19 +1,18 @@
 <span style="font-family:'consolas';">
 
 # Anti-Gravity
-Anti-Gravity is an open-source puzzle game (inspired from *Tomb of the Mask*) built with the PyGame python library for a Computer Science ATAR PyGame Project. 
+Anti-Gravity is an open-source puzzle game (inspired from *Tomb of the Mask*) built with the PyGame python library. It was initially made for a Computer Science ATAR (Australia) PyGame Project.
 
-It comprises 2000 lines of code spread across 30 different python files and over 100 self-made pixelart textures.
+It comprises 2000 lines of code spread across 30 different python files and over 100 self-made pixelart textures (this stat might be outdated).
 
-This project was made with the goal of improving my programming skills and has therefore 0% AI usage.
+This project was made with the goal of improving my programming skills and has therefore 0% AI usage (including all pixel art).
 
-Game progression: [Documentation (Google Docs)](https://docs.google.com/document/d/1YgxO29jv7kmoHWKECIMXgPgSoPKQm0y9mQzlj-sPr10/edit?usp=sharing)
+All sound effects are originally from (or are created using sound effects from) [pixabay.com](https://pixabay.com/sound-effects/)
 
-***Latest Deliverable PDF on SEQTA***
-
-> **NOTE**: To see all commit history view the main-history branch.
+Game progression (for assignment): [Documentation (Google Docs)](https://docs.google.com/document/d/1YgxO29jv7kmoHWKECIMXgPgSoPKQm0y9mQzlj-sPr10/edit?usp=sharing)
 
 ## Installing Dependencies
+> Python Version: 3.11\
 > Required libraries: pygame
 
 Install all the required python libraries.\
@@ -35,8 +34,9 @@ Alternatively you can use https://download-directory.github.io/ to download the 
 
 ## Running the game
 
-### Run using run.bat
-Double click run.bat in File Explorer
+### Run using run.bat/run.sh
+Double click run.bat in File Explorer (Windows)\
+Open run.sh (Mac/Linux)
 
 ### Using CMD (Windows)
 ```
@@ -51,6 +51,7 @@ Open the folder in VSCode and run main.py
 You can edit and create levels, textures and even menus.
 
 ## Keybinds
+(In the future this should be changeable in a settings menu)\
 Set keybinds in data/keybinds.json according to PyGame keys.
 
 ## Levels
@@ -110,6 +111,8 @@ In this example, a green movable was added with an initial position of [7, 3] an
 Note that portals of the same colour are not automatically linked. The position which the player teleports to has to be specified with the "link" attribute.
 
 ## Textures
+> *Note: This will be outdated once external resource packs are added*
+
 You can replace the current textures of the game by replacing them with an image of the same name.
 
 You can also add additional images with different names but you will have to specify the image path in the json files.
@@ -128,6 +131,5 @@ Add a new tile by giving it a unique ID. For example:
 
 The name attribute isn't used, it's just for convenience.
 The type attribute specifies if the texture is a static image or an animation. Look at some of the sprite sheets in the json file for reference.
-
 
 </span>
