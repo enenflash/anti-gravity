@@ -38,7 +38,7 @@ class Menu:
         self.texts = []
         if "text" in self.menu_data:
             for text in self.menu_data["text"]:
-                self.texts.append(Text(get_pixel_pos(text["pos"]), text["text"], text["size"]/100*SCREEN_H, text["colour"], text["vars"], menu_vars))
+                self.texts.append(Text(get_pixel_pos(text["pos"]), text["text"], text["size"]/100*SCREEN_H, text["colour"], text["vars"] if "vars" in text else [], menu_vars))
 
         # buttons that can be clicked by the mouse
         self.buttons = []
@@ -105,7 +105,13 @@ class Menu:
             self.level_scroller.move_right()
         if button.function == "move_left" and self.level_scroller != None:
             self.level_scroller.move_left()
-
+        if button.function == "about":
+            self.game.game_state_manager.launch_menu("about", self.background.offset if self.background != None else [0, 0])
+        if button.function == "settings":
+            self.game.game_state_manager.launch_menu("settings", self.background.offset if self.background != None else [0, 0])
+        if button.function == "stats":
+            self.game.game_state_manager.launch_menu("stats", self.background.offset if self.background != None else [0, 0])
+    
     def update(self) -> None:
         if self.background != None:
             self.background.update()

@@ -1,0 +1,18 @@
+{
+    "text": [
+        {
+            "pos": [50, 40],
+            "text": "Coming soon",
+            "size": 4,
+            "colour": "#ffffff"
+        }
+    ],
+    "buttons": [
+        {
+            "id": "0.07",
+            "pos": [50, 60],
+            "scale": 1,
+            "function": "title_menu"
+        }
+    ]
+}

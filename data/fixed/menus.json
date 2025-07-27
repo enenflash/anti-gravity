@@ -4,5 +4,8 @@
     "pause": "data/menus/pause_menu.json",
     "win": "data/menus/win_screen.json",
     "sorry": "data/menus/sorry_screen.json",
-    "died": "data/menus/died_screen.json"
+    "died": "data/menus/died_screen.json",
+    "about": "data/menus/about.json",
+    "settings": "data/menus/settings_screen.json",
+    "stats": "data/menus/stats_viewer.json"
 }
