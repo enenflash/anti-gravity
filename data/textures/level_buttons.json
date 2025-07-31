@@ -124,5 +124,35 @@
         "static": "resources/menu/level-buttons/20.png",
         "selected": "resources/menu/level-buttons/20_selected.png",
         "type": "image"
+    },
+    "21": {
+        "name": "21",
+        "static": "resources/menu/level-buttons/21.png",
+        "selected": "resources/menu/level-buttons/21_selected.png",
+        "type": "image"
+    },
+    "22": {
+        "name": "22",
+        "static": "resources/menu/level-buttons/22.png",
+        "selected": "resources/menu/level-buttons/22_selected.png",
+        "type": "image"
+    },
+    "23": {
+        "name": "23",
+        "static": "resources/menu/level-buttons/23.png",
+        "selected": "resources/menu/level-buttons/23_selected.png",
+        "type": "image"
+    },
+    "24": {
+        "name": "24",
+        "static": "resources/menu/level-buttons/24.png",
+        "selected": "resources/menu/level-buttons/24_selected.png",
+        "type": "image"
+    },
+    "25": {
+        "name": "25",
+        "static": "resources/menu/level-buttons/25.png",
+        "selected": "resources/menu/level-buttons/25_selected.png",
+        "type": "image"
     }
 }

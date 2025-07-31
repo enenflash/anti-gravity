@@ -4,7 +4,7 @@ from .animated_tile import *
 
 EMPTY = "0.0.00"
 GOAL = "0.1.00"
-STAR = "0.3.00"
+STAR = "0.2.00"
     
 def same_tile(tile1:Tile, tile2:Tile) -> bool:
     """Check if two tiles are the same."""

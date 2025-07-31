@@ -53,7 +53,7 @@
         {
             "name": "Level 10",
             "path": "data/maps/level10.json",
-            "stars": 2
+            "stars": 1
         },
         {
             "name": "Level 11",
@@ -93,6 +93,26 @@
         {
             "name": "Level 18",
             "path": "data/maps/level18.json",
+            "stars": 2
+        },
+        {
+            "name": "Level 19",
+            "path": "data/maps/level19.json",
+            "stars": 2
+        },
+        {
+            "name": "Level 20",
+            "path": "data/maps/level20.json",
+            "stars": 2
+        },
+        {
+            "name": "Level 21",
+            "path": "data/maps/level21.json",
+            "stars": 2
+        },
+        {
+            "name": "Test Map",
+            "path": "data/maps/test_maps/test_map_5.json",
             "stars": 2
         }
     ]

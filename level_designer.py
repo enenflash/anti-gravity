@@ -154,7 +154,7 @@ class Map:
             self.map[pos].append(Tile(tile_id, self.data.get_image(tile_id)))
             return
         
-        if id.split(":")[0] == "0.0.00":
+        if tile_id.split(":")[0] == "0.0.00":
             self.map[pos] = [Tile(tile_id, self.data.get_image(tile_id))]
             return
         

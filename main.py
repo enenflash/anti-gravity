@@ -64,12 +64,14 @@ class GameStateManager:
         self.instance = Instance(self.game, self.screen, map_path, level_index, self.level_manager.get_level_data(level_index))
 
     def restart_instance(self) -> None:
+        game_sound.fadeout_sound("electricity-crackle") # change to include all game sounds
         self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index, self.instance.level_data)
     
     def close_menu(self) -> None:
         self.menu = None
 
     def close_instance(self) -> None:
+        game_sound.fadeout_sound("electricity-crackle")
         self.instance = None
 
     def set_pause_instance(self, paused:bool) -> None:
