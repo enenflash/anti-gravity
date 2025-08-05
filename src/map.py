@@ -1,5 +1,6 @@
 import math
 from src.settings import *
+from models.math import *
 from models.tiles.tile import *
 from src.tile_manager import *
 from src.file_loader import *
@@ -88,19 +89,19 @@ class Camera:
     """
     def __init__ (self, player:object, start_x:int, start_y:int) -> None:
         self.player = player
-        self.x, self.y = start_x, start_y
-        self.target_x, self.target_y = start_x, start_y
         self.speed = CAM_SPEED
+        self.posv = Vector(start_x, start_y)
+        self.targetv = self.posv
+        self.x, self.y = self.posv.i, self.posv.j
 
     def update(self) -> None:
-        self.target_x, self.target_y = self.player.x, self.player.y
-        if self.x == self.target_x and self.y == self.target_y:
+        self.targetv = Vector(self.player.x, self.player.y)
+        if self.targetv == self.posv:
             return
-        
-        p_vector = self.target_x - self.x, self.target_y - self.y
-        p_vector_mag = (p_vector[0]**2 + p_vector[1]**2)**(1/2)
-        # linear speed equation ax + a -> ease in ease out camera displacement from player
-        scalar = self.speed*(p_vector_mag/20)+self.speed
+        p_vector = self.targetv - self.posv
 
-        self.x += p_vector[0]*scalar
-        self.y += p_vector[1]*scalar
+        # linear speed equation ax + a -> ease in ease out camera displacement from player
+        scalar = self.speed*(p_vector.magnitude/20 + 1)
+        self.posv += p_vector.scale(scalar)
+        self.x = self.posv.i
+        self.y = self.posv.j
