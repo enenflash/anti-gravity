@@ -27,6 +27,7 @@ class Background:
         """
         Draw background with an offset
         """
+        self.surface.fill([0, 0, 0, 0])
         n_tiles_x = 2*math.ceil(screen_info.current_w/2/BG_SIZE)
         n_tiles_y = 2*math.ceil(HALF_SCREEN_H/BG_SIZE)
 
@@ -46,6 +47,7 @@ class DynamicBackground(Background):
         """
         Draw the background and move it according to play movements
         """
+        self.surface.fill([0, 0, 0, 0])
         player_x_offset = (player_x * TILE_SIZE)/10
         player_y_offset = (player_y * TILE_SIZE)/10
 
