@@ -1,0 +1,62 @@
+{
+    "goal": {
+        "texture": "goal.png",
+        "type": "image"
+    },
+    "full": {
+        "texture": "full.png",
+        "type": "image"
+    },
+    "wall": {
+        "texture": "wall.png",
+        "type": "image"
+    },
+    "outer_corner": {
+        "texture": "outer_corner.png",
+        "type": "image"
+    },
+    "inner_corner": {
+        "texture": "inner_corner.png",
+        "type": "image"
+    },
+    "hook": {
+        "texture": "hook.png",
+        "type": "image"
+    },
+    "full_hook": {
+        "texture": "full_hook.png",
+        "type": "image"
+    },
+    "thin_wall": {
+        "texture": "thin_wall.png",
+        "type": "image"
+    },
+    "electricity_node": {
+        "texture": "electricity_node.png",
+        "type": "image"
+    },
+    "block_electricity_node": {
+        "texture": "block_electricity_node.png",
+        "type": "image"
+    },
+    "block_0": {
+        "texture": "block_0.png",
+        "type": "image"
+    },
+    "block_1": {
+        "texture": "block_1.png",
+        "type": "image"
+    },
+    "block_2": {
+        "texture": "block_2.png",
+        "type": "image"
+    },
+    "block_3": {
+        "texture": "block_3.png",
+        "type": "image"
+    },
+    "block_4": {
+        "texture": "block_4.png",
+        "type": "image"
+    }
+}
