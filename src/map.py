@@ -18,18 +18,21 @@ class Map:
     \nCall update() every game loop and draw() to draw the map
     \nContains several utility functions to check game events
     """
-    def __init__ (self, instance:object, map_path:str) -> None:
+    def __init__ (self, instance:object, map_path:str, start_cam_pos:tuple=None) -> None:
         self.instance = instance
         self.surface = instance.surface
 
         self.tile_data = TileLoader.get_tile_data()
         self.map_data = MapLoader.get_map_data(map_path)
 
+        self.start_cam_pos = start_cam_pos
         self.player_start_x, self.player_start_y = self.map_data["player-start"]
 
     def set_up(self) -> None:
         """This function **must** be called after 'Player' is created"""
         self.camera = Camera(self.instance.player, self.player_start_x, self.player_start_y)
+        if self.start_cam_pos != None:
+            self.camera.posv = Vector(self.start_cam_pos[0], self.start_cam_pos[1])
         self.tile_manager = TileManager(self.instance.player, self.map_data, self.tile_data)
     
     def contains(self, tile_pos:tuple[int, int]) -> bool:
