@@ -30,3 +30,5 @@ BUTTON_TEXTURES_PATH = "data/textures/button_textures.json"
 LEVEL_BUTTONS_PATH = "data/textures/level_buttons.json"
 TILE_TEXTURES_PATH = "data/textures/tile_textures.json"
 ENTITY_TEXTURES_PATH = "data/textures/entity_textures.json"
+
+CUSTOM_FONT = "resources/font/Oxanium.ttf"
