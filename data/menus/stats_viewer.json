@@ -1,10 +1,13 @@
 {
     "text": [
         {
-            "pos": [50, 40],
-            "text": "Coming soon",
+            "pos": [50, 30],
+            "text": "Deaths: VAR_DEATHS",
             "size": 4,
-            "colour": "#ffffff"
+            "colour": "#ffffff",
+            "vars": {
+                "VAR_DEATHS": "deaths"
+            }
         }
     ],
     "buttons": [

@@ -110,7 +110,7 @@ class Menu:
         if button.function == "settings":
             self.game.game_state_manager.launch_menu("settings", self.background.offset if self.background != None else [0, 0])
         if button.function == "stats":
-            self.game.game_state_manager.launch_menu("stats", self.background.offset if self.background != None else [0, 0])
+            self.game.game_state_manager.launch_menu("stats", self.background.offset if self.background != None else [0, 0], menu_vars={"deaths":0})
     
     def update(self) -> None:
         if self.background != None:

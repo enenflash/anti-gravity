@@ -5,9 +5,9 @@ Anti-Gravity is an open-source puzzle game (inspired from *Tomb of the Mask*) bu
 
 It comprises 2000 lines of code spread across 30 different python files and over 100 self-made pixelart textures (this stat might be outdated).
 
-This project was made with the goal of improving my programming skills and has therefore 0% AI usage (including all pixel art).
+This project was made with the goal of improving my programming skills and therefore has 0% AI usage (including all pixel art).
 
-All sound effects are originally from (or are created using sound effects from) [pixabay.com](https://pixabay.com/sound-effects/)
+All sound effects are originally from (or were created using sound effects from) [pixabay.com](https://pixabay.com/sound-effects/)
 
 Game progression (for assignment): [Documentation (Google Docs)](https://docs.google.com/document/d/1YgxO29jv7kmoHWKECIMXgPgSoPKQm0y9mQzlj-sPr10/edit?usp=sharing)
 
