@@ -65,7 +65,8 @@ class GameStateManager:
 
     def restart_instance(self) -> None:
         game_sound.fadeout_sound("electricity-crackle") # change to include all game sounds
-        self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index, self.instance.level_data)
+        cam_pos = self.instance.map.camera.x, self.instance.map.camera.y
+        self.instance = Instance(self.game, self.screen, self.instance.map_path, self.instance.level_index, self.instance.level_data, start_cam_pos=cam_pos)
     
     def close_menu(self) -> None:
         self.menu = None

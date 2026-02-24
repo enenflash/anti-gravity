@@ -3,6 +3,7 @@ from src.file_loader import *
 from src.background import *
 from src.sound import *
 from models.menu_elements import *
+from models.visual_effects import crt
 
 class Menu:
     """
@@ -146,3 +147,5 @@ class Menu:
         self.screen.blit(self.blend_image, (0, 0))
         self.screen.blit(self.blend_image, (self.screen.get_width()-self.blend_image.get_width(), 0))
         self.mouse.draw(self.screen, x_offset=(screen_info.current_w-SCREEN_W)/2)
+        if CRT_EFFECTS:
+            crt.apply_crt(self.screen)

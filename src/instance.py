@@ -11,7 +11,7 @@ class Instance:
     Represents a game currently being played.
     \nCall update() every loop and draw() to draw the game
     """
-    def __init__ (self, game:object, screen:pg.Surface, map_path:str, level_index:int, level_data:dict) -> None:
+    def __init__ (self, game:object, screen:pg.Surface, map_path:str, level_index:int, level_data:dict, start_cam_pos:tuple=None) -> None:
         self.game = game
         self.screen = screen
         self.surface = pg.Surface((SCREEN_W, SCREEN_H), pg.SRCALPHA)
@@ -20,7 +20,7 @@ class Instance:
         self.level_data = level_data
 
         self.map_path = map_path
-        self.map = Map(self, map_path)
+        self.map = Map(self, map_path, start_cam_pos=start_cam_pos)
         self.player = Player(self, self.map.player_start_x, self.map.player_start_y)
         self.map.set_up()
         self.background = DynamicBackground(self.screen, "resources/background.png")
